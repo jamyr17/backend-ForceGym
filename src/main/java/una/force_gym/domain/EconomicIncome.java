@@ -19,8 +19,8 @@ public class EconomicIncome {
     private Long idEconomicIncome;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
-    private User user;
+    @JoinColumn(name = "idClient", referencedColumnName = "idClient")
+    private Client client;
 
     @Column(name = "registrationDate")
     private LocalDate registrationDate;
@@ -47,9 +47,9 @@ public class EconomicIncome {
 
     public EconomicIncome() {}
 
-    public EconomicIncome(Long idEconomicIncome, User user, LocalDate registrationDate, String voucherNumber, String detail, MeanOfPayment meanOfPayment, Float amount, ActivityType activityType, Long isDeleted) {
+    public EconomicIncome(Long idEconomicIncome, Client client, LocalDate registrationDate, String voucherNumber, String detail, MeanOfPayment meanOfPayment, Float amount, ActivityType activityType, Long isDeleted) {
         this.idEconomicIncome = idEconomicIncome;
-        this.user = user;
+        this.client = client;
         this.registrationDate = registrationDate;
         this.voucherNumber = voucherNumber;
         this.detail = detail;
@@ -67,12 +67,12 @@ public class EconomicIncome {
         this.idEconomicIncome = idEconomicIncome;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public LocalDate getRegistrationDate() {
