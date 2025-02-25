@@ -142,6 +142,7 @@ public class ClientService {
 
                         Long pIdUser,
                         Date pRegistrationDate, 
+                        Date pExpirationMembershipDate,
                         String pEmergencyContact, 
                         String pSignatureImage, 
                         Long pLoggedIdUser) {
@@ -164,6 +165,7 @@ public class ClientService {
                                     pBreathingIssues, 
                                     pIdUser, 
                                     pRegistrationDate, 
+                                    pExpirationMembershipDate,
                                     pEmergencyContact, 
                                     pSignatureImage, 
                                     pLoggedIdUser);
@@ -194,6 +196,7 @@ public class ClientService {
 
                             Long pIdUser,
                             Date pRegistrationDate, 
+                            Date pExpirationMembershipDate,
                             String pEmergencyContact, 
                             String pSignatureImage,
                             Long pIsDeleted, 
@@ -219,6 +222,7 @@ public class ClientService {
                                         pBreathingIssues, 
                                         pIdUser, 
                                         pRegistrationDate, 
+                                        pExpirationMembershipDate,
                                         pEmergencyContact, 
                                         pSignatureImage, 
                                         pIsDeleted,
