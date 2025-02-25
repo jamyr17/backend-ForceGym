@@ -98,7 +98,7 @@ public class ClientController {
             clientDTO.getIdentificationNumber(), 
             clientDTO.getPhoneNumber(), 
             clientDTO.getEmail(), 
-            clientDTO.getGender(),
+            clientDTO.getIdGender(),
 
             clientDTO.getIdTypeClient(),
 
@@ -141,7 +141,7 @@ public class ClientController {
             clientDTO.getIdentificationNumber(), 
             clientDTO.getPhoneNumber(), 
             clientDTO.getEmail(), 
-            clientDTO.getGender(),
+            clientDTO.getIdGender(),
 
             clientDTO.getIdTypeClient(),
 

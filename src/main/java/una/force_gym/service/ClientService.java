@@ -128,7 +128,7 @@ public class ClientService {
                         String pIdentificationNumber, 
                         String pPhoneNumber, 
                         String pEmail, 
-                        String pGender,
+                        Long pIdGender,
 
                         Long pIdTypeClient, 
 
@@ -153,7 +153,7 @@ public class ClientService {
                                     pIdentificationNumber, 
                                     pPhoneNumber, 
                                     pEmail, 
-                                    pGender, 
+                                    pIdGender, 
                                     pIdTypeClient, 
                                     pDiabetes, 
                                     pHypertension, 
@@ -179,7 +179,7 @@ public class ClientService {
                             String pIdentificationNumber, 
                             String pPhoneNumber, 
                             String pEmail, 
-                            String pGender,
+                            Long pIdGender,
 
                             Long pIdTypeClient, 
 
@@ -207,7 +207,7 @@ public class ClientService {
                                         pIdentificationNumber, 
                                         pPhoneNumber, 
                                         pEmail, 
-                                        pGender, 
+                                        pIdGender, 
                                         pIdTypeClient, 
                                         pIdHealthQuestionnaire, 
                                         pDiabetes, 

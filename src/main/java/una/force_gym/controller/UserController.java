@@ -61,7 +61,7 @@ public class UserController {
             userForm.getIdentificationNumber(), 
             userForm.getPhoneNumber(), 
             userForm.getEmail(), 
-            userForm.getGender(), 
+            userForm.getIdGender(), 
             userForm.getUsername(), 
             userForm.getPassword(), 
             userForm.getParamLoggedIdUser()
@@ -104,7 +104,7 @@ public class UserController {
             userForm.getIdentificationNumber(), 
             userForm.getPhoneNumber(), 
             userForm.getEmail(), 
-            userForm.getGender(), 
+            userForm.getIdGender(), 
             userForm.getUsername(), 
             userForm.getPassword(), 
             userForm.getIsDeleted(),

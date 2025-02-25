@@ -1,7 +1,7 @@
 package una.force_gym.dto;
 
-import java.util.Date;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ClientDTO {
     
@@ -16,7 +16,7 @@ public class ClientDTO {
     private String identificationNumber;
     private String phoneNumber;
     private String email;
-    private String gender;
+    private Long idGender;
     
     //TypeClient
     private Long idTypeClient;
@@ -41,7 +41,7 @@ public class ClientDTO {
     public ClientDTO() {}
 
     public ClientDTO(Long idClient, Long idPerson, String name, String firstLastName, String secondLastName,
-            LocalDate birthday, String identificationNumber, String phoneNumber, String email, String gender,
+            LocalDate birthday, String identificationNumber, String phoneNumber, String email, Long idGender,
             Long idTypeClient, Long idHealthQuestionnaire, Boolean diabetes, Boolean hypertension,
             Boolean muscleInjuries, Boolean boneJointIssues, Boolean balanceLoss, Boolean cardiovascularDisease,
             Boolean breathingIssues, Long idUser, Date registrationDate, String emergencyContact, String signatureImage,
@@ -55,7 +55,7 @@ public class ClientDTO {
         this.identificationNumber = identificationNumber;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.gender = gender;
+        this.idGender = idGender;
         this.idTypeClient = idTypeClient;
         this.idHealthQuestionnaire = idHealthQuestionnaire;
         this.diabetes = diabetes;
@@ -145,12 +145,12 @@ public class ClientDTO {
         this.email = email;
     }
 
-    public String getGender() {
-        return gender;
+    public Long getIdGender() {
+        return idGender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setIdGender(Long idGender) {
+        this.idGender = idGender;
     }
 
     public Long getIdTypeClient() {
