@@ -1,13 +1,13 @@
 package una.force_gym.repository;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 import una.force_gym.domain.Client;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
@@ -21,7 +21,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
         @Param("pIdentificationNumber") String pIdentificationNumber, 
         @Param("pPhoneNumber") String pPhoneNumber, 
         @Param("pEmail") String pEmail, 
-        @Param("pGender") String pGender,
+        @Param("pIdGender") Long pIdGender,
 
         @Param("pIdTypeClient") Long pIdTypeClient, 
 
@@ -54,7 +54,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
         @Param("pIdentificationNumber") String pIdentificationNumber, 
         @Param("pPhoneNumber") String pPhoneNumber, 
         @Param("pEmail") String pEmail, 
-        @Param("pGender") String pGender, 
+        @Param("pIdGender") Long pIdGender, 
 
         @Param("pIdTypeClient") Long pIdTypeClient, 
 
