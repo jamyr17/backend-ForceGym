@@ -33,6 +33,7 @@ public class ClientDTO {
 
     private Long idUser;
     private Date registrationDate;
+    private Date expirationMembershipDate;
     private String emergencyContact;
     private String signatureImage;
     private Long isDeleted;
@@ -44,7 +45,7 @@ public class ClientDTO {
             LocalDate birthday, String identificationNumber, String phoneNumber, String email, Long idGender,
             Long idTypeClient, Long idHealthQuestionnaire, Boolean diabetes, Boolean hypertension,
             Boolean muscleInjuries, Boolean boneJointIssues, Boolean balanceLoss, Boolean cardiovascularDisease,
-            Boolean breathingIssues, Long idUser, Date registrationDate, String emergencyContact, String signatureImage,
+            Boolean breathingIssues, Long idUser, Date registrationDate, Date expirationMembershipDate, String emergencyContact, String signatureImage,
             Long isDeleted, Long paramLoggedIdUser) {
         this.idClient = idClient;
         this.idPerson = idPerson;
@@ -67,6 +68,7 @@ public class ClientDTO {
         this.breathingIssues = breathingIssues;
         this.idUser = idUser;
         this.registrationDate = registrationDate;
+        this.expirationMembershipDate = expirationMembershipDate;
         this.emergencyContact = emergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
@@ -239,6 +241,14 @@ public class ClientDTO {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public Date getExpirationMembershipDate() {
+        return expirationMembershipDate;
+    }
+
+    public void setExpirationMembershipDate(Date expirationMembershipDate) {
+        this.expirationMembershipDate = expirationMembershipDate;
     }
 
     public String getEmergencyContact() {

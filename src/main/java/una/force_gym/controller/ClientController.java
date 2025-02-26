@@ -113,6 +113,7 @@ public class ClientController {
 
             clientDTO.getIdUser(),
             clientDTO.getRegistrationDate(),
+            clientDTO.getExpirationMembershipDate(),
             clientDTO.getEmergencyContact(),
             clientDTO.getSignatureImage(),
             clientDTO.getParamLoggedIdUser()
@@ -157,6 +158,7 @@ public class ClientController {
 
             clientDTO.getIdUser(),
             clientDTO.getRegistrationDate(),
+            clientDTO.getExpirationMembershipDate(),
             clientDTO.getEmergencyContact(),
             clientDTO.getSignatureImage(),
             clientDTO.getIsDeleted(),

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class EconomicIncomeDTO {
 
     private Long idEconomicIncome;
-    private Long idUser;
+    private Long idClient;
     private LocalDate registrationDate;
     private String voucherNumber;
     private String detail;
@@ -17,11 +17,11 @@ public class EconomicIncomeDTO {
 
     public EconomicIncomeDTO() {}
 
-    public EconomicIncomeDTO(Long idEconomicIncome, Long idUser, LocalDate registrationDate, String voucherNumber,
+    public EconomicIncomeDTO(Long idEconomicIncome, Long idClient, LocalDate registrationDate, String voucherNumber,
             String detail, Long idMeanOfPayment, Float amount, Long idActivityType, Long isDeleted,
             Long paramLoggedIdUser) {
         this.idEconomicIncome = idEconomicIncome;
-        this.idUser = idUser;
+        this.idClient = idClient;
         this.registrationDate = registrationDate;
         this.voucherNumber = voucherNumber;
         this.detail = detail;
@@ -40,12 +40,12 @@ public class EconomicIncomeDTO {
         this.idEconomicIncome = idEconomicIncome;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getIdClient() {
+        return idClient;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setIdClient(Long idClient) {
+        this.idClient = idClient;
     }
 
     public LocalDate getRegistrationDate() {

@@ -60,7 +60,7 @@ public class EconomicIncomeController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addEconomicIncome(@RequestBody EconomicIncomeDTO economicIncomeDTO) {
         int result = economicIncomeService.addEconomicIncome(
-            economicIncomeDTO.getIdUser(), 
+            economicIncomeDTO.getIdClient(), 
             economicIncomeDTO.getRegistrationDate(), 
             economicIncomeDTO.getVoucherNumber(), 
             economicIncomeDTO.getDetail(), 
@@ -92,7 +92,7 @@ public class EconomicIncomeController {
     public ResponseEntity<ApiResponse<String>> updateEconomicIncome(@RequestBody EconomicIncomeDTO economicIncomeDTO) {
         int result = economicIncomeService.updateEconomicIncome(
             economicIncomeDTO.getIdEconomicIncome(), 
-            economicIncomeDTO.getIdUser(), 
+            economicIncomeDTO.getIdClient(), 
             economicIncomeDTO.getRegistrationDate(), 
             economicIncomeDTO.getVoucherNumber(), 
             economicIncomeDTO.getDetail(), 

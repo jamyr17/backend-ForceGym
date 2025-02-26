@@ -37,6 +37,9 @@ public class Client {
     @Column(name = "registrationDate")
     private Date registrationDate;
 
+    @Column(name = "expirationMembershipDate")
+    private Date expirationMembershipDate;
+
     @Column(name = "emergencyContact")
     private String emergencyContact;
 
@@ -49,13 +52,14 @@ public class Client {
     public Client() {}
 
     public Client(Long idClient, Person person, TypeClient typeClient, HealthQuestionnaire healthQuestionnaire,
-                  User user, Date registrationDate, String emergencyContact, String signatureImage, Long isDeleted) {
+                  User user, Date registrationDate, Date expirationMembershipDate, String emergencyContact, String signatureImage, Long isDeleted) {
         this.idClient = idClient;
         this.person = person;
         this.typeClient = typeClient;
         this.healthQuestionnaire = healthQuestionnaire;
         this.user = user;
         this.registrationDate = registrationDate;
+        this.expirationMembershipDate = expirationMembershipDate;
         this.emergencyContact = emergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
@@ -107,6 +111,14 @@ public class Client {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public Date getExpirationMembershipDate() {
+        return expirationMembershipDate;
+    }
+
+    public void setExpirationMembershipDate(Date expirationMembershipDate) {
+        this.expirationMembershipDate = expirationMembershipDate;
     }
 
     public String getEmergencyContact() {
