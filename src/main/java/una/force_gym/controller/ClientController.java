@@ -1,7 +1,9 @@
 package una.force_gym.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import una.force_gym.domain.Client;
 import una.force_gym.dto.ClientDTO;
 import una.force_gym.dto.ParamLoggedIdUserDTO;
 import una.force_gym.exception.AppException;
@@ -86,6 +89,29 @@ public class ClientController {
         }
 
     }
+
+    @GetMapping("/listAll")
+    public ResponseEntity<ApiResponse<List<Map<String, String>>>> getAllClients() {
+        try {
+            List<Client> clients = clientService.getAllClients();
+            List<Map<String, String>> responseData = clients.stream()
+                .map(client -> Map.of(
+                    "value", String.valueOf(client.getIdClient()),
+                    "label", client.getPerson().getName() + " " + client.getPerson().getFirstLastName() + " " + client.getPerson().getSecondLastName()
+                ))
+                .collect(Collectors.toList());
+
+            ApiResponse<List<Map<String, String>>> response = 
+                new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            ApiResponse<List<Map<String, String>>> response = 
+                new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes.", null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addClient(@RequestBody ClientDTO clientDTO) {
