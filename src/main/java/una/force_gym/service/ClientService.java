@@ -119,6 +119,12 @@ public class ClientService {
         
         return responseData;
     }
+
+    @Transactional
+    public List<Client> getAllClients(){
+        return clientRepo.getAllClients();
+    }
+
     @Transactional
     public int addClient(
                         String pName, 

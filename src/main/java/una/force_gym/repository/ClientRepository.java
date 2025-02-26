@@ -2,6 +2,7 @@ package una.force_gym.repository;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -10,6 +11,9 @@ import org.springframework.data.repository.query.Param;
 import una.force_gym.domain.Client;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
+
+    @Procedure(procedureName = "prGetAllClient")
+    List<Client> getAllClients();
 
     @Procedure(procedureName = "prInsertClient", outputParameterName = "result")
     int addClient(
