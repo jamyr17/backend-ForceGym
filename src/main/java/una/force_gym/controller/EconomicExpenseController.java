@@ -44,9 +44,10 @@ public class EconomicExpenseController {
             @RequestParam(required = false) Long filterByAmountRangeMax,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMin,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMax,
-            @RequestParam(defaultValue = "-1") int filterByMeanOfPayment){ 
+            @RequestParam(defaultValue = "-1") int filterByMeanOfPayment,
+            @RequestParam(defaultValue = "-1") int filterByCategory){ 
         try {
-            Map<String, Object> responseData = economicExpenseService.getEconomicExpenses(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByAmountRangeMin, filterByAmountRangeMax, filterByDateRangeMin, filterByDateRangeMax, filterByMeanOfPayment);
+            Map<String, Object> responseData = economicExpenseService.getEconomicExpenses(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByAmountRangeMin, filterByAmountRangeMax, filterByDateRangeMin, filterByDateRangeMax, filterByMeanOfPayment, filterByCategory);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Gastos económicos obtenidos correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -64,7 +65,8 @@ public class EconomicExpenseController {
             economicExpenseDTO.getRegistrationDate(), 
             economicExpenseDTO.getVoucherNumber(), 
             economicExpenseDTO.getDetail(), 
-            economicExpenseDTO.getIdMeanOfPayment(), 
+            economicExpenseDTO.getIdMeanOfPayment(),
+            economicExpenseDTO.getIdCategory(), 
             economicExpenseDTO.getAmount(), 
             economicExpenseDTO.getParamLoggedIdUser()
         );
@@ -93,6 +95,7 @@ public class EconomicExpenseController {
             economicExpenseDTO.getVoucherNumber(),
             economicExpenseDTO.getDetail(),
             economicExpenseDTO.getIdMeanOfPayment(),
+            economicExpenseDTO.getIdCategory(),
             economicExpenseDTO.getAmount(),
             economicExpenseDTO.getIsDeleted(),
             economicExpenseDTO.getParamLoggedIdUser()
