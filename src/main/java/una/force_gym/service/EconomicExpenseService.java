@@ -37,7 +37,8 @@ public class EconomicExpenseService {
         Long filterByAmountRangeMax,
         LocalDate  filterByDateRangeStart,
         LocalDate  filterByDateRangeEnd,
-        int filterByMeanOfPayment
+        int filterByMeanOfPayment,
+        int filterByCategory
     ) {
             
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetEconomicExpense", EconomicExpense.class);
@@ -55,6 +56,7 @@ public class EconomicExpenseService {
         query.registerStoredProcedureParameter("p_filterByDateRangeStart", LocalDate.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByDateRangeEnd", LocalDate.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByMeanOfPayment", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByCategory", Integer.class, ParameterMode.IN);
 
         // Parámetro de salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
@@ -72,6 +74,8 @@ public class EconomicExpenseService {
         query.setParameter("p_filterByDateRangeStart", filterByDateRangeStart);
         query.setParameter("p_filterByDateRangeEnd", filterByDateRangeEnd);
         query.setParameter("p_filterByMeanOfPayment", filterByMeanOfPayment);
+        query.setParameter("p_filterByCategory", filterByCategory);
+
 
         // Ejecutar procedimiento
         query.execute();
@@ -94,13 +98,13 @@ public class EconomicExpenseService {
     }
 
     @Transactional
-    public int addEconomicExpense(Long pIdUser, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Float pAmount, Long pLoggedIdUser){
-        return economicExpenseRepo.addEconomicExpense(pIdUser, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pAmount, pLoggedIdUser);
+    public int addEconomicExpense(Long pIdUser, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Long pIdCategory, Float pAmount, Long pLoggedIdUser){
+        return economicExpenseRepo.addEconomicExpense(pIdUser, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment,pIdCategory, pAmount, pLoggedIdUser);
     }
 
     @Transactional
-    public int updateEconomicExpense(Long pIdEconomicExpense, Long pIdUser, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Float pAmount, Long pIsDeleted, Long pLoggedIdUser){
-        return economicExpenseRepo.updateEconomicExpense(pIdEconomicExpense, pIdUser, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pAmount, pIsDeleted, pLoggedIdUser);
+    public int updateEconomicExpense(Long pIdEconomicExpense, Long pIdUser, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Long pIdCategory, Float pAmount, Long pIsDeleted, Long pLoggedIdUser){
+        return economicExpenseRepo.updateEconomicExpense(pIdEconomicExpense, pIdUser, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pIdCategory, pAmount, pIsDeleted, pLoggedIdUser);
     }
 
     @Transactional
