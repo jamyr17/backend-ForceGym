@@ -36,10 +36,11 @@ public class NotificationTemplateController {
             @RequestParam(defaultValue = "") String searchTerm,
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String directionOrderBy,
-            @RequestParam(defaultValue = "") String filterByStatus
+            @RequestParam(defaultValue = "") String filterByStatus,
+            @RequestParam(defaultValue = "-1") int filterByNotificationType
             )  {
         try {
-            Map<String, Object> responseData = notificationTemplateService.getNotificationTemplates(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus);
+            Map<String, Object> responseData = notificationTemplateService.getNotificationTemplates(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByNotificationType);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Plantillas de notificación obtenidas correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK); 
 
