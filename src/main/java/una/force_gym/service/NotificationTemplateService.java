@@ -32,7 +32,8 @@ public class NotificationTemplateService {
         String searchTerm, 
         String orderBy, 
         String directionOrderBy, 
-        String filterByStatus
+        String filterByStatus,
+        int filterByNotificationType
     ) {
             
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetNotificationTemplate", NotificationTemplate.class);
@@ -45,6 +46,7 @@ public class NotificationTemplateService {
         query.registerStoredProcedureParameter("p_orderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_directionOrderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByNotificationType", Integer.class, ParameterMode.IN);
 
         // Parámetro de salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
@@ -57,6 +59,7 @@ public class NotificationTemplateService {
         query.setParameter("p_orderBy", orderBy);
         query.setParameter("p_directionOrderBy", directionOrderBy);
         query.setParameter("p_filterByStatus", filterByStatus);
+        query.setParameter("p_filterByNotificationType", filterByNotificationType);
 
         // Ejecutar procedimiento
         query.execute();
