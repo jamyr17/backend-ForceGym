@@ -1,5 +1,7 @@
 package una.force_gym.domain;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "tbClient")
@@ -42,6 +43,9 @@ public class Client {
 
     @Column(name = "emergencyContact")
     private String emergencyContact;
+    
+    @Column(name = "nameEmergencyContact")
+    private String nameEmergencyContact;
 
     @Column(name = "signatureImage")
     private String signatureImage;
@@ -52,7 +56,8 @@ public class Client {
     public Client() {}
 
     public Client(Long idClient, Person person, TypeClient typeClient, HealthQuestionnaire healthQuestionnaire,
-                  User user, Date registrationDate, Date expirationMembershipDate, String emergencyContact, String signatureImage, Long isDeleted) {
+            User user, Date registrationDate, Date expirationMembershipDate, String emergencyContact,
+            String nameEmergencyContact, String signatureImage, Long isDeleted) {
         this.idClient = idClient;
         this.person = person;
         this.typeClient = typeClient;
@@ -61,6 +66,7 @@ public class Client {
         this.registrationDate = registrationDate;
         this.expirationMembershipDate = expirationMembershipDate;
         this.emergencyContact = emergencyContact;
+        this.nameEmergencyContact = nameEmergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
     }
@@ -129,6 +135,14 @@ public class Client {
         this.emergencyContact = emergencyContact;
     }
 
+    public String getNameEmergencyContact() {
+        return nameEmergencyContact;
+    }
+
+    public void setNameEmergencyContact(String nameEmergencyContact) {
+        this.nameEmergencyContact = nameEmergencyContact;
+    }
+
     public String getSignatureImage() {
         return signatureImage;
     }
@@ -144,4 +158,5 @@ public class Client {
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
     }
+
 }

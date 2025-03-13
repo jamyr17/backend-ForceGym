@@ -35,6 +35,7 @@ public class ClientDTO {
     private Date registrationDate;
     private Date expirationMembershipDate;
     private String emergencyContact;
+    private String nameEmergencyContact;
     private String signatureImage;
     private Long isDeleted;
     private Long paramLoggedIdUser;
@@ -45,8 +46,9 @@ public class ClientDTO {
             LocalDate birthday, String identificationNumber, String phoneNumber, String email, Long idGender,
             Long idTypeClient, Long idHealthQuestionnaire, Boolean diabetes, Boolean hypertension,
             Boolean muscleInjuries, Boolean boneJointIssues, Boolean balanceLoss, Boolean cardiovascularDisease,
-            Boolean breathingIssues, Long idUser, Date registrationDate, Date expirationMembershipDate, String emergencyContact, String signatureImage,
-            Long isDeleted, Long paramLoggedIdUser) {
+            Boolean breathingIssues, Long idUser, Date registrationDate, Date expirationMembershipDate,
+            String emergencyContact, String nameEmergencyContact, String signatureImage, Long isDeleted,
+            Long paramLoggedIdUser) {
         this.idClient = idClient;
         this.idPerson = idPerson;
         this.name = name;
@@ -70,6 +72,7 @@ public class ClientDTO {
         this.registrationDate = registrationDate;
         this.expirationMembershipDate = expirationMembershipDate;
         this.emergencyContact = emergencyContact;
+        this.nameEmergencyContact = nameEmergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
         this.paramLoggedIdUser = paramLoggedIdUser;
@@ -259,6 +262,14 @@ public class ClientDTO {
         this.emergencyContact = emergencyContact;
     }
 
+    public String getNameEmergencyContact() {
+        return nameEmergencyContact;
+    }
+
+    public void setNameEmergencyContact(String nameEmergencyContact) {
+        this.nameEmergencyContact = nameEmergencyContact;
+    }
+    
     public String getSignatureImage() {
         return signatureImage;
     }
@@ -282,5 +293,5 @@ public class ClientDTO {
     public void setParamLoggedIdUser(Long paramLoggedIdUser) {
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
-    
+
 }

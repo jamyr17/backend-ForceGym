@@ -150,6 +150,7 @@ public class ClientService {
                         Date pRegistrationDate, 
                         Date pExpirationMembershipDate,
                         String pEmergencyContact, 
+                        String pNameEmergencyContact, 
                         String pSignatureImage, 
                         Long pLoggedIdUser) {
         return clientRepo.addClient(
@@ -173,6 +174,7 @@ public class ClientService {
                                     pRegistrationDate, 
                                     pExpirationMembershipDate,
                                     pEmergencyContact, 
+                                    pNameEmergencyContact, 
                                     pSignatureImage, 
                                     pLoggedIdUser);
     }
@@ -204,6 +206,7 @@ public class ClientService {
                             Date pRegistrationDate, 
                             Date pExpirationMembershipDate,
                             String pEmergencyContact, 
+                            String pNameEmergencyContact, 
                             String pSignatureImage,
                             Long pIsDeleted, 
                             Long pLoggedIdUser) {
@@ -230,6 +233,7 @@ public class ClientService {
                                         pRegistrationDate, 
                                         pExpirationMembershipDate,
                                         pEmergencyContact, 
+                                        pNameEmergencyContact,
                                         pSignatureImage, 
                                         pIsDeleted,
                                         pLoggedIdUser);

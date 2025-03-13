@@ -42,6 +42,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
         @Param("pRegistrationDate") Date registrationDate, 
         @Param("pExpirationMembershipDate") Date pExpirationMembershipDate, 
         @Param("pEmergencyContact") String pEmergencyContact, 
+        @Param("pNameEmergencyContact") String pNameEmergencyContact, 
         @Param("pSignatureImage") String pSignatureImage, 
         @Param("pLoggedIdUser") Long pLoggedIdUser
     );
@@ -77,6 +78,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
         @Param("pRegistrationDate") Date registrationDate, 
         @Param("pExpirationMembershipDate") Date pExpirationMembershipDate, 
         @Param("pEmergencyContact") String pEmergencyContact, 
+        @Param("pNameEmergencyContact") String pNameEmergencyContact, 
         @Param("pSignatureImage") String pSignatureImage, 
         @Param("pIsDeleted") Long pIsDeleted,  
         @Param("pLoggedIdUser") Long pLoggedIdUser
