@@ -34,7 +34,7 @@ public class ClientDTO {
     private Long idUser;
     private Date registrationDate;
     private Date expirationMembershipDate;
-    private String emergencyContact;
+    private String phoneNumberContactEmergency;
     private String nameEmergencyContact;
     private String signatureImage;
     private Long isDeleted;
@@ -47,7 +47,7 @@ public class ClientDTO {
             Long idTypeClient, Long idHealthQuestionnaire, Boolean diabetes, Boolean hypertension,
             Boolean muscleInjuries, Boolean boneJointIssues, Boolean balanceLoss, Boolean cardiovascularDisease,
             Boolean breathingIssues, Long idUser, Date registrationDate, Date expirationMembershipDate,
-            String emergencyContact, String nameEmergencyContact, String signatureImage, Long isDeleted,
+            String phoneNumberContactEmergency, String nameEmergencyContact, String signatureImage, Long isDeleted,
             Long paramLoggedIdUser) {
         this.idClient = idClient;
         this.idPerson = idPerson;
@@ -71,7 +71,7 @@ public class ClientDTO {
         this.idUser = idUser;
         this.registrationDate = registrationDate;
         this.expirationMembershipDate = expirationMembershipDate;
-        this.emergencyContact = emergencyContact;
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
         this.nameEmergencyContact = nameEmergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
@@ -254,12 +254,12 @@ public class ClientDTO {
         this.expirationMembershipDate = expirationMembershipDate;
     }
 
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public String getPhoneNumberContactEmergency() {
+        return phoneNumberContactEmergency;
     }
 
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
+    public void setPhoneNumberContactEmergency(String phoneNumberContactEmergency) {
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
     }
 
     public String getNameEmergencyContact() {
@@ -269,7 +269,7 @@ public class ClientDTO {
     public void setNameEmergencyContact(String nameEmergencyContact) {
         this.nameEmergencyContact = nameEmergencyContact;
     }
-    
+
     public String getSignatureImage() {
         return signatureImage;
     }

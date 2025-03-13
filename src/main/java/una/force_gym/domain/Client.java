@@ -41,8 +41,8 @@ public class Client {
     @Column(name = "expirationMembershipDate")
     private Date expirationMembershipDate;
 
-    @Column(name = "emergencyContact")
-    private String emergencyContact;
+    @Column(name = "phoneNumberContactEmergency")
+    private String phoneNumberContactEmergency;
     
     @Column(name = "nameEmergencyContact")
     private String nameEmergencyContact;
@@ -56,7 +56,7 @@ public class Client {
     public Client() {}
 
     public Client(Long idClient, Person person, TypeClient typeClient, HealthQuestionnaire healthQuestionnaire,
-            User user, Date registrationDate, Date expirationMembershipDate, String emergencyContact,
+            User user, Date registrationDate, Date expirationMembershipDate, String phoneNumberContactEmergency,
             String nameEmergencyContact, String signatureImage, Long isDeleted) {
         this.idClient = idClient;
         this.person = person;
@@ -65,7 +65,7 @@ public class Client {
         this.user = user;
         this.registrationDate = registrationDate;
         this.expirationMembershipDate = expirationMembershipDate;
-        this.emergencyContact = emergencyContact;
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
         this.nameEmergencyContact = nameEmergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
@@ -127,12 +127,12 @@ public class Client {
         this.expirationMembershipDate = expirationMembershipDate;
     }
 
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public String getPhoneNumberContactEmergency() {
+        return phoneNumberContactEmergency;
     }
 
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
+    public void setPhoneNumberContactEmergency(String phoneNumberContactEmergency) {
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
     }
 
     public String getNameEmergencyContact() {
@@ -158,5 +158,5 @@ public class Client {
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
     }
-
+    
 }
