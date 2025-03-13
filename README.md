@@ -39,6 +39,8 @@ spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=none 
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 ```
+## Investigacion de exportacion de pdf y excel
+https://docs.google.com/document/d/1eLLt7UZ-00EwolufuKOCpixriPweJqx-uikcLUY4csY/edit?usp=sharing
 
 ## Ejecución del proyecto
 
