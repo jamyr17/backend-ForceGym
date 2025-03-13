@@ -73,6 +73,10 @@ Authorization: Bearer <TOKEN>
 - [JPA (Hibernate)](https://spring.io/projects/spring-data-jpa)
 - [MySQL](https://www.mysql.com/)
 
+## Documentación
+
+Se encuentra una carpeta llamada Scrum con documentación del proceso de desarrollo, como lo son las **minutas**.
+
 ---
 
 Hecho con Spring Boot.
