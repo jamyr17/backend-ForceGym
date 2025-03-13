@@ -1,8 +1,10 @@
 package una.force_gym.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,10 +40,12 @@ public class MeasurementController {
             @RequestParam(defaultValue = "") String searchTerm,
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String directionOrderBy,
-            @RequestParam(defaultValue = "") String filterByStatus
+            @RequestParam(defaultValue = "") String filterByStatus,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMax
             )  {
         try {
-            Map<String, Object> responseData = measurementService.getMeasurements(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus);
+            Map<String, Object> responseData = measurementService.getMeasurements(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByDateRangeMin, filterByDateRangeMax);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Medidas obtenidas correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK); 
 
