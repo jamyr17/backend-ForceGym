@@ -1,5 +1,6 @@
 package una.force_gym.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import una.force_gym.dto.ParamLoggedIdUserDTO;
 import una.force_gym.dto.ProductInventoryDTO;
@@ -137,4 +139,25 @@ public class ProductInventoryController {
         }
 
     }
+    
+    // Nuevo endpoint para exportar los productos a PDF
+    @GetMapping("/exportToPdf")
+    public ModelAndView exportToPdf() {
+        try {
+            // Obtener los productos desde el servicio
+            Map<String, Object> responseData = productInventoryService.getProductsInventory(1, 10, 1, "", "", "", "", null, null, null, null);
+
+            // El modelo pasa los datos de los productos con la clave correcta
+            Map<String, Object> model = new HashMap<>();
+            model.put("productos", responseData.get("productos"));
+
+            // Retorna el PDF a partir de la vista 'ProductInventoryPDF'
+            return new ModelAndView("ProductInventoryPDF", model);
+
+        } catch (Exception e) {
+            // Manejo de errores si no se puede generar el PDF
+            return new ModelAndView("error", "message", "No se pudieron obtener los productos.");
+        }
+    }
+
 }
