@@ -33,7 +33,8 @@ public class MeasurementController {
 
 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getMeasurements( 
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getMeasurements(
+            @RequestParam(defaultValue = "") int idClient, 
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "1") int searchType,
@@ -43,9 +44,10 @@ public class MeasurementController {
             @RequestParam(defaultValue = "") String filterByStatus,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMin,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMax
+            
             )  {
         try {
-            Map<String, Object> responseData = measurementService.getMeasurements(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByDateRangeMin, filterByDateRangeMax);
+            Map<String, Object> responseData = measurementService.getMeasurements(idClient, page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByDateRangeMin, filterByDateRangeMax);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Medidas obtenidas correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK); 
 
