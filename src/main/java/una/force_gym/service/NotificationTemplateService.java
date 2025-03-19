@@ -85,7 +85,7 @@ public class NotificationTemplateService {
                                         String pMessage, 
                                         Long pLoggedIdUser) {
         return notificationTemplateRepo.addNotificationTemplate(pIdNotificationType, 
-                                                                pIdUser, 
+                                                                pLoggedIdUser, 
                                                                 pMessage,
                                                                 pLoggedIdUser);
     }
