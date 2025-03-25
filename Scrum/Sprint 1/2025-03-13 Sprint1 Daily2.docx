@@ -1,0 +1,90 @@
+                                       
+
+
+                                 Minuta Daily
+
+ Minuta No. 003 de Force Gym Management System
+  Fecha: 13 de marzo de 2025
+  Hora: 9:00
+  Lugar: Virtual
+ Asistentes:
+                                  Colaborador
+                                    Estado
+                                      Rol
+Jamyr González García
+Presente
+Scrum Master
+Kevin Venegas Bermúdez
+Presente
+Development Team
+Jordi Rivas Beita
+Presente
+Development Team
+Gerald Calderón Castillo
+Presente
+Development Team
+
+ Reporte de Avance por Participante
+                                  Integrante
+                              Trabajo día previo
+                              Trabajo día actual
+                            Bloqueos / Impedimentos
+Jamyr González García
+Crear vista del módulo de Plantillas 
+Leer Plantilla de Notificación
+                                      No
+Kevin Venegas Bermúdez
+Agregar el nombre del contacto de emergencia del Cliente
+Modificar el campo de contacto de emergencia existente
+Agregar botón en cada cliente que lo envíe a la tabla de medidas corporales
+                                      No
+Jordi Rivas Beita
+Crear Medidas Corporales
+Crear vista del módulo Medidas Corporales
+
+Leer Medidas Corporales
+
+                                      No
+Gerald Calderón Castillo
+Investigar librería para crear documentos PDF y Excel
+Generar reportes de Inventario en PDF
+                                      No
+
+ Impedimentos Identificados
+Algunos resultaron con unos errores en sus commits vía Pull Request (PR), sin embargo, fueron corregidos y se actualizaron las PR sin problemas. 
+
+ Cumplimiento de tareas asignadas
+                                     Tarea
+                                  Responsable
+                             Grado de conclusión
+Agregar el nombre del contacto de emergencia del Cliente
+
+                            Kevin Venegas Bermúdez
+                                     100%
+Modificar el campo de contacto de emergencia existente 
+                            Kevin Venegas Bermúdez
+                                     100%
+Investigar librería para crear documentos PDF y Excel
+                           Gerald Calderón Castillo
+                                     100%
+Crear vista del módulo de Plantillas
+                            Jamyr González García
+                                     100%
+Crear Medidas Corporales
+                               Jordi Rivas Beita
+                                     100%
+Crear vista del módulo de Vistas Corporales
+                               Jordi Rivas Beita
+                                      80%
+
+ Cierre
+ Duración de la reunión: 15 minutos
+ Próxima reunión: viernes 14 de marzo de 2025, 13:00
+      
+
+Firmantes:
+Jamyr González García
+Kevin Venegas Bermúdez
+Jordi Rivas Beita
+Gerald Calderón Castillo
+
