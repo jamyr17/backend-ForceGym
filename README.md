@@ -42,7 +42,10 @@ spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.Ph
 ## Investigacion de exportacion de pdf y excel
 https://docs.google.com/document/d/1eLLt7UZ-00EwolufuKOCpixriPweJqx-uikcLUY4csY/edit?usp=sharing
 
-## Investigacion de librerias para la creacion de graficos
+## Investigacion de Envio de mensajes por medio de WhatsApp
+https://docs.google.com/document/d/1uGlbx2ngYZCLtCFDKm8-X5hSmE865SlT4oE6yntnFW4/edit?tab=t.0
+
+## Investigacion de Librerias
 https://docs.google.com/document/d/1O431puKikcdhIpT0nF06f5LjFT9cXnDZaIZ6n65UCKM/edit?usp=sharing
 
 ## Ejecución del proyecto
