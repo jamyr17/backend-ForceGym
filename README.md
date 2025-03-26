@@ -42,6 +42,9 @@ spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.Ph
 ## Investigacion de exportacion de pdf y excel
 https://docs.google.com/document/d/1eLLt7UZ-00EwolufuKOCpixriPweJqx-uikcLUY4csY/edit?usp=sharing
 
+## Investigacion de Envio de mensajes por medio de WhatsApp
+https://docs.google.com/document/d/1uGlbx2ngYZCLtCFDKm8-X5hSmE865SlT4oE6yntnFW4/edit?tab=t.0
+
 ## Ejecución del proyecto
 
 Para iniciar el servidor local, usar el siguiente comando:
