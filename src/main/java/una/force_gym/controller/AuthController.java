@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import una.force_gym.config.UserAuthenticationProvider;
 import una.force_gym.dto.CredentialsDTO;
 import una.force_gym.dto.LoginDTO;
+import una.force_gym.service.ReCaptchaService;
 import una.force_gym.service.UserService;
 import una.force_gym.util.ApiResponse;
 
@@ -24,9 +25,19 @@ public class AuthController {
 
     @Autowired
     private UserAuthenticationProvider userAuthenticationProvider;
+
+    @Autowired
+    private ReCaptchaService reCaptchaService;
     
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> login(@RequestBody @Valid CredentialsDTO credentialsDTO) {
+    public ResponseEntity<?> login(@RequestBody @Valid CredentialsDTO credentialsDTO) {
+        if (!reCaptchaService.verifyRecaptcha(credentialsDTO.getRecaptchaToken())) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "Recaptcha no válido"
+            ));
+        }
+
         LoginDTO loginDTO = userService.login(credentialsDTO);
         loginDTO.setToken(userAuthenticationProvider.createToken(loginDTO.getUsername()));
 
