@@ -21,5 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
     int deleteUser(@Param("pIdUser") Long pIdUser, @Param("pLoggedIdUser") Long pLoggedIdUser); 
 
     Optional<User> findByUsernameAndIsDeleted(String username, Long isDeleted);
+
+    Optional<User> findByPersonEmailAndIsDeleted(String email, Long isDeleted);
     
 }
