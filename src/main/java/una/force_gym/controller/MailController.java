@@ -22,7 +22,7 @@ public class MailController {
     @PostMapping("/send")
     public ResponseEntity<ApiResponse<String>> sendEmail(@RequestBody EmailDTO email){
 
-        emailService.sendEmail(email.getToUsers(), email.getSubject(), email.getMessage());
+        emailService.sendEmail(email.getToUsers(), email.getSubject(), email.getMessage(), false);
 
         ApiResponse<String> response = new ApiResponse<>("Correos enviados", null);
         return new ResponseEntity<>(response, HttpStatus.OK);

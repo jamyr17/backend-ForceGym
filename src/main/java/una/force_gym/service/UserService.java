@@ -129,4 +129,11 @@ public class UserService {
         return userMapper.toUserDTO(user);
     }
 
+    @Transactional
+    public User findByEmail(String email) {
+        User user = userRepo.findByPersonEmailAndIsDeleted(email, Long.valueOf(0))
+                .orElseThrow(() -> new AppException("Usuario inválido", HttpStatus.NOT_FOUND));
+        return user;
+    }
+
 }
