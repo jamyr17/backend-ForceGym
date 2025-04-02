@@ -1,6 +1,8 @@
 package una.force_gym.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +97,27 @@ public class EconomicExpenseService {
         responseData.put("totalRecords", totalRecords);
         
         return responseData;
+    }
+
+    @Transactional(readOnly = true)
+    public List<EconomicExpense> getAllEconomicExpenses(
+            String filterByStatus,
+            BigDecimal filterByAmountRangeMin,
+            BigDecimal filterByAmountRangeMax,
+            Date filterByDateRangeStart,
+            Date filterByDateRangeEnd,
+            Integer filterByMeanOfPayment,
+            Long filterByCategory) {
+        
+        return economicExpenseRepo.getAllEconomicExpenses(
+            filterByStatus,
+            filterByAmountRangeMin,
+            filterByAmountRangeMax,
+            filterByDateRangeStart,
+            filterByDateRangeEnd,
+            filterByMeanOfPayment,
+            filterByCategory
+        );
     }
 
     @Transactional
