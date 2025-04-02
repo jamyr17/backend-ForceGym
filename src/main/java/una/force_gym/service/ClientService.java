@@ -28,31 +28,28 @@ public class ClientService {
     private EntityManager entityManager;
 
     public Map<String, Object> getClients(
-        int page, 
-        int size, int searchType, 
-        String searchTerm, 
-        String orderBy, 
-        String directionOrderBy, 
-        String filterByStatus,
-
-        //HealthQuestionnaire 
-        Boolean filterByDiabetes,
-        Boolean filterByHypertension,
-        Boolean filterByMuscleInjuries,
-        Boolean filterByBoneJointIssues,
-        Boolean filterByBalanceLoss,
-        Boolean filterByCardiovascularDisease,
-        Boolean filterByBreathingIssues,
-
-        //Person
-        LocalDate  filterByDateBirthStart,
-        LocalDate  filterByDateBirthEnd,
-
-        int  filterByTypeClient
+            int page,
+            int size, int searchType,
+            String searchTerm,
+            String orderBy,
+            String directionOrderBy,
+            String filterByStatus,
+            //HealthQuestionnaire 
+            Boolean filterByDiabetes,
+            Boolean filterByHypertension,
+            Boolean filterByMuscleInjuries,
+            Boolean filterByBoneJointIssues,
+            Boolean filterByBalanceLoss,
+            Boolean filterByCardiovascularDisease,
+            Boolean filterByBreathingIssues,
+            //Person
+            LocalDate filterByDateBirthStart,
+            LocalDate filterByDateBirthEnd,
+            int filterByTypeClient
     ) {
-            
+
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetClient", Client.class);
-        
+
         // Parámetros de entrada
         query.registerStoredProcedureParameter("p_page", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_limit", Integer.class, ParameterMode.IN);
@@ -72,7 +69,7 @@ public class ClientService {
 
         query.registerStoredProcedureParameter("p_filterByDateBirthStart", LocalDate.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByDateBirthEnd", LocalDate.class, ParameterMode.IN);
-        
+
         query.registerStoredProcedureParameter("p_filterByTypeClient", Integer.class, ParameterMode.IN);
 
         // Parámetro de salida
@@ -94,10 +91,10 @@ public class ClientService {
         query.setParameter("p_filterByBalanceLoss", filterByBalanceLoss);
         query.setParameter("p_filterByCardiovascularDisease", filterByCardiovascularDisease);
         query.setParameter("p_filterByBreathingIssues", filterByBreathingIssues);
-        
+
         query.setParameter("p_filterByDateBirthStart", filterByDateBirthStart);
         query.setParameter("p_filterByDateBirthEnd", filterByDateBirthEnd);
-        
+
         query.setParameter("p_filterByTypeClient", filterByTypeClient);
 
         // Ejecutar procedimiento
@@ -106,9 +103,9 @@ public class ClientService {
         // Obtener los resultados
         List<?> rawResults = query.getResultList();
         List<Client> clients = rawResults.stream()
-            .filter(Client.class::isInstance) 
-            .map(Client.class::cast)         
-            .collect(Collectors.toList());
+                .filter(Client.class::isInstance)
+                .map(Client.class::cast)
+                .collect(Collectors.toList());
 
         Integer totalRecords = (Integer) query.getOutputParameterValue("p_totalRecords");
 
@@ -116,129 +113,160 @@ public class ClientService {
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("clients", clients);
         responseData.put("totalRecords", totalRecords);
-        
+
         return responseData;
     }
 
     @Transactional
-    public List<Client> getAllClients(){
+    public List<Client> getAllClients() {
         return clientRepo.getAllClients();
+    }
+
+    public Map<String, Object> getClientsByFilter(Integer filterType, LocalDate startDate, LocalDate endDate) {
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetClientsByFilter");
+
+        // Registrar parámetros
+        query.registerStoredProcedureParameter("pFilterType", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("pStartDate", LocalDate.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("pEndDate", LocalDate.class, ParameterMode.IN);
+
+        // Asignar valores a los parámetros
+        query.setParameter("pFilterType", filterType);
+        query.setParameter("pStartDate", startDate);
+        query.setParameter("pEndDate", endDate);
+
+        // Ejecutar procedimiento
+        query.execute();
+
+        // Obtener los resultados
+        List<Object[]> rawResults = query.getResultList();
+
+        // Convertir resultados a una lista de mapas
+        List<Map<String, Object>> clients = rawResults.stream().map(record -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("idClient", record[0]);
+            map.put("name", record[1]);
+            map.put("firstLastName", record[2]);
+            map.put("secondLastName", record[3]);
+            map.put("additionalInfo", record.length > 4 ? record[4] : null); // Puede ser fecha de registro, cumpleaños o null
+            return map;
+        }).collect(Collectors.toList());
+
+        // Armar respuesta
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("clients", clients);
+        responseData.put("totalRecords", clients.size());
+
+        return responseData;
     }
 
     @Transactional
     public int addClient(
-                        String pName, 
-                        String pFirstLastName, 
-                        String pSecondLastName, 
-                        LocalDate pBirthday, 
-                        String pIdentificationNumber, 
-                        String pPhoneNumber, 
-                        String pEmail, 
-                        Long pIdGender,
-
-                        Long pIdTypeClient, 
-
-                        Boolean pDiabetes, 
-                        Boolean pHypertension, 
-                        Boolean pMuscleInjuries, 
-                        Boolean pBoneJointIssues, 
-                        Boolean pBalanceLoss, 
-                        Boolean pCardiovascularDisease, 
-                        Boolean pBreathingIssues,
-
-                        Long pIdUser,
-                        Date pRegistrationDate, 
-                        Date pExpirationMembershipDate,
-                        String pPhoneNumberContactEmergency, 
-                        String pNameEmergencyContact, 
-                        String pSignatureImage, 
-                        Long pLoggedIdUser) {
+            String pName,
+            String pFirstLastName,
+            String pSecondLastName,
+            LocalDate pBirthday,
+            String pIdentificationNumber,
+            String pPhoneNumber,
+            String pEmail,
+            Long pIdGender,
+            Long pIdTypeClient,
+            Boolean pDiabetes,
+            Boolean pHypertension,
+            Boolean pMuscleInjuries,
+            Boolean pBoneJointIssues,
+            Boolean pBalanceLoss,
+            Boolean pCardiovascularDisease,
+            Boolean pBreathingIssues,
+            Long pIdUser,
+            Date pRegistrationDate,
+            Date pExpirationMembershipDate,
+            String pPhoneNumberContactEmergency,
+            String pNameEmergencyContact,
+            String pSignatureImage,
+            Long pLoggedIdUser) {
         return clientRepo.addClient(
-                                    pName, 
-                                    pFirstLastName, 
-                                    pSecondLastName, 
-                                    pBirthday, 
-                                    pIdentificationNumber, 
-                                    pPhoneNumber, 
-                                    pEmail, 
-                                    pIdGender, 
-                                    pIdTypeClient, 
-                                    pDiabetes, 
-                                    pHypertension, 
-                                    pMuscleInjuries, 
-                                    pBoneJointIssues, 
-                                    pBalanceLoss, 
-                                    pCardiovascularDisease, 
-                                    pBreathingIssues, 
-                                    pIdUser, 
-                                    pRegistrationDate, 
-                                    pExpirationMembershipDate,
-                                    pPhoneNumberContactEmergency, 
-                                    pNameEmergencyContact, 
-                                    pSignatureImage, 
-                                    pLoggedIdUser);
+                pName,
+                pFirstLastName,
+                pSecondLastName,
+                pBirthday,
+                pIdentificationNumber,
+                pPhoneNumber,
+                pEmail,
+                pIdGender,
+                pIdTypeClient,
+                pDiabetes,
+                pHypertension,
+                pMuscleInjuries,
+                pBoneJointIssues,
+                pBalanceLoss,
+                pCardiovascularDisease,
+                pBreathingIssues,
+                pIdUser,
+                pRegistrationDate,
+                pExpirationMembershipDate,
+                pPhoneNumberContactEmergency,
+                pNameEmergencyContact,
+                pSignatureImage,
+                pLoggedIdUser);
     }
 
     @Transactional
-    public int updateClient(Long pIdClient, 
-                            Long pIdPerson, 
-                            String pName, 
-                            String pFirstLastName, 
-                            String pSecondLastName, 
-                            LocalDate pBirthday, 
-                            String pIdentificationNumber, 
-                            String pPhoneNumber, 
-                            String pEmail, 
-                            Long pIdGender,
-
-                            Long pIdTypeClient, 
-
-                            Long pIdHealthQuestionnaire,
-                            Boolean pDiabetes, 
-                            Boolean pHypertension, 
-                            Boolean pMuscleInjuries, 
-                            Boolean pBoneJointIssues, 
-                            Boolean pBalanceLoss, 
-                            Boolean pCardiovascularDisease, 
-                            Boolean pBreathingIssues,
-
-                            Long pIdUser,
-                            Date pRegistrationDate, 
-                            Date pExpirationMembershipDate,
-                            String pPhoneNumberContactEmergency, 
-                            String pNameEmergencyContact, 
-                            String pSignatureImage,
-                            Long pIsDeleted, 
-                            Long pLoggedIdUser) {
-        return clientRepo.updateClient(pIdClient, 
-                                        pIdPerson,
-                                        pName, 
-                                        pFirstLastName, 
-                                        pSecondLastName, 
-                                        pBirthday, 
-                                        pIdentificationNumber, 
-                                        pPhoneNumber, 
-                                        pEmail, 
-                                        pIdGender, 
-                                        pIdTypeClient, 
-                                        pIdHealthQuestionnaire, 
-                                        pDiabetes, 
-                                        pHypertension, 
-                                        pMuscleInjuries, 
-                                        pBoneJointIssues, 
-                                        pBalanceLoss, 
-                                        pCardiovascularDisease, 
-                                        pBreathingIssues, 
-                                        pIdUser, 
-                                        pRegistrationDate, 
-                                        pExpirationMembershipDate,
-                                        pPhoneNumberContactEmergency, 
-                                        pNameEmergencyContact,
-                                        pSignatureImage, 
-                                        pIsDeleted,
-                                        pLoggedIdUser);
+    public int updateClient(Long pIdClient,
+            Long pIdPerson,
+            String pName,
+            String pFirstLastName,
+            String pSecondLastName,
+            LocalDate pBirthday,
+            String pIdentificationNumber,
+            String pPhoneNumber,
+            String pEmail,
+            Long pIdGender,
+            Long pIdTypeClient,
+            Long pIdHealthQuestionnaire,
+            Boolean pDiabetes,
+            Boolean pHypertension,
+            Boolean pMuscleInjuries,
+            Boolean pBoneJointIssues,
+            Boolean pBalanceLoss,
+            Boolean pCardiovascularDisease,
+            Boolean pBreathingIssues,
+            Long pIdUser,
+            Date pRegistrationDate,
+            Date pExpirationMembershipDate,
+            String pPhoneNumberContactEmergency,
+            String pNameEmergencyContact,
+            String pSignatureImage,
+            Long pIsDeleted,
+            Long pLoggedIdUser) {
+        return clientRepo.updateClient(pIdClient,
+                pIdPerson,
+                pName,
+                pFirstLastName,
+                pSecondLastName,
+                pBirthday,
+                pIdentificationNumber,
+                pPhoneNumber,
+                pEmail,
+                pIdGender,
+                pIdTypeClient,
+                pIdHealthQuestionnaire,
+                pDiabetes,
+                pHypertension,
+                pMuscleInjuries,
+                pBoneJointIssues,
+                pBalanceLoss,
+                pCardiovascularDisease,
+                pBreathingIssues,
+                pIdUser,
+                pRegistrationDate,
+                pExpirationMembershipDate,
+                pPhoneNumberContactEmergency,
+                pNameEmergencyContact,
+                pSignatureImage,
+                pIsDeleted,
+                pLoggedIdUser);
     }
-
 
     @Transactional
     public int deleteClient(Long pIdClient, Long pLoggedIdUser) {
