@@ -1,6 +1,9 @@
 package una.force_gym.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import una.force_gym.domain.EconomicExpense;
 import una.force_gym.dto.EconomicExpenseDTO;
 import una.force_gym.dto.ParamLoggedIdUserDTO;
 import una.force_gym.exception.AppException;
@@ -56,6 +60,27 @@ public class EconomicExpenseController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
         }
 
+    }
+
+    @GetMapping("listAll")
+    public List<EconomicExpense> getAllEconomicExpenses(
+            @RequestParam(required = false) String filterByStatus,
+            @RequestParam(required = false) BigDecimal filterByAmountRangeMin,
+            @RequestParam(required = false) BigDecimal filterByAmountRangeMax,
+            @RequestParam(required = false) Date filterByDateRangeStart,
+            @RequestParam(required = false) Date filterByDateRangeEnd,
+            @RequestParam(required = false) Integer filterByMeanOfPayment,
+            @RequestParam(required = false) Long filterByCategory) {
+        
+        return economicExpenseService.getAllEconomicExpenses(
+            filterByStatus,
+            filterByAmountRangeMin,
+            filterByAmountRangeMax,
+            filterByDateRangeStart,
+            filterByDateRangeEnd,
+            filterByMeanOfPayment,
+            filterByCategory
+        );
     }
 
     @PostMapping("/add")

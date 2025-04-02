@@ -1,6 +1,8 @@
 package una.force_gym.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +96,27 @@ public class EconomicIncomeService {
         responseData.put("totalRecords", totalRecords);
         
         return responseData;
+    }
+
+    @Transactional(readOnly = true)
+    public List<EconomicIncome> getAllEconomicIncomes(
+            String filterByStatus,
+            BigDecimal filterByAmountRangeMin,
+            BigDecimal filterByAmountRangeMax,
+            Date filterByDateRangeStart,
+            Date filterByDateRangeEnd,
+            Integer filterByMeanOfPayment,
+            Long filterByTypeClient) {
+        
+        return economicIncomeRepo.getAllEconomicIncomes(
+            filterByStatus,
+            filterByAmountRangeMin,
+            filterByAmountRangeMax,
+            filterByDateRangeStart,
+            filterByDateRangeEnd,
+            filterByMeanOfPayment,
+            filterByTypeClient
+        );
     }
 
     @Transactional
