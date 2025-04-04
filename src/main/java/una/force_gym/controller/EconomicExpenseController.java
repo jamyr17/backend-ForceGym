@@ -61,6 +61,26 @@ public class EconomicExpenseController {
         }
 
     }
+   @GetMapping("/listAll")
+    public List<EconomicExpense> getAllEconomicExpenses(
+            @RequestParam(required = false) String filterByStatus,
+            @RequestParam(required = false) BigDecimal filterByAmountRangeMin,
+            @RequestParam(required = false) BigDecimal filterByAmountRangeMax,
+            @RequestParam(required = false) Date filterByDateRangeStart,
+            @RequestParam(required = false) Date filterByDateRangeEnd,
+            @RequestParam(required = false) Integer filterByMeanOfPayment,
+            @RequestParam(required = false) Long filterByCategory) {
+        
+        return economicExpenseService.getAllEconomicExpenses(
+            filterByStatus,
+            filterByAmountRangeMin,
+            filterByAmountRangeMax,
+            filterByDateRangeStart,
+            filterByDateRangeEnd,
+            filterByMeanOfPayment,
+            filterByCategory
+        );
+    }
 
     @GetMapping("listAll")
     public List<EconomicExpense> getAllEconomicExpenses(

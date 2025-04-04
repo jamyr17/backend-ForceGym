@@ -13,7 +13,7 @@ import una.force_gym.domain.EconomicExpense;
 
 public interface EconomicExpenseRepository extends JpaRepository<EconomicExpense, Long>{
 
-   @Procedure(procedureName = "prGetAllEconomicExpenses")
+   @Procedure(procedureName = "prGetAllEconomicExpenses",outputParameterName = "result")
     List<EconomicExpense> getAllEconomicExpenses(
         @Param("p_filterByStatus") String filterByStatus,
         @Param("p_filterByAmountRangeMin") BigDecimal filterByAmountRangeMin,
@@ -32,5 +32,16 @@ public interface EconomicExpenseRepository extends JpaRepository<EconomicExpense
 
     @Procedure(procedureName = "prDeleteEconomicExpense")
     int deleteEconomicExpense(@Param("pIdEconomicExpense") Long pIdEconomicExpense, @Param("pLoggedIdUser") Long pLoggedIdUser);
+    
+    @Procedure(procedureName = "prGetAllEconomicExpenses")
+    List<EconomicExpense> getAllEconomicExpenses(
+        @Param("p_filterByStatus") String filterByStatus,
+        @Param("p_filterByAmountRangeMin") BigDecimal filterByAmountRangeMin,
+        @Param("p_filterByAmountRangeMax") BigDecimal filterByAmountRangeMax,
+        @Param("p_filterByDateRangeStart") Date filterByDateRangeStart,
+        @Param("p_filterByDateRangeEnd") Date filterByDateRangeEnd,
+        @Param("p_filterByMeanOfPayment") Integer filterByMeanOfPayment,
+        @Param("p_filterByCategory") Long filterByCategory
+    );
     
 }

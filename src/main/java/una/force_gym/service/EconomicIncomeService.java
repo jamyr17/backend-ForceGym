@@ -98,7 +98,7 @@ public class EconomicIncomeService {
         return responseData;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<EconomicIncome> getAllEconomicIncomes(
             String filterByStatus,
             BigDecimal filterByAmountRangeMin,
