@@ -1,8 +1,6 @@
 package una.force_gym.service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,26 +96,48 @@ public class EconomicExpenseService {
         
         return responseData;
     }
-
-    @Transactional(readOnly = true)
-    public List<EconomicExpense> getAllEconomicExpenses(
-            String filterByStatus,
-            BigDecimal filterByAmountRangeMin,
-            BigDecimal filterByAmountRangeMax,
-            Date filterByDateRangeStart,
-            Date filterByDateRangeEnd,
-            Integer filterByMeanOfPayment,
-            Long filterByCategory) {
+    
+    public Map<String, Object> getAllEconomicExpenses(
+        String filterByStatus,
+        Long filterByAmountRangeMin,
+        Long filterByAmountRangeMax,
+        LocalDate  filterByDateRangeStart,
+        LocalDate  filterByDateRangeEnd,
+        int filterByMeanOfPayment
+        ) {
+            
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetAllEconomicExpenses", EconomicExpense.class);
         
-        return economicExpenseRepo.getAllEconomicExpenses(
-            filterByStatus,
-            filterByAmountRangeMin,
-            filterByAmountRangeMax,
-            filterByDateRangeStart,
-            filterByDateRangeEnd,
-            filterByMeanOfPayment,
-            filterByCategory
-        );
+        // Parámetros de entrada
+        query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByAmountRangeMin", Float.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByAmountRangeMax", Float.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDateRangeStart", LocalDate.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDateRangeEnd", LocalDate.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByMeanOfPayment", Integer.class, ParameterMode.IN);
+        // Setear valores
+        query.setParameter("p_filterByStatus", filterByStatus);
+        query.setParameter("p_filterByAmountRangeMin", filterByAmountRangeMin);
+        query.setParameter("p_filterByAmountRangeMax", filterByAmountRangeMax);
+        query.setParameter("p_filterByDateRangeStart", filterByDateRangeStart);
+        query.setParameter("p_filterByDateRangeEnd", filterByDateRangeEnd);
+        query.setParameter("p_filterByMeanOfPayment", filterByMeanOfPayment);
+
+        // Ejecutar procedimiento
+        query.execute();
+
+        // Obtener los resultados
+        List<?> rawResults = query.getResultList();
+        List<EconomicExpense> expenses = rawResults.stream()
+            .filter(EconomicExpense.class::isInstance) 
+            .map(EconomicExpense.class::cast)         
+            .collect(Collectors.toList());
+
+
+        // Mapear respuesta
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("economicExpenses", expenses);        
+        return responseData;
     }
 
     @Transactional
@@ -133,27 +153,6 @@ public class EconomicExpenseService {
     @Transactional
     public int deleteEconomicExpense(Long pIdEconomicExpense, Long pLoggedIdUser){
         return economicExpenseRepo.deleteEconomicExpense(pIdEconomicExpense, pLoggedIdUser);
-    }
-
-   @Transactional
-    public List<EconomicExpense> getAllEconomicExpenses(
-            String filterByStatus,
-            BigDecimal filterByAmountRangeMin,
-            BigDecimal filterByAmountRangeMax,
-            Date filterByDateRangeStart,
-            Date filterByDateRangeEnd,
-            Integer filterByMeanOfPayment,
-            Long filterByCategory) {
-        
-        return economicExpenseRepo.getAllEconomicExpenses(
-            filterByStatus,
-            filterByAmountRangeMin,
-            filterByAmountRangeMax,
-            filterByDateRangeStart,
-            filterByDateRangeEnd,
-            filterByMeanOfPayment,
-            filterByCategory
-        );
     }
 
 }
