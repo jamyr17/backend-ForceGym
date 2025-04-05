@@ -148,7 +148,9 @@ public class ClientService {
             map.put("name", record[1]);
             map.put("firstLastName", record[2]);
             map.put("secondLastName", record[3]);
-            map.put("additionalInfo", record.length > 4 ? record[4] : null); // Puede ser fecha de registro, cumpleaños o null
+            map.put("email", record[4]);
+            map.put("phoneNumber", record[5]);
+            map.put("additionalInfo", record.length > 6 ? record[6] : null); // Puede ser fecha de registro, cumpleaños o null
             return map;
         }).collect(Collectors.toList());
 
