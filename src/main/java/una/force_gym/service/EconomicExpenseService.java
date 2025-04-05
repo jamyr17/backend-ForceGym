@@ -135,4 +135,25 @@ public class EconomicExpenseService {
         return economicExpenseRepo.deleteEconomicExpense(pIdEconomicExpense, pLoggedIdUser);
     }
 
+   @Transactional
+    public List<EconomicExpense> getAllEconomicExpenses(
+            String filterByStatus,
+            BigDecimal filterByAmountRangeMin,
+            BigDecimal filterByAmountRangeMax,
+            Date filterByDateRangeStart,
+            Date filterByDateRangeEnd,
+            Integer filterByMeanOfPayment,
+            Long filterByCategory) {
+        
+        return economicExpenseRepo.getAllEconomicExpenses(
+            filterByStatus,
+            filterByAmountRangeMin,
+            filterByAmountRangeMax,
+            filterByDateRangeStart,
+            filterByDateRangeEnd,
+            filterByMeanOfPayment,
+            filterByCategory
+        );
+    }
+
 }

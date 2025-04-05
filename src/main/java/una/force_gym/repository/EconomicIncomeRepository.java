@@ -13,7 +13,7 @@ import una.force_gym.domain.EconomicIncome;
 
 public interface EconomicIncomeRepository extends JpaRepository<EconomicIncome, Long>{
     
-    @Procedure(procedureName = "prGetAllEconomicIncomes")
+    @Procedure(procedureName = "prGetAllEconomicIncomes",outputParameterName = "result")
     List<EconomicIncome> getAllEconomicIncomes(
         @Param("p_filterByStatus") String filterByStatus,
         @Param("p_filterByAmountRangeMin") BigDecimal filterByAmountRangeMin,
@@ -24,6 +24,17 @@ public interface EconomicIncomeRepository extends JpaRepository<EconomicIncome, 
         @Param("p_filterByTypeClient") Long filterByTypeClient
     );
 
+    @Procedure(procedureName = "prGetAllEconomicIncomes",outputParameterName = "result")
+    List<EconomicIncome> getAllEconomicIncomes(
+        @Param("p_filterByStatus") String filterByStatus,
+        @Param("p_filterByAmountRangeMin") BigDecimal filterByAmountRangeMin,
+        @Param("p_filterByAmountRangeMax") BigDecimal filterByAmountRangeMax,
+        @Param("p_filterByDateRangeStart") Date filterByDateRangeStart,
+        @Param("p_filterByDateRangeEnd") Date filterByDateRangeEnd,
+        @Param("p_filterByMeanOfPayment") Integer filterByMeanOfPayment,
+        @Param("p_filterByTypeClient") Long filterByTypeClient
+    );
+    
     @Procedure(procedureName = "prInsertEconomicIncome", outputParameterName = "result")
     int addEconomicIncome(@Param("pIdClient") Long pIdClient, @Param("pRegistrationDate") LocalDate pRegistrationDate, @Param("pVoucherNumber") String pVoucherNumber, @Param("pDetail") String pDetail, @Param("pIdMeanOfPayment") Long pIdMeanOfPayment, @Param("pAmount") Float pAmount, @Param("pIdActivityType") Long pIdActivityType, @Param("pLoggedIdUser") Long pLoggedIdUser);
 

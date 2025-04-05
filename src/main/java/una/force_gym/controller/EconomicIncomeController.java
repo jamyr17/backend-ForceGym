@@ -1,7 +1,10 @@
 package una.force_gym.controller;
 
 import java.math.BigDecimal;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import una.force_gym.domain.EconomicIncome;
 import una.force_gym.domain.EconomicIncome;
 import una.force_gym.dto.EconomicIncomeDTO;
 import una.force_gym.dto.ParamLoggedIdUserDTO;
