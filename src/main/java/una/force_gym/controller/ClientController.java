@@ -110,12 +110,10 @@ public class ClientController {
 
     @GetMapping("/filter")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getClientsByFilter(
-            @RequestParam Integer filterType,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @RequestParam Integer filterType) {
 
         try {
-            Map<String, Object> responseData = clientService.getClientsByFilter(filterType, startDate, endDate);
+            Map<String, Object> responseData = clientService.getClientsByFilter(filterType);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

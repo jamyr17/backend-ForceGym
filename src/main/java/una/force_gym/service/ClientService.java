@@ -122,18 +122,14 @@ public class ClientService {
         return clientRepo.getAllClients();
     }
 
-    public Map<String, Object> getClientsByFilter(Integer filterType, LocalDate startDate, LocalDate endDate) {
+    public Map<String, Object> getClientsByFilter(Integer filterType) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetClientsByFilter");
 
         // Registrar parámetros
         query.registerStoredProcedureParameter("pFilterType", Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("pStartDate", LocalDate.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("pEndDate", LocalDate.class, ParameterMode.IN);
 
         // Asignar valores a los parámetros
         query.setParameter("pFilterType", filterType);
-        query.setParameter("pStartDate", startDate);
-        query.setParameter("pEndDate", endDate);
 
         // Ejecutar procedimiento
         query.execute();
