@@ -30,25 +30,37 @@ public class PasswordResetToken {
     
     @Column(name = "timeCreated")
     private LocalDateTime timeCreated;
-    
-    @Column(name = "tokenExpiry")
-    private Long tokenExpiry;
 
     @Column(name = "expiryDate")
     private LocalDateTime expiryDate;
 
+    @Column(name = "clientFingerprint")
+    private String clientFingerprint;
+
+    @Column(name = "salt")
+    private String salt;
+
+    @Column(name = "verificationHash")
+    private String verificationHash;
+
+    @Column(name = "isUsed")
+    private Boolean isUsed;
+
     public PasswordResetToken() {}
     
-    public PasswordResetToken(User user, String recoveryToken, Long tokenExpiry) {
+    public PasswordResetToken(User user, String recoveryToken, String clientFingerprint, String salt, String verificationHash, Long tokenExpiry) {
         this.user = user;
         this.recoveryToken = recoveryToken;
+        this.clientFingerprint = clientFingerprint;
+        this.salt = salt;
+        this.verificationHash = verificationHash;
         this.timeCreated = LocalDateTime.now();
-        this.tokenExpiry = tokenExpiry;
         this.expiryDate = calculateExpiryDate();
+        this.isUsed = false;
     }
 
     private LocalDateTime calculateExpiryDate() {
-        return this.timeCreated.plusMinutes(tokenExpiry);
+        return this.timeCreated.plusMinutes(30);
     }
     
     public boolean isExpired() {
@@ -87,20 +99,44 @@ public class PasswordResetToken {
         this.timeCreated = timeCreated;
     }
 
-    public Long getTokenExpiry() {
-        return tokenExpiry;
-    }
-
-    public void setTokenExpiry(Long tokenExpiry) {
-        this.tokenExpiry = tokenExpiry;
-    }
-
     public LocalDateTime getExpiryDate() {
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public String getClientFingerprint() {
+        return clientFingerprint;
+    }
+
+    public void setClientFingerprint(String clientFingerprint) {
+        this.clientFingerprint = clientFingerprint;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getVerificationHash() {
+        return verificationHash;
+    }
+
+    public void setVerificationHash(String verificationHash) {
+        this.verificationHash = verificationHash;
+    }
+
+    public Boolean getIsUsed() {
+        return isUsed;
+    }
+
+    public void setIsUsed(Boolean isUsed) {
+        this.isUsed = isUsed;
     }
 
 }
