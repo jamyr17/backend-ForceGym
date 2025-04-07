@@ -1,16 +1,18 @@
 package una.force_gym.service;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import jakarta.servlet.http.HttpServletRequest;
 import una.force_gym.domain.PasswordResetToken;
 import una.force_gym.domain.User;
 import una.force_gym.repository.PasswordResetTokenRepository;
 import una.force_gym.repository.UserRepository;
-
+import una.force_gym.util.SecureRandomString;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PasswordResetService {
@@ -22,105 +24,122 @@ public class PasswordResetService {
     private UserRepository userRepository;  
     
     @Autowired
-    private TokenService tokenService;
-    
-    @Autowired
     private EmailService emailService;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
-    public void createPasswordResetTokenForUser(User user) {    
-        // Validate how many recoveries this user has done the last week
 
-        // Generate new token
-        String tokenValue = tokenService.generateToken(user.getPerson().getEmail());
-        PasswordResetToken token = new PasswordResetToken(user, tokenValue, Long.valueOf(60));
-        tokenRepository.save(token);
+    public String generateSecurePasswordResetToken(User user, HttpServletRequest request) {
+        // 1. Token único 
+        String token = UUID.randomUUID().toString();
+        
+        // 2. Fingerprint del dispositivo/cliente
+        String clientFingerprint = generateClientFingerprint(request);
+        
+        // 3. Hash de verificación
+        String salt = SecureRandomString.generate(512);
+        String verificationHash = generateVerificationHash(user, clientFingerprint, salt);
+        
+        // 4. Guardar todos los componentes en la base de datos
+        PasswordResetToken resetToken = new PasswordResetToken(
+            user,
+            token,
+            clientFingerprint,
+            salt,
+            verificationHash,
+            Long.valueOf(30) // media hora de expiración
+        );
+        tokenRepository.save(resetToken);
+        
+        return token;
+    }
 
-        // Email to send
+    private String generateClientFingerprint(HttpServletRequest request) {
+        String components = String.join("|",
+            request.getHeader("User-Agent"),
+            request.getHeader("Accept-Language"),
+            request.getRemoteAddr() 
+        );
+        return DigestUtils.sha256Hex(components);
+    }
+
+    private String generateVerificationHash(User user, String clientFingerprint, String salt) {
+        String components = String.join("|",
+            user.getPerson().getEmail(),
+            user.getPassword(),
+            clientFingerprint,
+            salt
+        );
+        return DigestUtils.sha512Hex(components);
+    }
+
+    public void sendPasswordResetEmail(User user, String token, HttpServletRequest request) {
+        // Email 
         String[] emails = new String[1];
         emails[0] = user.getPerson().getEmail();
 
-        // Client URL for recovery and email content
-        String resetUrl = "http://localhost:5173/resetPassword?token=" + tokenValue;
-    
-        // Contenido HTML para mejor formato y redirección
-        String content = "<!DOCTYPE html>"
-            + "<html>"
-            + "<head>"
-            + "<style>"
-            + "  body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }"
-            + "  .button {"
-            + "    display: inline-block;"
-            + "    padding: 10px 20px;"
-            + "    background-color: #4CAF50;"
-            + "    color: white !important;"
-            + "    text-decoration: none;"
-            + "    border-radius: 5px;"
-            + "    margin: 15px 0;"
-            + "  }"
-            + "  .footer {"
-            + "    margin-top: 20px;"
-            + "    font-size: 0.9em;"
-            + "    color: #777;"
-            + "  }"
-            + "</style>"
-            + "</head>"
-            + "<body>"
-            + "<p>Hola <strong>" + user.getPerson().getName() + ' ' + user.getPerson().getFirstLastName() + "</strong>,</p>"
-            + "<p>Hemos recibido una solicitud para restablecer tu contraseña en <strong>Force Gym</strong>.</p>"
-            + "<p>Por favor haz clic en el siguiente botón para continuar:</p>"
-            + "<p><a href=\"" + resetUrl + "\" class=\"button\" target=\"_blank\">Restablecer contraseña</a></p>"
-            + "<p>Si el botón no funciona, copia y pega esta URL en tu navegador:</p>"
-            + "<p><code>" + resetUrl + "</code></p>"
-            + "<div class=\"footer\">"
-            + "<p>Este enlace expirará en 24 horas.</p>"
-            + "<p>Si no solicitaste este cambio, por favor ignora este mensaje.</p>"
-            + "<p>Atentamente,<br>El equipo de <strong>Force Gym</strong></p>"
-            + "</div>"
-            + "</body>"
-            + "</html>";
+        // Crear enlace con token de un solo uso
+        String resetUrl = buildResetUrl(token, request);
         
-        // Send email with token
-        emailService.sendEmail(emails, "Recuperación de contraseña - Force Gym", content, true);
+        // Email con advertencia de seguridad
+        String content = """
+            <p>Se ha solicitado un restablecimiento de contraseña para tu cuenta.</p>
+            <p><a href='%s'>Restablecer contraseña</a></p>
+            <p><strong>Advertencia de seguridad:</strong> Este enlace expirará en 30 minutos y solo es válido desde tu dispositivo habitual.</p>
+            <p>Si no reconoces esta solicitud, por favor ignora este mensaje.</p>
+            """.formatted(resetUrl);
+        
+        emailService.sendEmail(emails, "Restablecimiento de contraseña", content, true);
+    }
+
+    private String buildResetUrl(String token, HttpServletRequest request) {
+        return "http://localhost:5173/reset-password?token=" + token;
+    }
+
+    public Optional<PasswordResetToken> validatePasswordResetToken(String token, HttpServletRequest request) {
+        // 1. Buscar token en la base de datos
+        Optional<PasswordResetToken> resetToken = tokenRepository.findByRecoveryToken(token);
+        if (resetToken.isEmpty()) {
+            return Optional.empty();
+        }
+
+        // 2. Verificar que el token no haya sido usado
+        if (resetToken.get().getIsUsed()) {
+            return Optional.empty();
+        }
+
+        // 3. Verificar expiración
+        if (resetToken.get().isExpired()) {
+            tokenRepository.delete(resetToken.get());
+            return Optional.empty();
+        }
+        
+        // 4. Verificar fingerprint del cliente
+        String currentFingerprint = generateClientFingerprint(request);
+        if (!resetToken.get().getClientFingerprint().equals(currentFingerprint)) {
+            return Optional.empty();
+        }
+        
+        // 5. Verificar hash de seguridad
+        String currentVerificationHash = generateVerificationHash(resetToken.get().getUser(), currentFingerprint, resetToken.get().getSalt());
+        if (!resetToken.get().getVerificationHash().equals(currentVerificationHash)) {
+            return Optional.empty();
+        }
+        
+        return resetToken;
     }
     
     @Transactional
-    public boolean validatePasswordResetToken(String tokenValue) {
-        Optional<PasswordResetToken> tokenOpt = tokenRepository.findByRecoveryToken(tokenValue);
-        
-        if (tokenOpt.isEmpty()) {
-            return false;
-        }
-        
+    public void resetPassword(Optional<PasswordResetToken> tokenOpt, String newPassword) {
         PasswordResetToken token = tokenOpt.get();
         
-        if (token.isExpired()) {
-            return false;
-        }
+        // Cambiar contraseña en el registro de usuario
+        User user = token.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user); // Guardar nueva contraseña en base de datos
         
-        return tokenService.validateToken(tokenValue);
-    }
-    
-    @Transactional
-    public void resetPassword(String tokenValue, String newPassword) {
-        Optional<PasswordResetToken> tokenOpt = tokenRepository.findByRecoveryToken(tokenValue);
+        token.setIsUsed(true); // Cambiar estado de uso del token
+        tokenRepository.save(token);
         
-        if (tokenOpt.isPresent()) {
-            PasswordResetToken token = tokenOpt.get();
-            
-            if (!token.isExpired() && tokenService.validateToken(tokenValue)) {
-                User user = token.getUser();
-                user.setPassword(passwordEncoder.encode(newPassword));
-                userRepository.save(user);
-                
-                tokenRepository.save(token);
-            } else {
-                throw new IllegalStateException("El token ya ha expirado, intente de nuevo");
-            }
-        } else {
-            throw new IllegalArgumentException("Token inválido");
-        }
     }
 }

@@ -2,21 +2,24 @@ package una.force_gym.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import una.force_gym.config.UserAuthenticationProvider;
+import una.force_gym.domain.PasswordResetToken;
 import una.force_gym.domain.User;
 import una.force_gym.dto.CredentialsDTO;
 import una.force_gym.dto.LoginDTO;
+import una.force_gym.dto.ResetPasswordDTO;
 import una.force_gym.service.PasswordResetService;
 import una.force_gym.service.ReCaptchaService;
 import una.force_gym.service.UserService;
@@ -61,38 +64,37 @@ public class AuthController {
     }
 
     @PostMapping("/recoveryPassword")
-    public ResponseEntity<ApiResponse<String>> forgotPassword(@RequestParam String email) {
+    public ResponseEntity<ApiResponse<String>> forgotPassword(@RequestParam String email, HttpServletRequest httpRequest) {
         User user = userService.findByEmail(email);
 
         if(user.getIdUser()==null){
-            ApiResponse<String> responseNotFound = new ApiResponse<>("Error", null);
+            ApiResponse<String> responseNotFound = new ApiResponse<>("Usuario no encontrado", null);
             return new ResponseEntity<>(responseNotFound, HttpStatus.BAD_REQUEST); 
         }
         
-        passwordResetService.createPasswordResetTokenForUser(user);
+        String generatedToken = passwordResetService.generateSecurePasswordResetToken(user, httpRequest);
+        passwordResetService.sendPasswordResetEmail(user, generatedToken, httpRequest);
         
         ApiResponse<String> response = new ApiResponse<>("Se ha enviado un link a su correo electrónico", null);
         return new ResponseEntity<>(response, HttpStatus.OK); 
     }
 
-    @GetMapping("/validateResetToken")
-    public ResponseEntity<?> validateResetToken(@RequestParam String token) {
-        boolean isValid = passwordResetService.validatePasswordResetToken(token);
-        
-        if (isValid) {
-            return ResponseEntity.ok("Token is valid");
-        } else {
-            return ResponseEntity.badRequest().body("Invalid or expired token");
-        }
-    }
-    
     @PostMapping("/resetPassword")
     public ResponseEntity<?> resetPassword(
-            @RequestParam String token,
-            @RequestParam String newPassword) {
+        @RequestBody ResetPasswordDTO request,
+        HttpServletRequest httpRequest
+    ) {
+        // 1. Validar token con todas las comprobaciones
+        Optional<PasswordResetToken> resetToken = passwordResetService.validatePasswordResetToken(request.getToken(), httpRequest);
+        if (!resetToken.isPresent()) {
+            ApiResponse<String> response = new ApiResponse<>("Token no válido o expirado", null);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
         
-        passwordResetService.resetPassword(token, newPassword);
-        return ResponseEntity.ok("Password reset successfully");
+        // 2. Cambiar contraseña
+        passwordResetService.resetPassword(resetToken, request.getNewPassword());
+        
+        return ResponseEntity.ok().build();
     }
 
 }
