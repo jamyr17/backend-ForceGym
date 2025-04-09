@@ -53,10 +53,8 @@ public class NotificationController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addNotification(@RequestBody NotificationDTO notificationDTO) {
         int result = notificationService.addNotification(
-            notificationDTO.getIdUser(), 
-            notificationDTO.getIdNotificationTemplate(), 
-            notificationDTO.getSendDate(), 
-            notificationDTO.getParamLoggedIdUser()
+            notificationDTO.getIdClient(), 
+            notificationDTO.getIdNotificationType()
         );
 
         switch(result) {
@@ -81,11 +79,9 @@ public class NotificationController {
     public ResponseEntity<ApiResponse<String>> updateNotification(@RequestBody NotificationDTO notificationDTO) {
         int result = notificationService.updateNotification(
             notificationDTO.getIdNotification(), 
-            notificationDTO.getIdUser(), 
-            notificationDTO.getIdNotificationTemplate(), 
-            notificationDTO.getSendDate(), 
-            notificationDTO.getIsDeleted(),
-            notificationDTO.getParamLoggedIdUser()
+            notificationDTO.getIdClient(), 
+            notificationDTO.getIdNotificationType(),
+            notificationDTO.getIsDeleted()
         );
 
         switch(result) {
@@ -111,7 +107,7 @@ public class NotificationController {
 
     @DeleteMapping("/delete/{idNotification}")
     public ResponseEntity<ApiResponse<String>> deleteNotification(@PathVariable("idNotification") Long idNotification, @RequestBody ParamLoggedIdUserDTO paramLoggedIdUser) {
-        int result = notificationService.deleteNotification(idNotification, paramLoggedIdUser.getParamLoggedIdUser());
+        int result = notificationService.deleteNotification(idNotification);
        
         switch(result) {
             case 1 -> 

@@ -18,12 +18,12 @@ public class Notification {
     private Long idNotification;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
-    private User user;
+    @JoinColumn(name = "idClient", referencedColumnName = "idClient")
+    private Client client;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idNotificationTemplate", referencedColumnName = "idNotificationTemplate")
-    private NotificationTemplate notificationTemplate;
+    @JoinColumn(name = "idNotificationType", referencedColumnName = "idNotificationType")
+    private NotificationType notificationType;
 
     @Column(name = "sendDate")
     private Date sendDate;
@@ -33,10 +33,10 @@ public class Notification {
 
     public Notification() {}
 
-    public Notification(Long idNotification, User user, NotificationTemplate notificationTemplate, Date sendDate, Long isDeleted) {
+    public Notification(Long idNotification, Client client, NotificationType notificationType, Date sendDate, Long isDeleted) {
         this.idNotification = idNotification;
-        this.user = user;
-        this.notificationTemplate = notificationTemplate;
+        this.client = client;
+        this.notificationType = notificationType;
         this.sendDate = sendDate;
         this.isDeleted = isDeleted;
     }
@@ -49,20 +49,20 @@ public class Notification {
         this.idNotification = idNotification;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public NotificationTemplate getNotificationTemplate() {
-        return notificationTemplate;
+    public NotificationType getNotificationType() {
+        return notificationType;
     }
 
-    public void setNotificationTemplate(NotificationTemplate notificationTemplate) {
-        this.notificationTemplate = notificationTemplate;
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
     }
 
     public Date getSendDate() {
@@ -80,4 +80,5 @@ public class Notification {
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
     }   
+
 }
