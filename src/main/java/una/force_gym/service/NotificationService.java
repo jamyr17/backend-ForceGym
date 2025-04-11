@@ -1,6 +1,5 @@
 package una.force_gym.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,35 +78,17 @@ public class NotificationService {
     }
     
     @Transactional
-    public int addNotification( Long pIdUser, 
-                                Long pIdNotificationTemplate,
-                                Date pSendDate, 
-                                Long pLoggedIdUser) {
-        return notificationRepo.addNotification(pIdUser, 
-                                                pIdNotificationTemplate, 
-                                                pSendDate,
-                                                pLoggedIdUser);
+    public int addNotification( Long pIdClient, Long pIdNotificationType) {
+        return notificationRepo.addNotification(pIdClient, pIdNotificationType);
     }
 
     @Transactional
-    public int updateNotification(  Long pIdNotification, 
-                                    Long pIdUser, 
-                                    Long pIdNotificationTemplate,
-                                    Date pSendDate, 
-                                    Long pIsDeleted,
-                                    Long pLoggedIdUser) {
-        return notificationRepo.updateNotification( pIdNotification, 
-                                                    pIdUser,
-                                                    pIdNotificationTemplate, 
-                                                    pSendDate,
-                                                    pIsDeleted,
-                                                    pLoggedIdUser);
+    public int updateNotification( Long pIdNotification, Long pIdClient, Long pIdNotificationType, Long pIsDeleted) {
+        return notificationRepo.updateNotification(pIdNotification, pIdClient, pIdNotificationType, pIsDeleted);
     }
 
     @Transactional
-    public int deleteNotification(  Long pIdNotification, 
-                                            Long pLoggedIdUser){
-        return notificationRepo.deleteNotification( pIdNotification, 
-                                                                    pLoggedIdUser);
+    public int deleteNotification(Long pIdNotification){
+        return notificationRepo.deleteNotification( pIdNotification);
     }
 }

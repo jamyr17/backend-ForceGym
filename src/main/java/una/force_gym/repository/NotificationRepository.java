@@ -4,31 +4,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Date;
-
 import una.force_gym.domain.Notification;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     
     @Procedure(procedureName = "prInsertNotification", outputParameterName = "result")
     int addNotification(
-        @Param("pIdUser") Long pIdUser,
-        @Param("pIdNotificationTemplate") Long pIdNotificationTemplate,
-        @Param("pSendDate") Date pSendDate,
-        @Param("pLoggedIdUser") Long pLoggedIdUser
+        @Param("pIdClient") Long pIdClient,
+        @Param("pIdNotificationType") Long pIdNotificationType
     );
 
     @Procedure(procedureName = "prUpdateNotification", outputParameterName = "result")
     int updateNotification(
         @Param("pIdNotification") Long pIdNotification,
-        @Param("pIdUser") Long pIdUser,
-        @Param("pIdNotificationTemplate") Long pIdNotificationTemplate,
-        @Param("pSendDate") Date pSendDate,
-        @Param("pIsDeleted") Long pIsDeleted,  
-        @Param("pLoggedIdUser") Long pLoggedIdUser
+        @Param("pIdClient") Long pIdClient,
+        @Param("pIdNotificationTemplate") Long pIdNotificationType,
+        @Param("pIsDeleted") Long pIsDeleted
     );
 
     @Procedure(procedureName = "prDeleteNotification", outputParameterName = "result")
-    int deleteNotification(  @Param("pIdNotification") Long pIdNotification, 
-                                    @Param("pLoggedIdUser") Long pLoggedIdUser);
+    int deleteNotification(  @Param("pIdNotification") Long pIdNotification);
 }
