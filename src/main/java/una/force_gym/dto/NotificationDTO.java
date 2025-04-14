@@ -5,19 +5,19 @@ import java.util.Date;
 public class NotificationDTO {
     
     private Long idNotification;
-    private Long idUser;
-    private Long idNotificationTemplate;
+    private Long idClient;
+    private Long idNotificationType;
     private Date sendDate;
     private Long isDeleted;
     private Long paramLoggedIdUser;
 
     public NotificationDTO() {}
 
-    public NotificationDTO(Long idNotification, Long idUser, Long idNotificationTemplate, Date sendDate, Long isDeleted,
+    public NotificationDTO(Long idNotification, Long idClient, Long idNotificationType, Date sendDate, Long isDeleted,
             Long paramLoggedIdUser) {
         this.idNotification = idNotification;
-        this.idUser = idUser;
-        this.idNotificationTemplate = idNotificationTemplate;
+        this.idClient = idClient;
+        this.idNotificationType = idNotificationType;
         this.sendDate = sendDate;
         this.isDeleted = isDeleted;
         this.paramLoggedIdUser = paramLoggedIdUser;
@@ -31,20 +31,20 @@ public class NotificationDTO {
         this.idNotification = idNotification;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getIdClient() {
+        return idClient;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setIdClient(Long idClient) {
+        this.idClient = idClient;
     }
 
-    public Long getIdNotificationTemplate() {
-        return idNotificationTemplate;
+    public Long getIdNotificationType() {
+        return idNotificationType;
     }
 
-    public void setIdNotificationTemplate(Long idNotificationTemplate) {
-        this.idNotificationTemplate = idNotificationTemplate;
+    public void setIdNotificationType(Long idNotificationType) {
+        this.idNotificationType = idNotificationType;
     }
 
     public Date getSendDate() {

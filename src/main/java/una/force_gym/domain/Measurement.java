@@ -39,38 +39,52 @@ public class Measurement {
     @Column(name = "visceralFatPercentage")
     private Float visceralFatPercentage;
 
-    @Column(name = "neckSize")
-    private Float neckSize;
-
-    @Column(name = "shoulderSize")
-    private Float shoulderSize;
-
     @Column(name = "chestSize")
     private Float chestSize;
+
+    @Column(name = "backSize")
+    private Float backSize;
+
+    @Column(name = "hipSize")
+    private Float hipSize;
 
     @Column(name = "waistSize")
     private Float waistSize;
 
-    @Column(name = "thighSize")
-    private Float thighSize;
+    @Column(name = "leftLegSize")
+    private Float leftLegSize;
 
-    @Column(name = "calfSize")
-    private Float calfSize;
+    @Column(name = "rightLegSize")
+    private Float rightLegSize;
 
-    @Column(name = "forearmSize")
-    private Float forearmSize;
+    @Column(name = "leftCalfSize")
+    private Float leftCalfSize;
 
-    @Column(name = "armSize")
-    private Float armSize;
+    @Column(name = "rightCalfSize")
+    private Float rightCalfSize;
+
+    @Column(name = "leftForeArmSize")
+    private Float leftForeArmSize;
+
+    @Column(name = "rightForeArmSize")
+    private Float rightForeArmSize;
+
+    @Column(name = "leftArmSize")
+    private Float leftArmSize;
+
+    @Column(name = "rightArmSize")
+    private Float rightArmSize;
 
     @Column(name = "isDeleted")
     private Long isDeleted;
 
     public Measurement() {}
 
-    public Measurement(Long idMeasurement, Client client, Date measurementDate, Float weight, Float height, Float muscleMass, 
-                       Float bodyFatPercentage, Float visceralFatPercentage, Float neckSize, Float shoulderSize, Float chestSize, 
-                       Float waistSize, Float thighSize, Float calfSize, Float forearmSize, Float armSize, Long isDeleted) {
+    public Measurement(Long idMeasurement, Client client, Date measurementDate, Float weight, Float height,
+                       Float muscleMass, Float bodyFatPercentage, Float visceralFatPercentage,
+                       Float chestSize, Float backSize, Float hipSize, Float waistSize, Float leftLegSize, Float rightLegSize,
+                       Float leftCalfSize, Float rightCalfSize, Float leftForeArmSize, Float rightForeArmSize,
+                       Float leftArmSize, Float rightArmSize, Long isDeleted) {
         this.idMeasurement = idMeasurement;
         this.client = client;
         this.measurementDate = measurementDate;
@@ -79,14 +93,18 @@ public class Measurement {
         this.muscleMass = muscleMass;
         this.bodyFatPercentage = bodyFatPercentage;
         this.visceralFatPercentage = visceralFatPercentage;
-        this.neckSize = neckSize;
-        this.shoulderSize = shoulderSize;
         this.chestSize = chestSize;
+        this.backSize = backSize;
+        this.hipSize = hipSize;
         this.waistSize = waistSize;
-        this.thighSize = thighSize;
-        this.calfSize = calfSize;
-        this.forearmSize = forearmSize;
-        this.armSize = armSize;
+        this.leftLegSize = leftLegSize;
+        this.rightLegSize = rightLegSize;
+        this.leftCalfSize = leftCalfSize;
+        this.rightCalfSize = rightCalfSize;
+        this.leftForeArmSize = leftForeArmSize;
+        this.rightForeArmSize = rightForeArmSize;
+        this.leftArmSize = leftArmSize;
+        this.rightArmSize = rightArmSize;
         this.isDeleted = isDeleted;
     }
 
@@ -154,28 +172,28 @@ public class Measurement {
         this.visceralFatPercentage = visceralFatPercentage;
     }
 
-    public Float getNeckSize() {
-        return neckSize;
-    }
-
-    public void setNeckSize(Float neckSize) {
-        this.neckSize = neckSize;
-    }
-
-    public Float getShoulderSize() {
-        return shoulderSize;
-    }
-
-    public void setShoulderSize(Float shoulderSize) {
-        this.shoulderSize = shoulderSize;
-    }
-
     public Float getChestSize() {
         return chestSize;
     }
 
     public void setChestSize(Float chestSize) {
         this.chestSize = chestSize;
+    }
+
+    public Float getBackSize() {
+        return backSize;
+    }
+
+    public void setBackSize(Float backSize) {
+        this.backSize = backSize;
+    }
+
+    public Float getHipSize() {
+        return hipSize;
+    }
+
+    public void setHipSize(Float hipSize) {
+        this.hipSize = hipSize;
     }
 
     public Float getWaistSize() {
@@ -186,36 +204,68 @@ public class Measurement {
         this.waistSize = waistSize;
     }
 
-    public Float getThighSize() {
-        return thighSize;
+    public Float getLeftLegSize() {
+        return leftLegSize;
     }
 
-    public void setThighSize(Float thighSize) {
-        this.thighSize = thighSize;
+    public void setLeftLegSize(Float leftLegSize) {
+        this.leftLegSize = leftLegSize;
     }
 
-    public Float getCalfSize() {
-        return calfSize;
+    public Float getRightLegSize() {
+        return rightLegSize;
     }
 
-    public void setCalfSize(Float calfSize) {
-        this.calfSize = calfSize;
+    public void setRightLegSize(Float rightLegSize) {
+        this.rightLegSize = rightLegSize;
     }
 
-    public Float getForearmSize() {
-        return forearmSize;
+    public Float getLeftCalfSize() {
+        return leftCalfSize;
     }
 
-    public void setForearmSize(Float forearmSize) {
-        this.forearmSize = forearmSize;
+    public void setLeftCalfSize(Float leftCalfSize) {
+        this.leftCalfSize = leftCalfSize;
     }
 
-    public Float getArmSize() {
-        return armSize;
+    public Float getRightCalfSize() {
+        return rightCalfSize;
     }
 
-    public void setArmSize(Float armSize) {
-        this.armSize = armSize;
+    public void setRightCalfSize(Float rightCalfSize) {
+        this.rightCalfSize = rightCalfSize;
+    }
+
+    public Float getLeftForeArmSize() {
+        return leftForeArmSize;
+    }
+
+    public void setLeftForeArmSize(Float leftForeArmSize) {
+        this.leftForeArmSize = leftForeArmSize;
+    }
+
+    public Float getRightForeArmSize() {
+        return rightForeArmSize;
+    }
+
+    public void setRightForeArmSize(Float rightForeArmSize) {
+        this.rightForeArmSize = rightForeArmSize;
+    }
+
+    public Float getLeftArmSize() {
+        return leftArmSize;
+    }
+
+    public void setLeftArmSize(Float leftArmSize) {
+        this.leftArmSize = leftArmSize;
+    }
+
+    public Float getRightArmSize() {
+        return rightArmSize;
+    }
+
+    public void setRightArmSize(Float rightArmSize) {
+        this.rightArmSize = rightArmSize;
     }
 
     public Long getIsDeleted() {

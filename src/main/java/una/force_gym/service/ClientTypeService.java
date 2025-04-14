@@ -1,5 +1,4 @@
 package una.force_gym.service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,30 +12,29 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
-import una.force_gym.domain.Notification;
-import una.force_gym.repository.NotificationRepository;
+import una.force_gym.domain.ClientType;
+import una.force_gym.repository.ClientTypeRepository;
 
 @Service
-public class NotificationService {
-    
-    @Autowired
-    private NotificationRepository notificationRepo;
-
+public class ClientTypeService {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Map<String, Object> getProductsInventory(
-        int page, 
-        int size, int searchType, 
-        String searchTerm, 
-        String orderBy, 
-        String directionOrderBy, 
+    @Autowired
+    private ClientTypeRepository clientTypeRepo;
+
+    public Map<String, Object> getClientTypes(
+        int page,
+        int size,
+        int searchType,
+        String searchTerm,
+        String orderBy,
+        String directionOrderBy,
         String filterByStatus
     ) {
-            
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetNotification", Notification.class);
-        
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetClientType", ClientType.class);
+
         // Parámetros de entrada
         query.registerStoredProcedureParameter("p_page", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_limit", Integer.class, ParameterMode.IN);
@@ -46,10 +44,10 @@ public class NotificationService {
         query.registerStoredProcedureParameter("p_directionOrderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
 
-        // Parámetro de salida
+        // Salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
 
-        // Setear valores
+        // Seteo de parámetros
         query.setParameter("p_page", page);
         query.setParameter("p_limit", size);
         query.setParameter("p_searchType", searchType);
@@ -58,37 +56,36 @@ public class NotificationService {
         query.setParameter("p_directionOrderBy", directionOrderBy);
         query.setParameter("p_filterByStatus", filterByStatus);
 
-        // Ejecutar procedimiento
         query.execute();
 
-        // Obtener los resultados
         List<?> rawResults = query.getResultList();
-        List<Notification> notifications = rawResults.stream()
-            .filter(Notification.class::isInstance) 
-            .map(Notification.class::cast)         
+        List<ClientType> clientTypes = rawResults.stream()
+            .filter(ClientType.class::isInstance)
+            .map(ClientType.class::cast)
             .collect(Collectors.toList());
+
         Integer totalRecords = (Integer) query.getOutputParameterValue("p_totalRecords");
 
-        // Mapear respuesta
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("notifications", notifications);
+        responseData.put("clientTypes", clientTypes);
         responseData.put("totalRecords", totalRecords);
-        
+
         return responseData;
     }
+
+    @Transactional
+    public int addClientType(String pName, Long pLoggedIdUser) {
+        return clientTypeRepo.addClientType(pName, pLoggedIdUser);
+    }
+
+    @Transactional
+    public int updateClientType(Long pIdClientType, String pName, Long pIsDeleted, Long pLoggedIdUser) {
+        return clientTypeRepo.updateClientType(pIdClientType, pName, pIsDeleted, pLoggedIdUser);
+    }
+
+    @Transactional
+    public int deleteClientType(Long pIdClientType, Long pLoggedIdUser){
+        return clientTypeRepo.deleteClientType(pIdClientType, pLoggedIdUser);
+    }
     
-    @Transactional
-    public int addNotification( Long pIdClient, Long pIdNotificationType) {
-        return notificationRepo.addNotification(pIdClient, pIdNotificationType);
-    }
-
-    @Transactional
-    public int updateNotification( Long pIdNotification, Long pIdClient, Long pIdNotificationType, Long pIsDeleted) {
-        return notificationRepo.updateNotification(pIdNotification, pIdClient, pIdNotificationType, pIsDeleted);
-    }
-
-    @Transactional
-    public int deleteNotification(Long pIdNotification){
-        return notificationRepo.deleteNotification( pIdNotification);
-    }
 }
