@@ -4,18 +4,32 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
 
 import una.force_gym.domain.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Procedure(procedureName = "prGetCategory")
+    @Procedure(procedureName = "prGetAllCategory")
     List<Category> getCategory();
 
     @Procedure(procedureName = "prInsertCategory", outputParameterName = "result")
-    int addCategory(String pName, Long pLoggedIdUser);
+    int addCategory(
+            @Param("pName") String name,
+            @Param("pLoggedIdUser") Long loggedIdUser
+    );
+
+    @Procedure(procedureName = "prUpdateCategory", outputParameterName = "result")
+    int updateCategory(
+            @Param("pIdCategory") Long idCategory,
+            @Param("pName") String name,
+            @Param("pIsDeleted") Long isDeleted,
+            @Param("pLoggedIdUser") Long loggedIdUser
+    );
 
     @Procedure(procedureName = "prDeleteCategory", outputParameterName = "result")
-    int deleteCategory(Long pIdCategory, Long pLoggedIdUser);
-
+    int deleteCategory(
+            @Param("pIdCategory") Long idCategory,
+            @Param("pLoggedIdUser") Long loggedIdUser
+    );
 }
