@@ -15,12 +15,16 @@ public class ClientType {
 
     @Column(name = "name")
     private String name;
+    
+    @Column(name = "isDeleted")
+    private Long isDeleted;
 
     public ClientType() {}
 
-    public ClientType(Long idClientType, String name) {
+    public ClientType(Long idClientType, String name, Long isDeleted) {
         this.idClientType = idClientType;
         this.name = name;
+        this.isDeleted = isDeleted;
     }
 
     public Long getIdClientType() {
@@ -38,4 +42,13 @@ public class ClientType {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public Long getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Long isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
 }
