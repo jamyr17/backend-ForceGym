@@ -12,13 +12,14 @@ public class EconomicIncomeDTO {
     private Long idMeanOfPayment;
     private Float amount;
     private Long idActivityType;
+    private Long delayDays;
     private Long isDeleted;
     private Long paramLoggedIdUser;
 
     public EconomicIncomeDTO() {}
 
     public EconomicIncomeDTO(Long idEconomicIncome, Long idClient, LocalDate registrationDate, String voucherNumber,
-            String detail, Long idMeanOfPayment, Float amount, Long idActivityType, Long isDeleted,
+            String detail, Long idMeanOfPayment, Float amount, Long idActivityType, Long delayDays, Long isDeleted,
             Long paramLoggedIdUser) {
         this.idEconomicIncome = idEconomicIncome;
         this.idClient = idClient;
@@ -28,6 +29,7 @@ public class EconomicIncomeDTO {
         this.idMeanOfPayment = idMeanOfPayment;
         this.amount = amount;
         this.idActivityType = idActivityType;
+        this.delayDays = delayDays;
         this.isDeleted = isDeleted;
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
@@ -94,6 +96,14 @@ public class EconomicIncomeDTO {
 
     public void setIdActivityType(Long idActivityType) {
         this.idActivityType = idActivityType;
+    }
+
+    public Long getDelayDays() {
+        return delayDays;
+    }
+
+    public void setDelayDays(Long delayDays) {
+        this.delayDays = delayDays;
     }
 
     public Long getIsDeleted() {

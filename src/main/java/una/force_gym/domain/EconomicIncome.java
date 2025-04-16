@@ -42,12 +42,15 @@ public class EconomicIncome {
     @JoinColumn(name = "idActivityType", referencedColumnName = "idActivityType")
     private ActivityType activityType;
 
+    @Column(name = "delayDays")
+    private Long delayDays;
+
     @Column(name = "isDeleted")
     private Long isDeleted;
 
     public EconomicIncome() {}
 
-    public EconomicIncome(Long idEconomicIncome, Client client, LocalDate registrationDate, String voucherNumber, String detail, MeanOfPayment meanOfPayment, Float amount, ActivityType activityType, Long isDeleted) {
+    public EconomicIncome(Long idEconomicIncome, Client client, LocalDate registrationDate, String voucherNumber, String detail, MeanOfPayment meanOfPayment, Float amount, ActivityType activityType, Long delayDays, Long isDeleted) {
         this.idEconomicIncome = idEconomicIncome;
         this.client = client;
         this.registrationDate = registrationDate;
@@ -56,6 +59,7 @@ public class EconomicIncome {
         this.meanOfPayment = meanOfPayment;
         this.amount = amount;
         this.activityType = activityType;
+        this.delayDays = delayDays;
         this.isDeleted = isDeleted;
     }
 
@@ -121,6 +125,14 @@ public class EconomicIncome {
 
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
+    }
+
+    public Long getDelayDays() {
+        return delayDays;
+    }
+
+    public void setDelayDays(Long delayDays) {
+        this.delayDays = delayDays;
     }
 
     public Long getIsDeleted() {

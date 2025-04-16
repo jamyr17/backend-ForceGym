@@ -89,6 +89,7 @@ public class EconomicIncomeController {
             economicIncomeDTO.getIdMeanOfPayment(), 
             economicIncomeDTO.getAmount(), 
             economicIncomeDTO.getIdActivityType(), 
+            economicIncomeDTO.getDelayDays(),
             economicIncomeDTO.getParamLoggedIdUser()
         );
 
@@ -121,6 +122,7 @@ public class EconomicIncomeController {
             economicIncomeDTO.getIdMeanOfPayment(), 
             economicIncomeDTO.getAmount(), 
             economicIncomeDTO.getIdActivityType(), 
+            economicIncomeDTO.getDelayDays(),
             economicIncomeDTO.getIsDeleted(),
             economicIncomeDTO.getParamLoggedIdUser()
         );
