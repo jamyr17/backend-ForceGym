@@ -19,7 +19,6 @@ public class ActivityTypeController {
     @Autowired
     private ActivityTypeService activityTypeService;
 
-    // Método existente para obtener lista simple
     @GetMapping("/list")
     public ResponseEntity<ApiResponse<List<ActivityType>>> getActivityTypes() {
         try {
@@ -39,7 +38,6 @@ public class ActivityTypeController {
         }
     }
 
-    // Nuevo método para obtener lista con tarifas
     @GetMapping("/listFees")
     public ResponseEntity<ApiResponse<List<ActivityTypeWithFeesDTO>>> getActivityTypesWithFees() {
         try {

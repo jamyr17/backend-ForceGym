@@ -1,9 +1,10 @@
 package una.force_gym.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -86,24 +87,29 @@ public class ClientController {
 
     }
 
-    @GetMapping("/listAll")
-    public ResponseEntity<ApiResponse<List<Map<String, String>>>> getAllClients() {
+   @GetMapping("/listAll")
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getAllClients() {
         try {
             List<Client> clients = clientService.getAllClients();
-            List<Map<String, String>> responseData = clients.stream()
-                    .map(client -> Map.of(
-                    "value", String.valueOf(client.getIdClient()),
-                    "label", client.getPerson().getName() + " " + client.getPerson().getFirstLastName() + " " + client.getPerson().getSecondLastName()
-            ))
-                    .collect(Collectors.toList());
+            List<Map<String, Object>> responseData = new ArrayList<>();
+            
+            for (Client client : clients) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("value", client.getIdClient());
+                map.put("label", client.getPerson().getName() + " " + 
+                        client.getPerson().getFirstLastName() + " " + 
+                        client.getPerson().getSecondLastName());
+                map.put("idClientType", client.getTypeClient().getIdTypeClient());
+                responseData.add(map);
+            }
 
-            ApiResponse<List<Map<String, String>>> response
-                    = new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
+            ApiResponse<List<Map<String, Object>>> response = 
+                    new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (RuntimeException e) {
-            ApiResponse<List<Map<String, String>>> response
-                    = new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes.", null);
+            ApiResponse<List<Map<String, Object>>> response = 
+                    new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes.", null);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
