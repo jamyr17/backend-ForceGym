@@ -83,7 +83,26 @@ public class ExerciseService {
     }
 
     @Transactional
-    public int addExercise(String name, String description, int sets, int repetitions, Long pLoggedIdUser) {
-        return exerciseRepo.addExercise(name, description, sets, repetitions, pLoggedIdUser);
+    public int addExercise(String name, String description, String difficulty, Long idExerciseCategory, Long createdByUser) {
+        return exerciseRepo.addExercise(name, description, difficulty, idExerciseCategory, createdByUser);
+    }
+
+    @Transactional
+    public int updateExercise(
+        int idExercise,
+        String name,
+        String description,
+        String difficulty,
+        Long idExerciseCategory,
+        Long isDeleted,
+        Long loggedIdUser
+    ) {
+        return exerciseRepo.updateExercise(idExercise, name, description, difficulty, idExerciseCategory, isDeleted, loggedIdUser);
+    }
+
+
+    @Transactional
+    public int deleteExercise(int idExercise, int deletedByUser) {
+        return exerciseRepo.deleteExercise(idExercise, deletedByUser);
     }
 }

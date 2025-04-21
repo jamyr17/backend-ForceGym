@@ -1,12 +1,6 @@
 package una.force_gym.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbExercise")
@@ -20,17 +14,18 @@ public class Exercise {
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idExerciseCategory", referencedColumnName = "idExerciseCategory")
+    private ExerciseCategory exerciseCategory;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "sets")
-    private Integer sets;
-
-    @Column(name = "repetitions")
-    private Integer repetitions;
+    @Column(name = "difficulty")
+    private String difficulty;
 
     @Column(name = "isDeleted")
     private Long isDeleted;
@@ -38,14 +33,14 @@ public class Exercise {
     public Exercise() {
     }
 
-    public Exercise(Long idExercise, String name, String description, Integer sets, Integer repetitions, Long isDeleted, User user) {
+    public Exercise(Long idExercise, String name, String description, String difficulty, Long isDeleted, User user, ExerciseCategory exerciseCategory) {
         this.idExercise = idExercise;
         this.name = name;
         this.description = description;
-        this.sets = sets;
-        this.repetitions = repetitions;
+        this.difficulty = difficulty;
         this.isDeleted = isDeleted;
         this.user = user;
+        this.exerciseCategory = exerciseCategory;
     }
 
     public Long getIdExercise() {
@@ -72,20 +67,12 @@ public class Exercise {
         this.description = description;
     }
 
-    public Integer getSets() {
-        return sets;
+    public String getDifficulty() {
+        return difficulty;
     }
 
-    public void setSets(Integer sets) {
-        this.sets = sets;
-    }
-
-    public Integer getRepetitions() {
-        return repetitions;
-    }
-
-    public void setRepetitions(Integer repetitions) {
-        this.repetitions = repetitions;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Long getIsDeleted() {
@@ -102,5 +89,13 @@ public class Exercise {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ExerciseCategory getExerciseCategory() {
+        return exerciseCategory;
+    }
+
+    public void setExerciseCategory(ExerciseCategory exerciseCategory) {
+        this.exerciseCategory = exerciseCategory;
     }
 }

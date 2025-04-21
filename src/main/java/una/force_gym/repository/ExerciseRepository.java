@@ -17,9 +17,26 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     int addExercise(
             @Param("pName") String name,
             @Param("pDescription") String description,
-            @Param("pSets") int sets,
-            @Param("pRepetitions") int repetitions,
+            @Param("pDifficulty") String difficulty,
+            @Param("pIdExerciseCategory") Long idExerciseCategory,
             @Param("pLoggedIdUser") Long loggedIdUser
     );
 
+    @Procedure(procedureName = "prUpdateExercise", outputParameterName = "result")
+                int updateExercise(
+                @Param("pIdExercise") int idExercise,
+                @Param("pName") String name,
+                @Param("pDescription") String description,
+                @Param("pDifficulty") String difficulty,
+                @Param("pIdExerciseCategory") Long idExerciseCategory,
+                @Param("pIsDeleted") Long isDeleted,
+                @Param("pLoggedIdUser") Long loggedIdUser
+        );
+
+
+    @Procedure(procedureName = "prDeleteExercise", outputParameterName = "result")
+    int deleteExercise(
+            @Param("pIdExercise") int idExercise,
+            @Param("pDeletedByUser") int deletedByUser
+    );
 }

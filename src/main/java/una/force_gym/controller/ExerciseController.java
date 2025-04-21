@@ -58,8 +58,8 @@ public class ExerciseController {
         int result = exerciseService.addExercise(
                 exerciseDTO.getName(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.getSets(),
-                exerciseDTO.getRepetitions(),
+                exerciseDTO.getDifficulty(),
+                exerciseDTO.getIdExerciseCategory(),
                 exerciseDTO.getParamLoggedIdUser()
         );
 
@@ -68,12 +68,47 @@ public class ExerciseController {
                 ApiResponse<String> response = new ApiResponse<>("Ejercicio agregado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 ->
-                throw new AppException("Ocurrió un error al agregar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
-            case -1 ->
-                throw new AppException("No se pudo agregar el ejercicio debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
-            default ->
-                throw new AppException("Ejercicio no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 -> throw new AppException("Ocurrió un error al agregar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default -> throw new AppException("Ejercicio no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse<String>> updateExercise(@PathVariable int id, @RequestBody ExerciseDTO exerciseDTO) {
+        int result = exerciseService.updateExercise(
+            id,
+            exerciseDTO.getName(),
+            exerciseDTO.getDescription(),
+            exerciseDTO.getDifficulty(),
+            exerciseDTO.getIdExerciseCategory(),
+            exerciseDTO.getIsDeleted(),
+            exerciseDTO.getParamLoggedIdUser()
+        );
+
+
+        switch (result) {
+            case 1 -> {
+                ApiResponse<String> response = new ApiResponse<>("Ejercicio actualizado correctamente.", null);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            case 0 -> throw new AppException("Ocurrió un error al actualizar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 -> throw new AppException("El ejercicio a actualizar no existe.", HttpStatus.NOT_FOUND);
+            default -> throw new AppException("No se pudo actualizar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteExercise(@PathVariable int id, @RequestParam int deletedByUser) {
+        int result = exerciseService.deleteExercise(id, deletedByUser);
+
+        switch (result) {
+            case 1 -> {
+                ApiResponse<String> response = new ApiResponse<>("Ejercicio eliminado correctamente.", null);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            case 0 -> throw new AppException("Ocurrió un error al eliminar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 -> throw new AppException("El ejercicio a eliminar no existe.", HttpStatus.NOT_FOUND);
+            default -> throw new AppException("No se pudo eliminar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
