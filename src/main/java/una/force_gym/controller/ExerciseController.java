@@ -41,10 +41,16 @@ public class ExerciseController {
             @RequestParam(defaultValue = "") String searchTerm,
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String directionOrderBy,
-            @RequestParam(defaultValue = "") String filterByStatus
+            @RequestParam(defaultValue = "") String filterByStatus,
+            @RequestParam(defaultValue = "") String filterByDifficulty,
+            @RequestParam(defaultValue = "0") Integer filterByCategory
     ) {
         try {
-            Map<String, Object> responseData = exerciseService.getExercises(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus);
+            Map<String, Object> responseData = exerciseService.getExercises(
+                    page, size, searchType, searchTerm, orderBy, directionOrderBy,
+                    filterByStatus, filterByDifficulty, filterByCategory
+            );
+
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ejercicios obtenidos correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
@@ -68,32 +74,36 @@ public class ExerciseController {
                 ApiResponse<String> response = new ApiResponse<>("Ejercicio agregado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 -> throw new AppException("Ocurrió un error al agregar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
-            default -> throw new AppException("Ejercicio no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al agregar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default ->
+                throw new AppException("Ejercicio no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<String>> updateExercise(@PathVariable int id, @RequestBody ExerciseDTO exerciseDTO) {
         int result = exerciseService.updateExercise(
-            id,
-            exerciseDTO.getName(),
-            exerciseDTO.getDescription(),
-            exerciseDTO.getDifficulty(),
-            exerciseDTO.getIdExerciseCategory(),
-            exerciseDTO.getIsDeleted(),
-            exerciseDTO.getParamLoggedIdUser()
+                id,
+                exerciseDTO.getName(),
+                exerciseDTO.getDescription(),
+                exerciseDTO.getDifficulty(),
+                exerciseDTO.getIdExerciseCategory(),
+                exerciseDTO.getIsDeleted(),
+                exerciseDTO.getParamLoggedIdUser()
         );
-
 
         switch (result) {
             case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Ejercicio actualizado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 -> throw new AppException("Ocurrió un error al actualizar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
-            case -1 -> throw new AppException("El ejercicio a actualizar no existe.", HttpStatus.NOT_FOUND);
-            default -> throw new AppException("No se pudo actualizar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al actualizar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("El ejercicio a actualizar no existe.", HttpStatus.NOT_FOUND);
+            default ->
+                throw new AppException("No se pudo actualizar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -106,9 +116,12 @@ public class ExerciseController {
                 ApiResponse<String> response = new ApiResponse<>("Ejercicio eliminado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 -> throw new AppException("Ocurrió un error al eliminar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
-            case -1 -> throw new AppException("El ejercicio a eliminar no existe.", HttpStatus.NOT_FOUND);
-            default -> throw new AppException("No se pudo eliminar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al eliminar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("El ejercicio a eliminar no existe.", HttpStatus.NOT_FOUND);
+            default ->
+                throw new AppException("No se pudo eliminar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -32,7 +32,9 @@ public class ExerciseService {
             String searchTerm,
             String orderBy,
             String directionOrderBy,
-            String filterByStatus
+            String filterByStatus,
+            String filterByDifficulty,
+            Integer filterByCategory
     ) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetExercise", Exercise.class);
 
@@ -44,6 +46,8 @@ public class ExerciseService {
         query.registerStoredProcedureParameter("p_orderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_directionOrderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDifficulty", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByCategory", Integer.class, ParameterMode.IN);
 
         // Parámetro de salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
@@ -56,11 +60,12 @@ public class ExerciseService {
         query.setParameter("p_orderBy", orderBy);
         query.setParameter("p_directionOrderBy", directionOrderBy);
         query.setParameter("p_filterByStatus", filterByStatus);
+        query.setParameter("p_filterByDifficulty", filterByDifficulty);
+        query.setParameter("p_filterByCategory", filterByCategory);
 
         // Ejecutar
         query.execute();
 
-        // Procesar resultados
         List<?> rawResults = query.getResultList();
         List<Exercise> exercises = rawResults.stream()
                 .filter(Exercise.class::isInstance)
@@ -69,7 +74,6 @@ public class ExerciseService {
 
         Integer totalRecords = (Integer) query.getOutputParameterValue("p_totalRecords");
 
-        // Preparar respuesta
         Map<String, Object> response = new HashMap<>();
         response.put("exercises", exercises);
         response.put("totalRecords", totalRecords);
@@ -89,17 +93,16 @@ public class ExerciseService {
 
     @Transactional
     public int updateExercise(
-        int idExercise,
-        String name,
-        String description,
-        String difficulty,
-        Long idExerciseCategory,
-        Long isDeleted,
-        Long loggedIdUser
+            int idExercise,
+            String name,
+            String description,
+            String difficulty,
+            Long idExerciseCategory,
+            Long isDeleted,
+            Long loggedIdUser
     ) {
         return exerciseRepo.updateExercise(idExercise, name, description, difficulty, idExerciseCategory, isDeleted, loggedIdUser);
     }
-
 
     @Transactional
     public int deleteExercise(int idExercise, int deletedByUser) {
