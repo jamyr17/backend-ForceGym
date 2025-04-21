@@ -5,20 +5,22 @@ public class ExerciseDTO {
     private Long idExercise;
     private String name;
     private String description;
-    private Integer sets;
-    private Integer repetitions;
+    private String difficulty;
+    private Long idExerciseCategory;
+    private Long idUser;
     private Long isDeleted;
     private Long paramLoggedIdUser;
 
-    public ExerciseDTO() {
-    }
+    public ExerciseDTO() {}
 
-    public ExerciseDTO(Long idExercise, String name, String description, Integer sets, Integer repetitions, Long isDeleted, Long paramLoggedIdUser) {
+    public ExerciseDTO(Long idExercise, String name, String description, String difficulty, Long idExerciseCategory,
+            Long idUser, Long isDeleted, Long paramLoggedIdUser) {
         this.idExercise = idExercise;
         this.name = name;
         this.description = description;
-        this.sets = sets;
-        this.repetitions = repetitions;
+        this.difficulty = difficulty;
+        this.idExerciseCategory = idExerciseCategory;
+        this.idUser = idUser;
         this.isDeleted = isDeleted;
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
@@ -47,20 +49,28 @@ public class ExerciseDTO {
         this.description = description;
     }
 
-    public Integer getSets() {
-        return sets;
+    public String getDifficulty() {
+        return difficulty;
     }
 
-    public void setSets(Integer sets) {
-        this.sets = sets;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
-    public Integer getRepetitions() {
-        return repetitions;
+    public Long getIdExerciseCategory() {
+        return idExerciseCategory;
     }
 
-    public void setRepetitions(Integer repetitions) {
-        this.repetitions = repetitions;
+    public void setIdExerciseCategory(Long idExerciseCategory) {
+        this.idExerciseCategory = idExerciseCategory;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public Long getIsDeleted() {
