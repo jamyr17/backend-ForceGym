@@ -33,18 +33,19 @@ public class RoutineService {
         return routineRepo.addRoutine(name, date, idUser, createdByUser, exercises, assignments);
     }
 
-    @Transactional(readOnly = true)
     public Map<String, Object> getRoutines(
             int page,
-            int limit,
+            int size,
             int searchType,
             String searchTerm,
             String orderBy,
             String directionOrderBy,
-            String filterByStatus
+            String filterByStatus,
+            Integer filterByRoutineType
     ) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetRoutine", Routine.class);
 
+        // Registrar parámetros de entrada
         query.registerStoredProcedureParameter("p_page", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_limit", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_searchType", Integer.class, ParameterMode.IN);
@@ -52,30 +53,38 @@ public class RoutineService {
         query.registerStoredProcedureParameter("p_orderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_directionOrderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByRoutineType", Integer.class, ParameterMode.IN);
+
+        // Registrar parámetro de salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
 
+        // Setear valores
         query.setParameter("p_page", page);
-        query.setParameter("p_limit", limit);
+        query.setParameter("p_limit", size);
         query.setParameter("p_searchType", searchType);
         query.setParameter("p_searchTerm", searchTerm);
         query.setParameter("p_orderBy", orderBy);
         query.setParameter("p_directionOrderBy", directionOrderBy);
         query.setParameter("p_filterByStatus", filterByStatus);
+        query.setParameter("p_filterByRoutineType", filterByRoutineType);
 
+        // Ejecutar procedimiento
         query.execute();
 
+        // Obtener los resultados
         List<?> rawResults = query.getResultList();
         List<Routine> routines = rawResults.stream()
                 .filter(Routine.class::isInstance)
                 .map(Routine.class::cast)
                 .collect(Collectors.toList());
-
         Integer totalRecords = (Integer) query.getOutputParameterValue("p_totalRecords");
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("routines", routines);
-        response.put("totalRecords", totalRecords);
+        // Mapear respuesta
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("routines", routines);
+        responseData.put("totalRecords", totalRecords);
 
-        return response;
+        return responseData;
     }
+
 }

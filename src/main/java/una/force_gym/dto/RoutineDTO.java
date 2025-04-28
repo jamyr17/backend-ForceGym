@@ -6,9 +6,10 @@ import java.util.List;
 public class RoutineDTO {
 
     private Long idRoutine;
+    private Long idUser;
+    private Long idDifficultyRoutine;
     private String name;
     private Date date;
-    private Long idUser;
     private Long createdByUser;
     private Long isDeleted;
     private List<RoutineExerciseDTO> exercises;
@@ -18,11 +19,12 @@ public class RoutineDTO {
     public RoutineDTO() {
     }
 
-    public RoutineDTO(List<RoutineAssignmentDTO> assignments, Long createdByUser, Date date, List<RoutineExerciseDTO> exercises, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
+    public RoutineDTO(List<RoutineAssignmentDTO> assignments, Long createdByUser, Date date, List<RoutineExerciseDTO> exercises, Long idDifficultyRoutine, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
         this.assignments = assignments;
         this.createdByUser = createdByUser;
         this.date = date;
         this.exercises = exercises;
+        this.idDifficultyRoutine = idDifficultyRoutine;
         this.idRoutine = idRoutine;
         this.idUser = idUser;
         this.isDeleted = isDeleted;
@@ -60,6 +62,14 @@ public class RoutineDTO {
 
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
+    }
+
+    public Long getIdDifficultyRoutine() {
+        return idDifficultyRoutine;
+    }
+
+    public void setIdDifficultyRoutine(Long idDifficultyRoutine) {
+        this.idDifficultyRoutine = idDifficultyRoutine;
     }
 
     public Long getCreatedByUser() {

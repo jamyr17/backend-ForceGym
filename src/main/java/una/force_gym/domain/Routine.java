@@ -4,9 +4,12 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,20 +27,13 @@ public class Routine {
     @Column(name = "date")
     private Date date;
 
-    @Column(name = "idUser")
-    private Long idUser;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
+    private User user;
 
-    @Column(name = "createdByUser")
-    private Long createdByUser;
-
-    @Column(name = "createdAt")
-    private Date createdAt;
-
-    @Column(name = "updatedByUser")
-    private Long updatedByUser;
-
-    @Column(name = "updatedAt")
-    private Date updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "idDifficultyRoutine", referencedColumnName = "idDifficultyRoutine")
+    private DifficultyRoutine difficultyRoutine;
 
     @Column(name = "isDeleted")
     private Long isDeleted;
@@ -45,16 +41,13 @@ public class Routine {
     public Routine() {
     }
 
-    public Routine(Date createdAt, Long createdByUser, Date date, Long idRoutine, Long idUser, Long isDeleted, String name, Date updatedAt, Long updatedByUser) {
-        this.createdAt = createdAt;
-        this.createdByUser = createdByUser;
+    public Routine(Date date, DifficultyRoutine difficultyRoutine, Long idRoutine, Long isDeleted, String name, User user) {
         this.date = date;
+        this.difficultyRoutine = difficultyRoutine;
         this.idRoutine = idRoutine;
-        this.idUser = idUser;
         this.isDeleted = isDeleted;
         this.name = name;
-        this.updatedAt = updatedAt;
-        this.updatedByUser = updatedByUser;
+        this.user = user;
     }
 
     public Long getIdRoutine() {
@@ -81,44 +74,20 @@ public class Routine {
         this.date = date;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getCreatedByUser() {
-        return createdByUser;
+    public DifficultyRoutine getDifficultyRoutine() {
+        return difficultyRoutine;
     }
 
-    public void setCreatedByUser(Long createdByUser) {
-        this.createdByUser = createdByUser;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Long getUpdatedByUser() {
-        return updatedByUser;
-    }
-
-    public void setUpdatedByUser(Long updatedByUser) {
-        this.updatedByUser = updatedByUser;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setDifficultyRoutine(DifficultyRoutine difficultyRoutine) {
+        this.difficultyRoutine = difficultyRoutine;
     }
 
     public Long getIsDeleted() {
@@ -128,4 +97,5 @@ public class Routine {
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
     }
+
 }

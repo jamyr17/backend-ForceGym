@@ -4,9 +4,12 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,11 +21,13 @@ public class RoutineAssignment {
     @Column(name = "idRoutineAssignment")
     private Long idRoutineAssignment;
 
-    @Column(name = "idRoutine")
-    private Long idRoutine;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idRoutine", referencedColumnName = "idRoutine")
+    private Routine routine;
 
-    @Column(name = "idClient")
-    private Long idClient;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idClient", referencedColumnName = "idClient")
+    private Client client;
 
     @Column(name = "assignmentDate")
     private Date assignmentDate;
@@ -30,11 +35,11 @@ public class RoutineAssignment {
     public RoutineAssignment() {
     }
 
-    public RoutineAssignment(Date assignmentDate, Long idClient, Long idRoutine, Long idRoutineAssignment) {
+    public RoutineAssignment(Date assignmentDate, Client client, Long idRoutineAssignment, Routine routine) {
         this.assignmentDate = assignmentDate;
-        this.idClient = idClient;
-        this.idRoutine = idRoutine;
+        this.client = client;
         this.idRoutineAssignment = idRoutineAssignment;
+        this.routine = routine;
     }
 
     public Long getIdRoutineAssignment() {
@@ -45,20 +50,20 @@ public class RoutineAssignment {
         this.idRoutineAssignment = idRoutineAssignment;
     }
 
-    public Long getIdRoutine() {
-        return idRoutine;
+    public Routine getRoutine() {
+        return routine;
     }
 
-    public void setIdRoutine(Long idRoutine) {
-        this.idRoutine = idRoutine;
+    public void setRoutine(Routine routine) {
+        this.routine = routine;
     }
 
-    public Long getIdClient() {
-        return idClient;
+    public Client getClient() {
+        return client;
     }
 
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Date getAssignmentDate() {
@@ -68,4 +73,5 @@ public class RoutineAssignment {
     public void setAssignmentDate(Date assignmentDate) {
         this.assignmentDate = assignmentDate;
     }
+
 }

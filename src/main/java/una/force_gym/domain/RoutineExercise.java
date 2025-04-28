@@ -2,9 +2,12 @@ package una.force_gym.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,11 +19,16 @@ public class RoutineExercise {
     @Column(name = "idRoutineExercise")
     private Long idRoutineExercise;
 
-    @Column(name = "idRoutine")
-    private Long idRoutine;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idRoutine", referencedColumnName = "idRoutine")
+    private Routine routine;
 
-    @Column(name = "idExercise")
-    private Long idExercise;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idExercise", referencedColumnName = "idExercise")
+    private Exercise exercise;
+
+    @Column(name = "orderNumber")
+    private Integer orderNumber;
 
     @Column(name = "series")
     private Integer series;
@@ -31,11 +39,12 @@ public class RoutineExercise {
     public RoutineExercise() {
     }
 
-    public RoutineExercise(Long idExercise, Long idRoutine, Long idRoutineExercise, Integer repetitions, Integer series) {
-        this.idExercise = idExercise;
-        this.idRoutine = idRoutine;
+    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer orderNumber, Integer repetitions, Routine routine, Integer series) {
+        this.exercise = exercise;
         this.idRoutineExercise = idRoutineExercise;
+        this.orderNumber = orderNumber;
         this.repetitions = repetitions;
+        this.routine = routine;
         this.series = series;
     }
 
@@ -47,20 +56,28 @@ public class RoutineExercise {
         this.idRoutineExercise = idRoutineExercise;
     }
 
-    public Long getIdRoutine() {
-        return idRoutine;
+    public Routine getRoutine() {
+        return routine;
     }
 
-    public void setIdRoutine(Long idRoutine) {
-        this.idRoutine = idRoutine;
+    public void setRoutine(Routine routine) {
+        this.routine = routine;
     }
 
-    public Long getIdExercise() {
-        return idExercise;
+    public Exercise getExercise() {
+        return exercise;
     }
 
-    public void setIdExercise(Long idExercise) {
-        this.idExercise = idExercise;
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public Integer getSeries() {
@@ -78,4 +95,5 @@ public class RoutineExercise {
     public void setRepetitions(Integer repetitions) {
         this.repetitions = repetitions;
     }
+
 }
