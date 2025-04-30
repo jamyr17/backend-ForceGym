@@ -4,24 +4,24 @@ import java.util.List;
 
 public class RoutineExerciseDTO {
 
-    private List<Long> idExercise;
+    private Long idExercise;
     private Integer series;
     private Integer repetitions;
 
     public RoutineExerciseDTO() {
     }
 
-    public RoutineExerciseDTO(List<Long> idExercise, Integer repetitions, Integer series) {
+    public RoutineExerciseDTO(Long idExercise, Integer repetitions, Integer series) {
         this.idExercise = idExercise;
         this.repetitions = repetitions;
         this.series = series;
     }
 
-    public List<Long> getIdExercise() {
+    public Long getIdExercise() {
         return idExercise;
     }
 
-    public void setIdExercise(List<Long> idExercise) {
+    public void setIdExercise(Long idExercise) {
         this.idExercise = idExercise;
     }
 

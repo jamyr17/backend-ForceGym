@@ -2,7 +2,9 @@ package una.force_gym.domain;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,6 +44,12 @@ public class Routine {
     @Column(name = "createdAt", nullable = false)
     private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<RoutineAssignment> assignments;
+
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<RoutineExercise> exercises;
+
     @Column(name = "updatedByUser")
     private Long updatedByUser;
 
@@ -66,6 +75,20 @@ public class Routine {
         this.createdByUser = createdByUser;
         this.date = date;
         this.difficultyRoutine = difficultyRoutine;
+        this.idRoutine = idRoutine;
+        this.isDeleted = isDeleted;
+        this.name = name;
+        this.updatedAt = updatedAt;
+        this.updatedByUser = updatedByUser;
+        this.user = user;
+    }
+
+    public Routine(List<RoutineAssignment> assignments, Long createdByUser, Date date, DifficultyRoutine difficultyRoutine, List<RoutineExercise> exercises, Long idRoutine, Long isDeleted, String name, Timestamp updatedAt, Long updatedByUser, User user) {
+        this.assignments = assignments;
+        this.createdByUser = createdByUser;
+        this.date = date;
+        this.difficultyRoutine = difficultyRoutine;
+        this.exercises = exercises;
         this.idRoutine = idRoutine;
         this.isDeleted = isDeleted;
         this.name = name;
@@ -152,6 +175,22 @@ public class Routine {
 
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public List<RoutineAssignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<RoutineAssignment> assignments) {
+        this.assignments = assignments;
+    }
+
+    public List<RoutineExercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<RoutineExercise> exercises) {
+        this.exercises = exercises;
     }
 
 }

@@ -13,7 +13,7 @@ public class RoutineDTO {
     private Date date;
     private Long createdByUser;
     private Long isDeleted;
-    private DifficultyRoutine DifficultyRoutine;
+    private DifficultyRoutine difficultyRoutine;
     private List<RoutineExerciseDTO> exercises;
     private List<RoutineAssignmentDTO> assignments;
     private Long paramLoggedIdUser;
@@ -21,11 +21,11 @@ public class RoutineDTO {
     public RoutineDTO() {
     }
 
-    public RoutineDTO(DifficultyRoutine DifficultyRoutine, List<RoutineAssignmentDTO> assignments, Long createdByUser, Date date, List<RoutineExerciseDTO> exercises, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
-        this.DifficultyRoutine = DifficultyRoutine;
+    public RoutineDTO(List<RoutineAssignmentDTO> assignments, Long createdByUser, Date date, DifficultyRoutine difficultyRoutine, List<RoutineExerciseDTO> exercises, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
         this.assignments = assignments;
         this.createdByUser = createdByUser;
         this.date = date;
+        this.difficultyRoutine = difficultyRoutine;
         this.exercises = exercises;
         this.idRoutine = idRoutine;
         this.idUser = idUser;
@@ -83,11 +83,11 @@ public class RoutineDTO {
     }
 
     public DifficultyRoutine getDifficultyRoutine() {
-        return DifficultyRoutine;
+        return difficultyRoutine;
     }
 
-    public void setDifficultyRoutine(DifficultyRoutine DifficultyRoutine) {
-        this.DifficultyRoutine = DifficultyRoutine;
+    public void setDifficultyRoutine(DifficultyRoutine difficultyRoutine) {
+        this.difficultyRoutine = difficultyRoutine;
     }
 
     public List<RoutineExerciseDTO> getExercises() {
@@ -113,5 +113,4 @@ public class RoutineDTO {
     public void setParamLoggedIdUser(Long paramLoggedIdUser) {
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
-
 }

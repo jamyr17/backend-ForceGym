@@ -10,12 +10,15 @@ import java.util.List;
 
 public interface RoutineAssignmentRepository extends JpaRepository<RoutineAssignment, Long> {
 
-    // Obtener asignaciones por cliente
-    List<RoutineAssignment> findByClient_IdClient(Long idClient);
+    List<RoutineAssignment> findByRoutine_IdRoutine(Long routineId);
 
-    // Eliminar todas las asignaciones de una rutina
     @Transactional
     @Modifying
-    @Query("DELETE FROM RoutineAssignment ra WHERE ra.routine.idRoutine = :idRoutine")
-    void deleteByRoutineId(Long idRoutine);
+    @Query("DELETE FROM RoutineAssignment ra WHERE ra.routine.idRoutine = :routineId")
+    void deleteByRoutineId(Long routineId);
+
+    // Para verificar si un cliente ya tiene asignada una rutina activa
+    boolean existsByClient_IdClientAndRoutine_IsDeleted(Long clientId, Long isDeleted);
+
+    List<RoutineAssignment> findByClient_IdClient(Long clientId);
 }
