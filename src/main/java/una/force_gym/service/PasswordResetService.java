@@ -84,12 +84,12 @@ public class PasswordResetService {
         // Email con advertencia de seguridad
         String content = """
             <p>Se ha solicitado un restablecimiento de contraseña para tu cuenta.</p>
-            <p><a href='%s'>Restablecer contraseña</a></p>
             <p><strong>Advertencia de seguridad:</strong> Este enlace expirará en 30 minutos y solo es válido desde tu dispositivo habitual.</p>
             <p>Si no reconoces esta solicitud, por favor ignora este mensaje.</p>
+            <div class="button-container"> <p class="button"><a href='%s'>Restablecer contraseña</a></p> </div>
             """.formatted(resetUrl);
         
-        emailService.sendEmail(emails, "Restablecimiento de contraseña", content, true);
+        emailService.sendEmail(emails, "Restablecimiento de contraseña", content);
     }
 
     private String buildResetUrl(String token, HttpServletRequest request) {

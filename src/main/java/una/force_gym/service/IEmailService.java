@@ -2,6 +2,6 @@ package una.force_gym.service;
 
 public interface IEmailService {
 
-    void sendEmail(String[] toUsers, String subject, String message, Boolean isHtml);
+    void sendEmail(String[] toUsers, String subject, String message);
     
 }

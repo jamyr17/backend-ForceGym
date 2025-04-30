@@ -1,5 +1,6 @@
 package una.force_gym.service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,19 +14,20 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
-import una.force_gym.domain.ProductInventory;
-import una.force_gym.repository.ProductInventoryRepository;
+import una.force_gym.domain.Asset;
+import una.force_gym.repository.AssetRepository;
+import una.force_gym.util.StraightLineDeprecation;
 
 @Service
-public class ProductInventoryService {
+public class AssetService {
 
     @Autowired
-    private ProductInventoryRepository productInventoryRepo;
+    private AssetRepository assetRepo;
     
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Map<String, Object> getProductsInventory(
+    public Map<String, Object> getAssets(
         int page, 
         int size, int searchType, 
         String searchTerm, 
@@ -38,7 +40,7 @@ public class ProductInventoryService {
         Long filterByQuantityRangeMax
     ) {
             
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetProductInventory", ProductInventory.class);
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetAsset", Asset.class);
         
         // Parámetros de entrada
         query.registerStoredProcedureParameter("p_page", Integer.class, ParameterMode.IN);
@@ -74,33 +76,38 @@ public class ProductInventoryService {
 
         // Obtener los resultados
         List<?> rawResults = query.getResultList();
-        List<ProductInventory> products = rawResults.stream()
-            .filter(ProductInventory.class::isInstance) 
-            .map(ProductInventory.class::cast)         
+        List<Asset> assets = rawResults.stream()
+            .filter(Asset.class::isInstance) 
+            .map(Asset.class::cast)         
             .collect(Collectors.toList());
         Integer totalRecords = (Integer) query.getOutputParameterValue("p_totalRecords");
 
         // Mapear respuesta
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("products", products);
+        responseData.put("assets", assets);
         responseData.put("totalRecords", totalRecords);
         
         return responseData;
     }
 
     @Transactional
-    public int addProductInventory(Long pIdUser, String code, String name, int quantity, Float cost, Long pLoggedIdUser){
-        return productInventoryRepo.addProductInventory(pIdUser, code, name, quantity, cost, pLoggedIdUser);
+    public int addAsset(Long pIdUser, LocalDate boughtDate, String code, String name, int quantity, Float initialCost, int serviceLifeYears, Long pLoggedIdUser){
+        Float deprecationPerYear = StraightLineDeprecation.calculate(initialCost, serviceLifeYears);
+
+
+        return assetRepo.addAsset(pIdUser, boughtDate, code, name, quantity, initialCost, serviceLifeYears, deprecationPerYear, pLoggedIdUser);
     }
 
     @Transactional
-    public int updateProductInventory(Long pIdProductInventory, Long pIdUser, String code, String name, int quantity, Float cost, Long pIsDeleted, Long pLoggedIdUser){
-        return productInventoryRepo.updateProductInventory(pIdProductInventory, pIdUser, code, name, quantity, cost, pIsDeleted, pLoggedIdUser);
+    public int updateAsset(Long pIdAsset, Long pIdUser, LocalDate boughtDate, String code, String name, int quantity, Float initialCost, int serviceLifeYears, Long pIsDeleted, Long pLoggedIdUser){
+        Float deprecationPerYear = StraightLineDeprecation.calculate(initialCost, serviceLifeYears);
+
+        return assetRepo.updateAsset(pIdAsset, pIdUser, boughtDate, code, name, quantity, initialCost, serviceLifeYears, deprecationPerYear, pIsDeleted, pLoggedIdUser);
     }
 
     @Transactional
-    public int deleteProductInventory(Long pIdProductInventory, Long pLoggedIdUser){
-        return productInventoryRepo.deleteProductInventory(pIdProductInventory, pLoggedIdUser);
+    public int deleteAsset(Long pIdAsset, Long pLoggedIdUser){
+        return assetRepo.deleteAsset(pIdAsset, pLoggedIdUser);
     }
     
 }
