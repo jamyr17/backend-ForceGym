@@ -1,25 +1,27 @@
 package una.force_gym.dto;
 
+import java.util.List;
+
 public class RoutineExerciseDTO {
 
-    private Long idExercise;
+    private List<Long> idExercise;
     private Integer series;
     private Integer repetitions;
 
     public RoutineExerciseDTO() {
     }
 
-    public RoutineExerciseDTO(Long idExercise, Integer repetitions, Integer series) {
+    public RoutineExerciseDTO(List<Long> idExercise, Integer repetitions, Integer series) {
         this.idExercise = idExercise;
         this.repetitions = repetitions;
         this.series = series;
     }
 
-    public Long getIdExercise() {
+    public List<Long> getIdExercise() {
         return idExercise;
     }
 
-    public void setIdExercise(Long idExercise) {
+    public void setIdExercise(List<Long> idExercise) {
         this.idExercise = idExercise;
     }
 

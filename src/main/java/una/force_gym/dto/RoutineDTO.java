@@ -3,15 +3,17 @@ package una.force_gym.dto;
 import java.util.Date;
 import java.util.List;
 
+import una.force_gym.domain.DifficultyRoutine;
+
 public class RoutineDTO {
 
     private Long idRoutine;
     private Long idUser;
-    private Long idDifficultyRoutine;
     private String name;
     private Date date;
     private Long createdByUser;
     private Long isDeleted;
+    private DifficultyRoutine DifficultyRoutine;
     private List<RoutineExerciseDTO> exercises;
     private List<RoutineAssignmentDTO> assignments;
     private Long paramLoggedIdUser;
@@ -19,12 +21,12 @@ public class RoutineDTO {
     public RoutineDTO() {
     }
 
-    public RoutineDTO(List<RoutineAssignmentDTO> assignments, Long createdByUser, Date date, List<RoutineExerciseDTO> exercises, Long idDifficultyRoutine, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
+    public RoutineDTO(DifficultyRoutine DifficultyRoutine, List<RoutineAssignmentDTO> assignments, Long createdByUser, Date date, List<RoutineExerciseDTO> exercises, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
+        this.DifficultyRoutine = DifficultyRoutine;
         this.assignments = assignments;
         this.createdByUser = createdByUser;
         this.date = date;
         this.exercises = exercises;
-        this.idDifficultyRoutine = idDifficultyRoutine;
         this.idRoutine = idRoutine;
         this.idUser = idUser;
         this.isDeleted = isDeleted;
@@ -38,6 +40,14 @@ public class RoutineDTO {
 
     public void setIdRoutine(Long idRoutine) {
         this.idRoutine = idRoutine;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public String getName() {
@@ -56,22 +66,6 @@ public class RoutineDTO {
         this.date = date;
     }
 
-    public Long getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
-    }
-
-    public Long getIdDifficultyRoutine() {
-        return idDifficultyRoutine;
-    }
-
-    public void setIdDifficultyRoutine(Long idDifficultyRoutine) {
-        this.idDifficultyRoutine = idDifficultyRoutine;
-    }
-
     public Long getCreatedByUser() {
         return createdByUser;
     }
@@ -86,6 +80,14 @@ public class RoutineDTO {
 
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public DifficultyRoutine getDifficultyRoutine() {
+        return DifficultyRoutine;
+    }
+
+    public void setDifficultyRoutine(DifficultyRoutine DifficultyRoutine) {
+        this.DifficultyRoutine = DifficultyRoutine;
     }
 
     public List<RoutineExerciseDTO> getExercises() {
@@ -111,4 +113,5 @@ public class RoutineDTO {
     public void setParamLoggedIdUser(Long paramLoggedIdUser) {
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
+
 }

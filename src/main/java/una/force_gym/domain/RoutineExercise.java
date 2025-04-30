@@ -2,7 +2,6 @@ package una.force_gym.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,16 +18,13 @@ public class RoutineExercise {
     @Column(name = "idRoutineExercise")
     private Long idRoutineExercise;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "idRoutine", referencedColumnName = "idRoutine")
     private Routine routine;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "idExercise", referencedColumnName = "idExercise")
     private Exercise exercise;
-
-    @Column(name = "orderNumber")
-    private Integer orderNumber;
 
     @Column(name = "series")
     private Integer series;
@@ -39,10 +35,9 @@ public class RoutineExercise {
     public RoutineExercise() {
     }
 
-    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer orderNumber, Integer repetitions, Routine routine, Integer series) {
+    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer repetitions, Routine routine, Integer series) {
         this.exercise = exercise;
         this.idRoutineExercise = idRoutineExercise;
-        this.orderNumber = orderNumber;
         this.repetitions = repetitions;
         this.routine = routine;
         this.series = series;
@@ -70,14 +65,6 @@ public class RoutineExercise {
 
     public void setExercise(Exercise exercise) {
         this.exercise = exercise;
-    }
-
-    public Integer getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public Integer getSeries() {

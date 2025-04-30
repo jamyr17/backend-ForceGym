@@ -1,5 +1,6 @@
 package una.force_gym.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -31,9 +32,20 @@ public class Routine {
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idDifficultyRoutine", referencedColumnName = "idDifficultyRoutine")
     private DifficultyRoutine difficultyRoutine;
+    @Column(name = "createdByUser", nullable = false)
+    private Long createdByUser;
+
+    @Column(name = "createdAt", nullable = false)
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+
+    @Column(name = "updatedByUser")
+    private Long updatedByUser;
+
+    @Column(name = "updatedAt")
+    private Timestamp updatedAt;
 
     @Column(name = "isDeleted")
     private Long isDeleted;
@@ -47,6 +59,18 @@ public class Routine {
         this.idRoutine = idRoutine;
         this.isDeleted = isDeleted;
         this.name = name;
+        this.user = user;
+    }
+
+    public Routine(Long createdByUser, Date date, DifficultyRoutine difficultyRoutine, Long idRoutine, Long isDeleted, String name, Timestamp updatedAt, Long updatedByUser, User user) {
+        this.createdByUser = createdByUser;
+        this.date = date;
+        this.difficultyRoutine = difficultyRoutine;
+        this.idRoutine = idRoutine;
+        this.isDeleted = isDeleted;
+        this.name = name;
+        this.updatedAt = updatedAt;
+        this.updatedByUser = updatedByUser;
         this.user = user;
     }
 
@@ -88,6 +112,38 @@ public class Routine {
 
     public void setDifficultyRoutine(DifficultyRoutine difficultyRoutine) {
         this.difficultyRoutine = difficultyRoutine;
+    }
+
+    public Long getCreatedByUser() {
+        return createdByUser;
+    }
+
+    public void setCreatedByUser(Long createdByUser) {
+        this.createdByUser = createdByUser;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Long getUpdatedByUser() {
+        return updatedByUser;
+    }
+
+    public void setUpdatedByUser(Long updatedByUser) {
+        this.updatedByUser = updatedByUser;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Long getIsDeleted() {
