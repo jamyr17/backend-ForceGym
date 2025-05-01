@@ -9,9 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import una.force_gym.domain.*;
-import una.force_gym.dto.*;
-import una.force_gym.repository.*;
+import una.force_gym.domain.DifficultyRoutine;
+import una.force_gym.domain.Exercise;
+import una.force_gym.domain.Routine;
+import una.force_gym.domain.RoutineAssignment;
+import una.force_gym.domain.RoutineExercise;
+import una.force_gym.domain.User;
+import una.force_gym.dto.RoutineAssignmentDTO;
+import una.force_gym.dto.RoutineExerciseDTO;
+import una.force_gym.dto.RoutineWithExercisesDTO;
+import una.force_gym.repository.ClientRepository;
+import una.force_gym.repository.DifficultyRoutineRepository;
+import una.force_gym.repository.ExerciseRepository;
+import una.force_gym.repository.RoutineAssignmentRepository;
+import una.force_gym.repository.RoutineExerciseRepository;
+import una.force_gym.repository.RoutineRepository;
+import una.force_gym.repository.UserRepository;
 
 @Service
 public class RoutineService {
@@ -59,31 +72,55 @@ public class RoutineService {
 
     @Transactional
     public RoutineWithExercisesDTO updateWithExercisesAndClients(RoutineWithExercisesDTO dto) {
+        if (dto.getIdRoutine() == null) {
+            throw new RuntimeException("Se requiere ID de rutina para actualización");
+        }
+
         validateRoutineDTO(dto);
 
         Routine routine = routineRepository.findById(dto.getIdRoutine())
                 .orElseThrow(() -> new RuntimeException("Rutina no encontrada con ID: " + dto.getIdRoutine()));
 
-        if (routineRepository.existsByNameAndUser_IdUserAndIsDeletedAndIdRoutineNot(
-                dto.getName(),
-                dto.getIdUser(),
-                0L,
-                dto.getIdRoutine())) {
-            throw new RuntimeException("Ya existe una rutina con el nombre '" + dto.getName() + "' para este usuario");
+        if (!routine.getName().equals(dto.getName())) {
+            if (routineRepository.existsByNameAndUser_IdUserAndIsDeleted(dto.getName(), dto.getIdUser(), 0L)) {
+                throw new RuntimeException("Ya existe una rutina con el nombre '" + dto.getName() + "' para este usuario");
+            }
         }
 
         updateRoutineFromDTO(routine, dto);
         Routine updatedRoutine = routineRepository.save(routine);
 
-        routineExerciseRepository.deleteByRoutineId(updatedRoutine.getIdRoutine());
-        saveRoutineExercises(updatedRoutine, dto.getExercises());
-
-        routineAssignmentRepository.deleteByRoutineId(updatedRoutine.getIdRoutine());
-        if (dto.getAssignments() != null && !dto.getAssignments().isEmpty()) {
-            saveRoutineAssignments(updatedRoutine, dto.getAssignments());
-        }
+        updateRoutineRelations(updatedRoutine, dto);
 
         return mapRoutineToDTO(updatedRoutine);
+    }
+
+    private void updateRoutineFromDTO(Routine routine, RoutineWithExercisesDTO dto) {
+        routine.setName(dto.getName());
+        routine.setDate(dto.getDate());
+
+        User user = userRepository.findById(dto.getIdUser())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getIdUser()));
+        routine.setUser(user);
+
+        DifficultyRoutine difficulty = difficultyRoutineRepository.findById(dto.getDifficultyRoutine().getIdDifficultyRoutine())
+                .orElseThrow(() -> new RuntimeException("Dificultad no encontrada con ID: " + dto.getDifficultyRoutine().getIdDifficultyRoutine()));
+        routine.setDifficultyRoutine(difficulty);
+
+        routine.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        routine.setUpdatedByUser(dto.getIdUser());
+    }
+
+    private void updateRoutineRelations(Routine routine, RoutineWithExercisesDTO dto) {
+        // Eliminar y recrear ejercicios
+        routineExerciseRepository.deleteByRoutineId(routine.getIdRoutine());
+        saveRoutineExercises(routine, dto.getExercises());
+
+        // Eliminar y recrear asignaciones
+        routineAssignmentRepository.deleteByRoutineId(routine.getIdRoutine());
+        if (dto.getAssignments() != null && !dto.getAssignments().isEmpty()) {
+            saveRoutineAssignments(routine, dto.getAssignments());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -163,23 +200,6 @@ public class RoutineService {
         routine.setDifficultyRoutine(difficulty);
 
         return routine;
-    }
-
-    private void updateRoutineFromDTO(Routine routine, RoutineWithExercisesDTO dto) {
-        routine.setName(dto.getName());
-        routine.setDate(dto.getDate());
-
-        if (!routine.getUser().getIdUser().equals(dto.getIdUser())) {
-            User user = userRepository.findById(dto.getIdUser())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getIdUser()));
-            routine.setUser(user);
-        }
-
-        if (!routine.getDifficultyRoutine().getIdDifficultyRoutine().equals(dto.getDifficultyRoutine().getIdDifficultyRoutine())) {
-            DifficultyRoutine difficulty = difficultyRoutineRepository.findById(dto.getDifficultyRoutine().getIdDifficultyRoutine())
-                    .orElseThrow(() -> new RuntimeException("Dificultad no encontrada con ID: " + dto.getDifficultyRoutine().getIdDifficultyRoutine()));
-            routine.setDifficultyRoutine(difficulty);
-        }
     }
 
     private void saveRoutineExercises(Routine routine, List<RoutineExerciseDTO> exerciseDTOs) {
