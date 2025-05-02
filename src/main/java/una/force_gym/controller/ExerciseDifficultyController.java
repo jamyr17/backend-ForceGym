@@ -23,7 +23,7 @@ public class ExerciseDifficultyController {
     @GetMapping("/list")
     public ResponseEntity<ApiResponse<List<ExerciseDifficulty>>> getExercisesDifficulties() {
         try {
-            List<ExerciseDifficulty> roles = ExerciseDifficultyService.getExercisesDifficulties();
+            List<ExerciseDifficulty> roles = exerciseDifficultyService.getExercisesDifficulties();
             ApiResponse<List<ExerciseDifficulty>> response = new ApiResponse<>("Dificultades obtenidas correctamente.", roles);
             return new ResponseEntity<>(response, HttpStatus.OK); 
 

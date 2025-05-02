@@ -6,43 +6,42 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbExerciseCategory")
+@Table(name = "tbExerciseDifficulty")
 public class ExerciseDifficulty {
 
     @Id
-    @Column(name = "idExerciseCategory")
-    private Integer idExerciseCategory;
+    @Column(name = "idExerciseDifficulty")
+    private Integer idExerciseDifficulty;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "difficulty")
+    private String difficulty;
 
     @Column(name = "isDeleted")
     private Long isDeleted;
 
-    public ExerciseCategory() {
+    public ExerciseDifficulty() {
     }
 
-    public ExerciseCategory(Integer idExerciseCategory, String name, Long isDeleted) {
-        this.idExerciseCategory = idExerciseCategory;
-        this.name = name;
+    public ExerciseDifficulty(Integer idExerciseDifficulty, String difficulty, Long isDeleted) {
+        this.idExerciseDifficulty = idExerciseDifficulty;
+        this.difficulty = difficulty;
         this.isDeleted = isDeleted;
-
     }
 
-    public Integer getIdExerciseCategory() {
-        return idExerciseCategory;
+    public Integer getIdExerciseDifficulty() {
+        return idExerciseDifficulty;
     }
 
-    public void setIdExerciseCategory(Integer idExerciseCategory) {
-        this.idExerciseCategory = idExerciseCategory;
+    public void setIdExerciseDifficulty(Integer idExerciseDifficulty) {
+        this.idExerciseDifficulty = idExerciseDifficulty;
     }
 
-    public String getName() {
-        return name;
+    public String getDifficulty() {
+        return difficulty;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Long getIsDeleted() {
