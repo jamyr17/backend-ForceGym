@@ -10,7 +10,7 @@ import una.force_gym.domain.Exercise;
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
-    @Procedure(procedureName = "prGetExercise")
+    @Procedure(procedureName = "prGetAllExercise")
     List<Exercise> getAllExercises();
 
     @Procedure(procedureName = "prInsertExercise", outputParameterName = "result")
@@ -23,16 +23,15 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     );
 
     @Procedure(procedureName = "prUpdateExercise", outputParameterName = "result")
-                int updateExercise(
-                @Param("pIdExercise") int idExercise,
-                @Param("pName") String name,
-                @Param("pDescription") String description,
-                @Param("pDifficulty") String difficulty,
-                @Param("pIdExerciseCategory") Long idExerciseCategory,
-                @Param("pIsDeleted") Long isDeleted,
-                @Param("pLoggedIdUser") Long loggedIdUser
-        );
-
+    int updateExercise(
+            @Param("pIdExercise") int idExercise,
+            @Param("pName") String name,
+            @Param("pDescription") String description,
+            @Param("pDifficulty") String difficulty,
+            @Param("pIdExerciseCategory") Long idExerciseCategory,
+            @Param("pIsDeleted") Long isDeleted,
+            @Param("pLoggedIdUser") Long loggedIdUser
+    );
 
     @Procedure(procedureName = "prDeleteExercise", outputParameterName = "result")
     int deleteExercise(
