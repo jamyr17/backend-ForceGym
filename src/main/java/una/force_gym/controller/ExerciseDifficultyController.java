@@ -1,4 +1,4 @@
-gpackage una.force_gym.controller;
+package una.force_gym.controller;
 
 import java.util.List;
 import java.util.Map;
