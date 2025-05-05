@@ -95,15 +95,15 @@ public class UserService {
     }
 
     @Transactional
-    public int addUser(Long pIdRole, String pName, String pFirstLastName, String pSecondLastName, LocalDate pBirthday, String pIdentificationNumber, String pPhoneNumber, String pEmail, String pGender, String pUsername, String pPassword, Long pLoggedIdUser){
+    public int addUser(Long pIdRole, String pName, String pFirstLastName, String pSecondLastName, LocalDate pBirthday, String pIdentificationNumber, String pPhoneNumber, String pEmail, Long pIdGender, String pUsername, String pPassword, Long pLoggedIdUser){
         String encodedPassword = (pPassword != null) ? passwordEncoder.encode(pPassword) : null;
-        return userRepo.addUser(pIdRole, pName, pFirstLastName, pSecondLastName, pBirthday, pIdentificationNumber, pPhoneNumber, pEmail, pGender, pUsername, encodedPassword, pLoggedIdUser);
+        return userRepo.addUser(pIdRole, pName, pFirstLastName, pSecondLastName, pBirthday, pIdentificationNumber, pPhoneNumber, pEmail, pIdGender, pUsername, encodedPassword, pLoggedIdUser);
     }
 
     @Transactional
-    public int updateUser(Long pIdUser, Long pIdRole, Long pIdPerson, String pName, String pFirstLastName, String pSecondLastName, LocalDate pBirthday, String pIdentificationNumber, String pPhoneNumber, String pEmail, String pGender, String pUsername, String pPassword, Long pIsDeleted, Long pLoggedIdUser){
+    public int updateUser(Long pIdUser, Long pIdRole, Long pIdPerson, String pName, String pFirstLastName, String pSecondLastName, LocalDate pBirthday, String pIdentificationNumber, String pPhoneNumber, String pEmail, Long pIdGender, String pUsername, String pPassword, Long pIsDeleted, Long pLoggedIdUser){
         String encodedPassword = (pPassword != null) ? passwordEncoder.encode(pPassword) : null;
-        return userRepo.updateUser(pIdUser, pIdRole, pIdPerson, pName, pFirstLastName, pSecondLastName, pBirthday, pIdentificationNumber, pPhoneNumber, pEmail, pGender, pUsername, encodedPassword, pIsDeleted, pLoggedIdUser);
+        return userRepo.updateUser(pIdUser, pIdRole, pIdPerson, pName, pFirstLastName, pSecondLastName, pBirthday, pIdentificationNumber, pPhoneNumber, pEmail, pIdGender, pUsername, encodedPassword, pIsDeleted, pLoggedIdUser);
     }
 
     @Transactional
@@ -127,6 +127,13 @@ public class UserService {
         User user = userRepo.findByUsernameAndIsDeleted(username, Long.valueOf(0))
                 .orElseThrow(() -> new AppException("Usuario inválido", HttpStatus.NOT_FOUND));
         return userMapper.toUserDTO(user);
+    }
+
+    @Transactional
+    public User findByEmail(String email) {
+        User user = userRepo.findByPersonEmailAndIsDeleted(email, Long.valueOf(0))
+                .orElseThrow(() -> new AppException("Usuario inválido", HttpStatus.NOT_FOUND));
+        return user;
     }
 
 }

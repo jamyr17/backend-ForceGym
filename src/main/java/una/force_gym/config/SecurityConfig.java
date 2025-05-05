@@ -23,6 +23,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/recoveryPassword").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/validateResetToken").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/resetPassword").permitAll()
                         .anyRequest().authenticated()
                 );
 

@@ -37,7 +37,8 @@ public class EconomicIncomeService {
         Long filterByAmountRangeMax,
         LocalDate  filterByDateRangeStart,
         LocalDate  filterByDateRangeEnd,
-        int filterByMeanOfPayment
+        int filterByMeanOfPayment,
+        int filterByTypeClient
     ) {
             
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetEconomicIncome", EconomicIncome.class);
@@ -55,6 +56,7 @@ public class EconomicIncomeService {
         query.registerStoredProcedureParameter("p_filterByDateRangeStart", LocalDate.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByDateRangeEnd", LocalDate.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByMeanOfPayment", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByTypeClient", Integer.class, ParameterMode.IN);
 
         // Parámetro de salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
@@ -72,6 +74,7 @@ public class EconomicIncomeService {
         query.setParameter("p_filterByDateRangeStart", filterByDateRangeStart);
         query.setParameter("p_filterByDateRangeEnd", filterByDateRangeEnd);
         query.setParameter("p_filterByMeanOfPayment", filterByMeanOfPayment);
+        query.setParameter("p_filterByTypeClient", filterByTypeClient);
 
         // Ejecutar procedimiento
         query.execute();
@@ -93,14 +96,54 @@ public class EconomicIncomeService {
         return responseData;
     }
 
-    @Transactional
-    public int addEconomicIncome(Long pIdUser, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Float pAmount, Long pIdActivityType, Long pLoggedIdUser){
-        return economicIncomeRepo.addEconomicIncome(pIdUser, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pAmount, pIdActivityType, pLoggedIdUser);
+    public Map<String, Object> getAllEconomicIncomes(
+        String filterByStatus,
+        Long filterByAmountRangeMin,
+        Long filterByAmountRangeMax,
+        LocalDate  filterByDateRangeStart,
+        LocalDate  filterByDateRangeEnd,
+        int filterByMeanOfPayment
+    ) {
+            
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetAllEconomicIncomes", EconomicIncome.class);
+        
+        query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByAmountRangeMin", Float.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByAmountRangeMax", Float.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDateRangeStart", LocalDate.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDateRangeEnd", LocalDate.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByMeanOfPayment", Integer.class, ParameterMode.IN);
+        // Setear valores
+        query.setParameter("p_filterByStatus", filterByStatus);
+        query.setParameter("p_filterByAmountRangeMin", filterByAmountRangeMin);
+        query.setParameter("p_filterByAmountRangeMax", filterByAmountRangeMax);
+        query.setParameter("p_filterByDateRangeStart", filterByDateRangeStart);
+        query.setParameter("p_filterByDateRangeEnd", filterByDateRangeEnd);
+        query.setParameter("p_filterByMeanOfPayment", filterByMeanOfPayment);
+        // Ejecutar procedimiento
+        query.execute();
+
+        // Obtener los resultados
+        List<?> rawResults = query.getResultList();
+        List<EconomicIncome> incomes = rawResults.stream()
+            .filter(EconomicIncome.class::isInstance) 
+            .map(EconomicIncome.class::cast)         
+            .collect(Collectors.toList());
+
+        // Mapear respuesta
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("economicIncomes", incomes);        
+        return responseData;
     }
 
     @Transactional
-    public int updateEconomicIncome(Long pIdEconomicIncome, Long pIdUser, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Float pAmount, Long pIdActivityType, Long pIsDeleted, Long pLoggedIdUser){
-        return economicIncomeRepo.updateEconomicIncome(pIdEconomicIncome, pIdUser, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pAmount, pIdActivityType, pIsDeleted, pLoggedIdUser);
+    public int addEconomicIncome(Long pIdClient, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Float pAmount, Long pIdActivityType, Long pDelayDays, Long pLoggedIdUser){
+        return economicIncomeRepo.addEconomicIncome(pIdClient, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pAmount, pIdActivityType, pDelayDays, pLoggedIdUser);
+    }
+
+    @Transactional
+    public int updateEconomicIncome(Long pIdEconomicIncome, Long pIdClient, LocalDate pRegistrationDate, String pVoucherNumber, String pDetail, Long pIdMeanOfPayment, Float pAmount, Long pIdActivityType, Long pDelayDays, Long pIsDeleted, Long pLoggedIdUser){
+        return economicIncomeRepo.updateEconomicIncome(pIdEconomicIncome, pIdClient, pRegistrationDate, pVoucherNumber, pDetail, pIdMeanOfPayment, pAmount, pIdActivityType, pDelayDays, pIsDeleted, pLoggedIdUser);
     }
 
     @Transactional

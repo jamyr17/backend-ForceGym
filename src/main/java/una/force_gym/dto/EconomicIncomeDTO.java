@@ -5,29 +5,31 @@ import java.time.LocalDate;
 public class EconomicIncomeDTO {
 
     private Long idEconomicIncome;
-    private Long idUser;
+    private Long idClient;
     private LocalDate registrationDate;
     private String voucherNumber;
     private String detail;
     private Long idMeanOfPayment;
     private Float amount;
     private Long idActivityType;
+    private Long delayDays;
     private Long isDeleted;
     private Long paramLoggedIdUser;
 
     public EconomicIncomeDTO() {}
 
-    public EconomicIncomeDTO(Long idEconomicIncome, Long idUser, LocalDate registrationDate, String voucherNumber,
-            String detail, Long idMeanOfPayment, Float amount, Long idActivityType, Long isDeleted,
+    public EconomicIncomeDTO(Long idEconomicIncome, Long idClient, LocalDate registrationDate, String voucherNumber,
+            String detail, Long idMeanOfPayment, Float amount, Long idActivityType, Long delayDays, Long isDeleted,
             Long paramLoggedIdUser) {
         this.idEconomicIncome = idEconomicIncome;
-        this.idUser = idUser;
+        this.idClient = idClient;
         this.registrationDate = registrationDate;
         this.voucherNumber = voucherNumber;
         this.detail = detail;
         this.idMeanOfPayment = idMeanOfPayment;
         this.amount = amount;
         this.idActivityType = idActivityType;
+        this.delayDays = delayDays;
         this.isDeleted = isDeleted;
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
@@ -40,12 +42,12 @@ public class EconomicIncomeDTO {
         this.idEconomicIncome = idEconomicIncome;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getIdClient() {
+        return idClient;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setIdClient(Long idClient) {
+        this.idClient = idClient;
     }
 
     public LocalDate getRegistrationDate() {
@@ -94,6 +96,14 @@ public class EconomicIncomeDTO {
 
     public void setIdActivityType(Long idActivityType) {
         this.idActivityType = idActivityType;
+    }
+
+    public Long getDelayDays() {
+        return delayDays;
+    }
+
+    public void setDelayDays(Long delayDays) {
+        this.delayDays = delayDays;
     }
 
     public Long getIsDeleted() {

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${subject}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+        .logo-container {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .logo {
+            height: 100px;
+            width: auto;
+        }
+        .header {
+            font-size: 22px;
+            color: #CFAD04;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .subheader {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 30px 0 10px;
+            margin-bottom: 45px;
+            color: #333;
+            text-align: center;
+        }
+        .content {
+            font-size: 16px;
+            margin: 0 auto 15px; 
+            color: #555555;
+            line-height: 1.5;
+            text-align: left; 
+            width: 80%; 
+            padding: 0 20px;
+            box-sizing: border-box; 
+        }
+        .button-container{
+            justify-content: center;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #CFAD04;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: full;
+        }
+        .button a {
+            color: #000000;
+            text-decoration: none;
+        }
+        .divider {
+            border-top: 1px solid #eee;
+            margin: 20px auto;
+            width: 80%;
+        }
+        .footer {
+            margin-top: 25px;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .footer-links {
+            margin: 10px 0 15px;
+        }
+        .footer a {
+            color: #CFAD04;
+            text-decoration: underline;
+            margin: 0 10px;
+        }
+        .address {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="logo-container">
+            <img src="cid:Logo.webp" class="logo" alt="Force Gym Logo">
+        </div>
+        
+        <div class="subheader">${subject}</div>
+        
+        <div class="content">
+            ${message}
+        </div>
+
+        <div class="divider"/>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="https://www.instagram.com/forcegym_fullfitness/">Instagram</a>
+                <a href="https://wa.me/64616422">WhatsApp</a>
+                <a href="https://www.google.com/maps/place/Force+Gym+Full+Fitness/@10.3201048,-83.9138937,20z/data=!4m6!3m5!1s0x8fa0bd007bf09691:0xe3ff544b3ad323da!8m2!3d10.3202303!4d-83.9143917!16s%2Fg%2F11lm_t09ym?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D">Ver dirección</a>
+            </div>
+            <div class="address">
+                Copyright © 2025 Force Gym. Todos los derechos reservados.<br><br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

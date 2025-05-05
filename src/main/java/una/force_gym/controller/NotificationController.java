@@ -24,12 +24,12 @@ import una.force_gym.util.ApiResponse;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
-    
+
     @Autowired
     private NotificationService notificationService;
 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getNotifications( 
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getNotifications(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "1") int searchType,
@@ -37,42 +37,42 @@ public class NotificationController {
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String directionOrderBy,
             @RequestParam(defaultValue = "") String filterByStatus
-            )  {
+    ) {
         try {
             Map<String, Object> responseData = notificationService.getProductsInventory(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Notificaciones obtenidas correctamente.", responseData);
-            return new ResponseEntity<>(response, HttpStatus.OK); 
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (RuntimeException e) {
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ocurrió un error al solicitar los datos de las notificaciones.", null);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
-    
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addNotification(@RequestBody NotificationDTO notificationDTO) {
         int result = notificationService.addNotification(
-            notificationDTO.getIdUser(), 
-            notificationDTO.getIdNotificationTemplate(), 
-            notificationDTO.getSendDate(), 
-            notificationDTO.getParamLoggedIdUser()
+                notificationDTO.getIdClient(),
+                notificationDTO.getIdNotificationType()
         );
 
-        switch(result) {
-            case 1 -> 
-            { 
+        switch (result) {
+            case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Notificacion agregado correctamente.", null);
-                return new ResponseEntity<>(response, HttpStatus.OK); 
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
             // error de MySQL
-            case 0 -> throw new AppException("Ocurrió un error al agregar la nuevo notificacion.", HttpStatus.INTERNAL_SERVER_ERROR);
-            
+            case 0 ->
+                throw new AppException("Ocurrió un error al agregar la nuevo notificacion.", HttpStatus.INTERNAL_SERVER_ERROR);
+
             // no se encuentra el idUser
-            case -1 -> throw new AppException("No se pudo agregar la nueva notificacion debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
-            
-            default -> throw new AppException("Notificacion no agregada debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("No se pudo agregar la nueva notificacion debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            default ->
+                throw new AppException("Notificacion no agregada debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -80,54 +80,57 @@ public class NotificationController {
     @PutMapping("/update")
     public ResponseEntity<ApiResponse<String>> updateNotification(@RequestBody NotificationDTO notificationDTO) {
         int result = notificationService.updateNotification(
-            notificationDTO.getIdNotification(), 
-            notificationDTO.getIdUser(), 
-            notificationDTO.getIdNotificationTemplate(), 
-            notificationDTO.getSendDate(), 
-            notificationDTO.getIsDeleted(),
-            notificationDTO.getParamLoggedIdUser()
+                notificationDTO.getIdNotification(),
+                notificationDTO.getIdClient(),
+                notificationDTO.getIdNotificationType(),
+                notificationDTO.getIsDeleted()
         );
 
-        switch(result) {
-            case 1 -> 
-            { 
+        switch (result) {
+            case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Notificacion actualizado correctamente.", null);
-                return new ResponseEntity<>(response, HttpStatus.OK); 
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
             // error de MySQL
-            case 0 -> throw new AppException("Ocurrió un error al actualizar el notificacion.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al actualizar el notificacion.", HttpStatus.INTERNAL_SERVER_ERROR);
 
             // no se encuentra el idNotification
-            case -1 -> throw new AppException("No se pudo actualizar el notificacion debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("No se pudo actualizar el notificacion debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
 
             // no se encuentra el idUser
-            case -2 -> throw new AppException("No se pudo actualizar el notificacion debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
-            
-            default -> throw new AppException("Notificacion no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -2 ->
+                throw new AppException("No se pudo actualizar el notificacion debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            default ->
+                throw new AppException("Notificacion no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @DeleteMapping("/delete/{idNotification}")
     public ResponseEntity<ApiResponse<String>> deleteNotification(@PathVariable("idNotification") Long idNotification, @RequestBody ParamLoggedIdUserDTO paramLoggedIdUser) {
-        int result = notificationService.deleteNotification(idNotification, paramLoggedIdUser.getParamLoggedIdUser());
-       
-        switch(result) {
-            case 1 -> 
-            { 
+        int result = notificationService.deleteNotification(idNotification);
+
+        switch (result) {
+            case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Notificacion eliminado correctamente.", null);
-                return new ResponseEntity<>(response, HttpStatus.OK); 
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
             // error de MySQL
-            case 0 -> throw new AppException("Ocurrió un error al eliminar el notificacion.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al eliminar el notificacion.", HttpStatus.INTERNAL_SERVER_ERROR);
 
             // no se encuentra el idNotification
-            case -1 -> throw new AppException("No se pudo eliminar el notificacion debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("No se pudo eliminar el notificacion debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            default -> throw new AppException("Notificacion no eliminado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default ->
+                throw new AppException("Notificacion no eliminado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    } 
+    }
 }

@@ -1,5 +1,7 @@
 package una.force_gym.domain;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "tbClient")
@@ -37,8 +38,14 @@ public class Client {
     @Column(name = "registrationDate")
     private Date registrationDate;
 
-    @Column(name = "emergencyContact")
-    private String emergencyContact;
+    @Column(name = "expirationMembershipDate")
+    private Date expirationMembershipDate;
+
+    @Column(name = "phoneNumberContactEmergency")
+    private String phoneNumberContactEmergency;
+    
+    @Column(name = "nameEmergencyContact")
+    private String nameEmergencyContact;
 
     @Column(name = "signatureImage")
     private String signatureImage;
@@ -49,14 +56,17 @@ public class Client {
     public Client() {}
 
     public Client(Long idClient, Person person, TypeClient typeClient, HealthQuestionnaire healthQuestionnaire,
-                  User user, Date registrationDate, String emergencyContact, String signatureImage, Long isDeleted) {
+            User user, Date registrationDate, Date expirationMembershipDate, String phoneNumberContactEmergency,
+            String nameEmergencyContact, String signatureImage, Long isDeleted) {
         this.idClient = idClient;
         this.person = person;
         this.typeClient = typeClient;
         this.healthQuestionnaire = healthQuestionnaire;
         this.user = user;
         this.registrationDate = registrationDate;
-        this.emergencyContact = emergencyContact;
+        this.expirationMembershipDate = expirationMembershipDate;
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
+        this.nameEmergencyContact = nameEmergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
     }
@@ -109,12 +119,28 @@ public class Client {
         this.registrationDate = registrationDate;
     }
 
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public Date getExpirationMembershipDate() {
+        return expirationMembershipDate;
     }
 
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
+    public void setExpirationMembershipDate(Date expirationMembershipDate) {
+        this.expirationMembershipDate = expirationMembershipDate;
+    }
+
+    public String getPhoneNumberContactEmergency() {
+        return phoneNumberContactEmergency;
+    }
+
+    public void setPhoneNumberContactEmergency(String phoneNumberContactEmergency) {
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
+    }
+
+    public String getNameEmergencyContact() {
+        return nameEmergencyContact;
+    }
+
+    public void setNameEmergencyContact(String nameEmergencyContact) {
+        this.nameEmergencyContact = nameEmergencyContact;
     }
 
     public String getSignatureImage() {
@@ -132,4 +158,5 @@ public class Client {
     public void setIsDeleted(Long isDeleted) {
         this.isDeleted = isDeleted;
     }
+    
 }

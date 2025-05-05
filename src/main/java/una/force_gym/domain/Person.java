@@ -4,7 +4,10 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +17,10 @@ public class Person {
     @Id
     @Column(name = "idPerson")
     private Long idPerson;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idGender", referencedColumnName = "idGender")
+    private Gender gender;
 
     @Column(name = "name")
     private String name;
@@ -36,13 +43,10 @@ public class Person {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "gender")
-    private String gender;
-
     public Person(){}
 
-    public Person(Long idPerson, String name, String firstLastName, String secondLastName, LocalDate birthday,
-                  String identificationNumber, String phoneNumber, String email, String gender) {
+    public Person(Long idPerson, Gender gender, String name, String firstLastName, String secondLastName, LocalDate birthday,
+                  String identificationNumber, String phoneNumber, String email) {
         this.idPerson = idPerson;
         this.name = name;
         this.firstLastName = firstLastName;
@@ -118,11 +122,11 @@ public class Person {
         this.email = email;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
     
