@@ -1,8 +1,10 @@
 package una.force_gym.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,17 +33,21 @@ public class MeasurementController {
 
 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getMeasurements( 
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getMeasurements(
+            @RequestParam(defaultValue = "") int idClient, 
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "1") int searchType,
             @RequestParam(defaultValue = "") String searchTerm,
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String directionOrderBy,
-            @RequestParam(defaultValue = "") String filterByStatus
+            @RequestParam(defaultValue = "") String filterByStatus,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMax
+            
             )  {
         try {
-            Map<String, Object> responseData = measurementService.getMeasurements(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus);
+            Map<String, Object> responseData = measurementService.getMeasurements(idClient, page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByDateRangeMin, filterByDateRangeMax);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Medidas obtenidas correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK); 
 
@@ -63,14 +69,18 @@ public class MeasurementController {
             measurementDTO.getMuscleMass(),
             measurementDTO.getBodyFatPercentage(),
             measurementDTO.getVisceralFatPercentage(),
-            measurementDTO.getNeckSize(),
-            measurementDTO.getShoulderSize(),
             measurementDTO.getChestSize(),
+            measurementDTO.getBackSize(),
+            measurementDTO.getHipSize(),
             measurementDTO.getWaistSize(),
-            measurementDTO.getThighSize(),
-            measurementDTO.getCalfSize(),
-            measurementDTO.getForearmSize(),
-            measurementDTO.getArmSize(),
+            measurementDTO.getLeftLegSize(),
+            measurementDTO.getRightLegSize(),
+            measurementDTO.getLeftCalfSize(),
+            measurementDTO.getRightCalfSize(),
+            measurementDTO.getLeftForeArmSize(),
+            measurementDTO.getRightForeArmSize(),
+            measurementDTO.getLeftArmSize(),
+            measurementDTO.getRightArmSize(),
             measurementDTO.getParamLoggedIdUser()
         );
 
@@ -100,14 +110,18 @@ public class MeasurementController {
             measurementDTO.getMuscleMass(),
             measurementDTO.getBodyFatPercentage(),
             measurementDTO.getVisceralFatPercentage(),
-            measurementDTO.getNeckSize(),
-            measurementDTO.getShoulderSize(),
             measurementDTO.getChestSize(),
+            measurementDTO.getBackSize(),
+            measurementDTO.getHipSize(),
             measurementDTO.getWaistSize(),
-            measurementDTO.getThighSize(),
-            measurementDTO.getCalfSize(),
-            measurementDTO.getForearmSize(),
-            measurementDTO.getArmSize(),
+            measurementDTO.getLeftLegSize(),
+            measurementDTO.getRightLegSize(),
+            measurementDTO.getLeftCalfSize(),
+            measurementDTO.getRightCalfSize(),
+            measurementDTO.getLeftForeArmSize(),
+            measurementDTO.getRightForeArmSize(),
+            measurementDTO.getLeftArmSize(),
+            measurementDTO.getRightArmSize(),
             measurementDTO.getIsDeleted(),
             measurementDTO.getParamLoggedIdUser()
         );

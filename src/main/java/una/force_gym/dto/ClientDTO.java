@@ -1,7 +1,7 @@
 package una.force_gym.dto;
 
-import java.util.Date;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ClientDTO {
     
@@ -16,7 +16,7 @@ public class ClientDTO {
     private String identificationNumber;
     private String phoneNumber;
     private String email;
-    private String gender;
+    private Long idGender;
     
     //TypeClient
     private Long idTypeClient;
@@ -33,7 +33,9 @@ public class ClientDTO {
 
     private Long idUser;
     private Date registrationDate;
-    private String emergencyContact;
+    private Date expirationMembershipDate;
+    private String phoneNumberContactEmergency;
+    private String nameEmergencyContact;
     private String signatureImage;
     private Long isDeleted;
     private Long paramLoggedIdUser;
@@ -41,11 +43,12 @@ public class ClientDTO {
     public ClientDTO() {}
 
     public ClientDTO(Long idClient, Long idPerson, String name, String firstLastName, String secondLastName,
-            LocalDate birthday, String identificationNumber, String phoneNumber, String email, String gender,
+            LocalDate birthday, String identificationNumber, String phoneNumber, String email, Long idGender,
             Long idTypeClient, Long idHealthQuestionnaire, Boolean diabetes, Boolean hypertension,
             Boolean muscleInjuries, Boolean boneJointIssues, Boolean balanceLoss, Boolean cardiovascularDisease,
-            Boolean breathingIssues, Long idUser, Date registrationDate, String emergencyContact, String signatureImage,
-            Long isDeleted, Long paramLoggedIdUser) {
+            Boolean breathingIssues, Long idUser, Date registrationDate, Date expirationMembershipDate,
+            String phoneNumberContactEmergency, String nameEmergencyContact, String signatureImage, Long isDeleted,
+            Long paramLoggedIdUser) {
         this.idClient = idClient;
         this.idPerson = idPerson;
         this.name = name;
@@ -55,7 +58,7 @@ public class ClientDTO {
         this.identificationNumber = identificationNumber;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.gender = gender;
+        this.idGender = idGender;
         this.idTypeClient = idTypeClient;
         this.idHealthQuestionnaire = idHealthQuestionnaire;
         this.diabetes = diabetes;
@@ -67,7 +70,9 @@ public class ClientDTO {
         this.breathingIssues = breathingIssues;
         this.idUser = idUser;
         this.registrationDate = registrationDate;
-        this.emergencyContact = emergencyContact;
+        this.expirationMembershipDate = expirationMembershipDate;
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
+        this.nameEmergencyContact = nameEmergencyContact;
         this.signatureImage = signatureImage;
         this.isDeleted = isDeleted;
         this.paramLoggedIdUser = paramLoggedIdUser;
@@ -145,12 +150,12 @@ public class ClientDTO {
         this.email = email;
     }
 
-    public String getGender() {
-        return gender;
+    public Long getIdGender() {
+        return idGender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setIdGender(Long idGender) {
+        this.idGender = idGender;
     }
 
     public Long getIdTypeClient() {
@@ -241,12 +246,28 @@ public class ClientDTO {
         this.registrationDate = registrationDate;
     }
 
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public Date getExpirationMembershipDate() {
+        return expirationMembershipDate;
     }
 
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
+    public void setExpirationMembershipDate(Date expirationMembershipDate) {
+        this.expirationMembershipDate = expirationMembershipDate;
+    }
+
+    public String getPhoneNumberContactEmergency() {
+        return phoneNumberContactEmergency;
+    }
+
+    public void setPhoneNumberContactEmergency(String phoneNumberContactEmergency) {
+        this.phoneNumberContactEmergency = phoneNumberContactEmergency;
+    }
+
+    public String getNameEmergencyContact() {
+        return nameEmergencyContact;
+    }
+
+    public void setNameEmergencyContact(String nameEmergencyContact) {
+        this.nameEmergencyContact = nameEmergencyContact;
     }
 
     public String getSignatureImage() {
@@ -272,5 +293,5 @@ public class ClientDTO {
     public void setParamLoggedIdUser(Long paramLoggedIdUser) {
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
-    
+
 }

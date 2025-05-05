@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class PasswordConfig {
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
 }

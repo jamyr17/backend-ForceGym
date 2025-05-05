@@ -1,5 +1,6 @@
 package una.force_gym.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,17 +29,22 @@ public class MeasurementService {
     private EntityManager entityManager;
 
     public Map<String, Object> getMeasurements(
+        int idClient,
         int page, 
-        int size, int searchType, 
+        int size, int searchType,
         String searchTerm, 
         String orderBy, 
         String directionOrderBy, 
-        String filterByStatus
+        String filterByStatus,
+        LocalDate  filterByDateRangeStart,
+        LocalDate  filterByDateRangeEnd
+        
     ) {
             
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetMeasurement", Measurement.class);
         
         // Parámetros de entrada
+        query.registerStoredProcedureParameter("p_idClient", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_page", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_limit", Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_searchType", Integer.class, ParameterMode.IN);
@@ -46,11 +52,15 @@ public class MeasurementService {
         query.registerStoredProcedureParameter("p_orderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_directionOrderBy", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("p_filterByStatus", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDateRangeStart", LocalDate.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("p_filterByDateRangeEnd", LocalDate.class, ParameterMode.IN);
+        
 
         // Parámetro de salida
         query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
 
         // Setear valores
+        query.setParameter("p_idClient", idClient);
         query.setParameter("p_page", page);
         query.setParameter("p_limit", size);
         query.setParameter("p_searchType", searchType);
@@ -58,7 +68,9 @@ public class MeasurementService {
         query.setParameter("p_orderBy", orderBy);
         query.setParameter("p_directionOrderBy", directionOrderBy);
         query.setParameter("p_filterByStatus", filterByStatus);
-
+        query.setParameter("p_filterByDateRangeStart", filterByDateRangeStart);
+        query.setParameter("p_filterByDateRangeEnd", filterByDateRangeEnd);
+                
         // Ejecutar procedimiento
         query.execute();
 
@@ -85,30 +97,38 @@ public class MeasurementService {
                                         Float pMuscleMass, 
                                         Float pBodyFatPercentage, 
                                         Float pVisceralFatPercentage, 
-                                        Float pNeckSize, 
-                                        Float pShoulderSize, 
-                                        Float pChestSize, 
-                                        Float pwaistSize,
-                                        Float pThighSize, 
-                                        Float pCalfSize, 
-                                        Float pForearmSize, 
-                                        Float pArmSize, 
+                                        Float pChestSize,
+                                        Float pBackSize,
+                                        Float pHipSize, 
+                                        Float pWaistSize,
+                                        Float pLeftLegSize, 
+                                        Float pRightLegSize, 
+                                        Float pLeftCalfSize, 
+                                        Float pRightCalfSize, 
+                                        Float pLeftForeArmSize, 
+                                        Float pRightForeArmSize, 
+                                        Float pLeftArmSize, 
+                                        Float pRightArmSize, 
                                         Long pLoggedIdUser) {
         return measurementRepository.addMeasurement(pIdClient, 
                                                     pMeasurementDate, 
                                                     pWeight,
-                                                    pHeight, 
-                                                    pMuscleMass, 
-                                                    pBodyFatPercentage, 
-                                                    pVisceralFatPercentage, 
-                                                    pNeckSize, 
-                                                    pShoulderSize, 
+                                                    pHeight,
+                                                    pMuscleMass,
+                                                    pBodyFatPercentage,
+                                                    pVisceralFatPercentage,
                                                     pChestSize,
-                                                    pwaistSize, 
-                                                    pThighSize, 
-                                                    pCalfSize, 
-                                                    pForearmSize, 
-                                                    pArmSize,  
+                                                    pBackSize,
+                                                    pHipSize,
+                                                    pWaistSize,
+                                                    pLeftLegSize,
+                                                    pRightLegSize,
+                                                    pLeftCalfSize,
+                                                    pRightCalfSize,
+                                                    pLeftForeArmSize,
+                                                    pRightForeArmSize,
+                                                    pLeftArmSize,
+                                                    pRightArmSize,
                                                     pLoggedIdUser);
     }
 
@@ -121,14 +141,18 @@ public class MeasurementService {
                                             Float pMuscleMass, 
                                             Float pBodyFatPercentage, 
                                             Float pVisceralFatPercentage, 
-                                            Float pNeckSize, 
-                                            Float pShoulderSize, 
-                                            Float pChestSize, 
-                                            Float pwaistSize,
-                                            Float pThighSize, 
-                                            Float pCalfSize, 
-                                            Float pForearmSize, 
-                                            Float pArmSize, 
+                                            Float pChestSize,
+                                            Float pBackSize,
+                                            Float pHipSize,  
+                                            Float pWaistSize,
+                                            Float pLeftLegSize, 
+                                            Float pRightLegSize, 
+                                            Float pLeftCalfSize, 
+                                            Float pRightCalfSize, 
+                                            Float pLeftForeArmSize, 
+                                            Float pRightForeArmSize, 
+                                            Float pLeftArmSize, 
+                                            Float pRightArmSize, 
                                             Long pIsDeleted,
                                             Long pLoggedIdUser) {
         return measurementRepository.updateMeasurement(pIdMeasurement, 
@@ -138,15 +162,19 @@ public class MeasurementService {
                                                         pHeight, 
                                                         pMuscleMass, 
                                                         pBodyFatPercentage, 
-                                                        pVisceralFatPercentage, 
-                                                        pNeckSize, 
-                                                        pShoulderSize, 
+                                                        pVisceralFatPercentage,
                                                         pChestSize,
-                                                        pwaistSize, 
-                                                        pThighSize, 
-                                                        pCalfSize, 
-                                                        pForearmSize, 
-                                                        pArmSize,  
+                                                        pBackSize,
+                                                        pHipSize,
+                                                        pWaistSize,
+                                                        pLeftLegSize,
+                                                        pRightLegSize,
+                                                        pLeftCalfSize,
+                                                        pRightCalfSize,
+                                                        pLeftForeArmSize,
+                                                        pRightForeArmSize,
+                                                        pLeftArmSize,
+                                                        pRightArmSize,
                                                         pIsDeleted,
                                                         pLoggedIdUser);
     }

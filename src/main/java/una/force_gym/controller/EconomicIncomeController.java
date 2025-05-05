@@ -43,9 +43,31 @@ public class EconomicIncomeController {
             @RequestParam(required = false) Long filterByAmountRangeMax,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMin,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMax,
+            @RequestParam(defaultValue = "-1") int filterByMeanOfPayment,
+            @RequestParam(defaultValue = "-1") int filterByTypeClient){ 
+        try {
+            Map<String, Object> responseData = economicIncomeService.getEconomicIncomes(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByAmountRangeMin, filterByAmountRangeMax, filterByDateRangeMin, filterByDateRangeMax, filterByMeanOfPayment, filterByTypeClient);
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ingresos económicos obtenidos correctamente.", responseData);
+            return new ResponseEntity<>(response, HttpStatus.OK); 
+
+        } catch (RuntimeException e) {
+            System.out.print("aca: " + e);
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ocurrió un error al solicitar los datos de los ingresos económicos.", null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
+        }
+
+    } 
+
+    @GetMapping("/listAll")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getAllEconomicIncomes( 
+            @RequestParam(defaultValue = "") String filterByStatus,
+            @RequestParam(required = false) Long filterByAmountRangeMin,
+            @RequestParam(required = false) Long filterByAmountRangeMax,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateRangeMax,
             @RequestParam(defaultValue = "-1") int filterByMeanOfPayment){ 
         try {
-            Map<String, Object> responseData = economicIncomeService.getEconomicIncomes(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByAmountRangeMin, filterByAmountRangeMax, filterByDateRangeMin, filterByDateRangeMax, filterByMeanOfPayment);
+            Map<String, Object> responseData = economicIncomeService.getAllEconomicIncomes(filterByStatus, filterByAmountRangeMin, filterByAmountRangeMax, filterByDateRangeMin, filterByDateRangeMax, filterByMeanOfPayment);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ingresos económicos obtenidos correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK); 
 
@@ -60,13 +82,14 @@ public class EconomicIncomeController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addEconomicIncome(@RequestBody EconomicIncomeDTO economicIncomeDTO) {
         int result = economicIncomeService.addEconomicIncome(
-            economicIncomeDTO.getIdUser(), 
+            economicIncomeDTO.getIdClient(), 
             economicIncomeDTO.getRegistrationDate(), 
             economicIncomeDTO.getVoucherNumber(), 
             economicIncomeDTO.getDetail(), 
             economicIncomeDTO.getIdMeanOfPayment(), 
             economicIncomeDTO.getAmount(), 
             economicIncomeDTO.getIdActivityType(), 
+            economicIncomeDTO.getDelayDays(),
             economicIncomeDTO.getParamLoggedIdUser()
         );
 
@@ -92,13 +115,14 @@ public class EconomicIncomeController {
     public ResponseEntity<ApiResponse<String>> updateEconomicIncome(@RequestBody EconomicIncomeDTO economicIncomeDTO) {
         int result = economicIncomeService.updateEconomicIncome(
             economicIncomeDTO.getIdEconomicIncome(), 
-            economicIncomeDTO.getIdUser(), 
+            economicIncomeDTO.getIdClient(), 
             economicIncomeDTO.getRegistrationDate(), 
             economicIncomeDTO.getVoucherNumber(), 
             economicIncomeDTO.getDetail(), 
             economicIncomeDTO.getIdMeanOfPayment(), 
             economicIncomeDTO.getAmount(), 
             economicIncomeDTO.getIdActivityType(), 
+            economicIncomeDTO.getDelayDays(),
             economicIncomeDTO.getIsDeleted(),
             economicIncomeDTO.getParamLoggedIdUser()
         );

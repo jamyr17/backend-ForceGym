@@ -1,6 +1,9 @@
 package una.force_gym.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import una.force_gym.domain.Client;
 import una.force_gym.dto.ClientDTO;
 import una.force_gym.dto.ParamLoggedIdUserDTO;
 import una.force_gym.exception.AppException;
@@ -26,12 +30,12 @@ import una.force_gym.util.ApiResponse;
 @RestController
 @RequestMapping("/client")
 public class ClientController {
-    
+
     @Autowired
     private ClientService clientService;
 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getClients( 
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getClients(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "1") int searchType,
@@ -39,7 +43,6 @@ public class ClientController {
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String directionOrderBy,
             @RequestParam(defaultValue = "") String filterByStatus,
-            
             @RequestParam(required = false) Boolean filterByDiabetes,
             @RequestParam(required = false) Boolean filterByHypertension,
             @RequestParam(required = false) Boolean filterByMuscleInjuries,
@@ -47,13 +50,10 @@ public class ClientController {
             @RequestParam(required = false) Boolean filterByBalanceLoss,
             @RequestParam(required = false) Boolean filterByCardiovascularDisease,
             @RequestParam(required = false) Boolean filterByBreathingIssues,
-
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateBirthStart,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate filterByDateBirthEnd,
-            
-            @RequestParam(defaultValue="-1") int filterByTypeClient
-
-            )  {
+            @RequestParam(defaultValue = "-1") int filterByTypeClient
+    ) {
         try {
             System.out.println("page: " + page);
             System.out.println("size: " + size);
@@ -62,7 +62,7 @@ public class ClientController {
             System.out.println("orderBy: " + orderBy);
             System.out.println("directionOrderBy: " + directionOrderBy);
             System.out.println("filterByStatus: " + filterByStatus);
-            
+
             System.out.println("filterByDiabetes: " + filterByDiabetes);
             System.out.println("filterByHypertension: " + filterByHypertension);
             System.out.println("filterByMuscleInjuries: " + filterByMuscleInjuries);
@@ -78,99 +78,143 @@ public class ClientController {
 
             Map<String, Object> responseData = clientService.getClients(page, size, searchType, searchTerm, orderBy, directionOrderBy, filterByStatus, filterByDiabetes, filterByHypertension, filterByMuscleInjuries, filterByBoneJointIssues, filterByBalanceLoss, filterByCardiovascularDisease, filterByBreathingIssues, filterByDateBirthStart, filterByDateBirthEnd, filterByTypeClient);
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
-            return new ResponseEntity<>(response, HttpStatus.OK); 
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (RuntimeException e) {
             ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes." + e.getMessage(), null);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
-    
+
+   @GetMapping("/listAll")
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getAllClients() {
+        try {
+            List<Client> clients = clientService.getAllClients();
+            List<Map<String, Object>> responseData = new ArrayList<>();
+            
+            for (Client client : clients) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("value", client.getIdClient());
+                map.put("label", client.getPerson().getName() + " " + 
+                        client.getPerson().getFirstLastName() + " " + 
+                        client.getPerson().getSecondLastName());
+                map.put("idClientType", client.getTypeClient().getIdTypeClient());
+                responseData.add(map);
+            }
+
+            ApiResponse<List<Map<String, Object>>> response = 
+                    new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            ApiResponse<List<Map<String, Object>>> response = 
+                    new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes.", null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getClientsByFilter(
+            @RequestParam Integer filterType) {
+
+        try {
+            Map<String, Object> responseData = clientService.getClientsByFilter(filterType);
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Error al obtener clientes: " + e.getMessage(), null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addClient(@RequestBody ClientDTO clientDTO) {
         int result = clientService.addClient(
-            //Person
-            clientDTO.getName(), 
-            clientDTO.getFirstLastName(), 
-            clientDTO.getSecondLastName(), 
-            clientDTO.getBirthday(), 
-            clientDTO.getIdentificationNumber(), 
-            clientDTO.getPhoneNumber(), 
-            clientDTO.getEmail(), 
-            clientDTO.getGender(),
-
-            clientDTO.getIdTypeClient(),
-
-            //HealtQuestionnare
-            clientDTO.getDiabetes(), 
-            clientDTO.getHypertension(), 
-            clientDTO.getMuscleInjuries(), 
-            clientDTO.getBoneJointIssues(),  
-            clientDTO.getBalanceLoss(), 
-            clientDTO.getCardiovascularDisease(), 
-            clientDTO.getBreathingIssues(),
-
-            clientDTO.getIdUser(),
-            clientDTO.getRegistrationDate(),
-            clientDTO.getEmergencyContact(),
-            clientDTO.getSignatureImage(),
-            clientDTO.getParamLoggedIdUser()
+                //Person
+                clientDTO.getName(),
+                clientDTO.getFirstLastName(),
+                clientDTO.getSecondLastName(),
+                clientDTO.getBirthday(),
+                clientDTO.getIdentificationNumber(),
+                clientDTO.getPhoneNumber(),
+                clientDTO.getEmail(),
+                clientDTO.getIdGender(),
+                clientDTO.getIdTypeClient(),
+                //HealtQuestionnare
+                clientDTO.getDiabetes(),
+                clientDTO.getHypertension(),
+                clientDTO.getMuscleInjuries(),
+                clientDTO.getBoneJointIssues(),
+                clientDTO.getBalanceLoss(),
+                clientDTO.getCardiovascularDisease(),
+                clientDTO.getBreathingIssues(),
+                clientDTO.getIdUser(),
+                clientDTO.getRegistrationDate(),
+                clientDTO.getExpirationMembershipDate(),
+                clientDTO.getPhoneNumberContactEmergency(),
+                clientDTO.getNameEmergencyContact(),
+                clientDTO.getSignatureImage(),
+                clientDTO.getParamLoggedIdUser()
         );
 
-        switch(result) {
-            case 1 -> { 
+        switch (result) {
+            case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Cliente agregado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 -> throw new AppException("Ocurrió un error al agregar el nuevo cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
-            default -> throw new AppException("Cliente no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al agregar el nuevo cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default ->
+                throw new AppException("Cliente no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/update")
     public ResponseEntity<ApiResponse<String>> updateClient(@RequestBody ClientDTO clientDTO) {
         int result = clientService.updateClient(
-            clientDTO.getIdClient(),
-            //Person
-            clientDTO.getIdPerson(),
-            clientDTO.getName(), 
-            clientDTO.getFirstLastName(), 
-            clientDTO.getSecondLastName(), 
-            clientDTO.getBirthday(), 
-            clientDTO.getIdentificationNumber(), 
-            clientDTO.getPhoneNumber(), 
-            clientDTO.getEmail(), 
-            clientDTO.getGender(),
-
-            clientDTO.getIdTypeClient(),
-
-            //HealtQuestionnare
-            clientDTO.getIdHealthQuestionnaire(), 
-            clientDTO.getDiabetes(), 
-            clientDTO.getHypertension(), 
-            clientDTO.getMuscleInjuries(), 
-            clientDTO.getBoneJointIssues(),  
-            clientDTO.getBalanceLoss(), 
-            clientDTO.getCardiovascularDisease(), 
-            clientDTO.getBreathingIssues(),
-
-            clientDTO.getIdUser(),
-            clientDTO.getRegistrationDate(),
-            clientDTO.getEmergencyContact(),
-            clientDTO.getSignatureImage(),
-            clientDTO.getIsDeleted(),
-            clientDTO.getParamLoggedIdUser()
+                clientDTO.getIdClient(),
+                //Person
+                clientDTO.getIdPerson(),
+                clientDTO.getName(),
+                clientDTO.getFirstLastName(),
+                clientDTO.getSecondLastName(),
+                clientDTO.getBirthday(),
+                clientDTO.getIdentificationNumber(),
+                clientDTO.getPhoneNumber(),
+                clientDTO.getEmail(),
+                clientDTO.getIdGender(),
+                clientDTO.getIdTypeClient(),
+                //HealtQuestionnare
+                clientDTO.getIdHealthQuestionnaire(),
+                clientDTO.getDiabetes(),
+                clientDTO.getHypertension(),
+                clientDTO.getMuscleInjuries(),
+                clientDTO.getBoneJointIssues(),
+                clientDTO.getBalanceLoss(),
+                clientDTO.getCardiovascularDisease(),
+                clientDTO.getBreathingIssues(),
+                clientDTO.getIdUser(),
+                clientDTO.getRegistrationDate(),
+                clientDTO.getExpirationMembershipDate(),
+                clientDTO.getPhoneNumberContactEmergency(),
+                clientDTO.getNameEmergencyContact(),
+                clientDTO.getSignatureImage(),
+                clientDTO.getIsDeleted(),
+                clientDTO.getParamLoggedIdUser()
         );
 
-        switch(result) {
-            case 1 -> { 
+        switch (result) {
+            case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Cliente actualizado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 -> throw new AppException("Ocurrió un error al actualizar el cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
-            case -1 -> throw new AppException("No se pudo actualizar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
-            default -> throw new AppException("Cliente no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al actualizar el cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("No se pudo actualizar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default ->
+                throw new AppException("Cliente no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -178,14 +222,17 @@ public class ClientController {
     public ResponseEntity<ApiResponse<String>> deleteClient(@PathVariable("idClient") Long idClient, @RequestBody ParamLoggedIdUserDTO paramLoggedIdUser) {
         int result = clientService.deleteClient(idClient, paramLoggedIdUser.getParamLoggedIdUser());
 
-        switch(result) {
-            case 1 -> { 
+        switch (result) {
+            case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Cliente eliminado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            case 0 -> throw new AppException("Ocurrió un error al eliminar el cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
-            case -1 -> throw new AppException("No se pudo eliminar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
-            default -> throw new AppException("Cliente no eliminado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case 0 ->
+                throw new AppException("Ocurrió un error al eliminar el cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -1 ->
+                throw new AppException("No se pudo eliminar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default ->
+                throw new AppException("Cliente no eliminado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

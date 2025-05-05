@@ -19,8 +19,8 @@ public class EconomicIncome {
     private Long idEconomicIncome;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
-    private User user;
+    @JoinColumn(name = "idClient", referencedColumnName = "idClient")
+    private Client client;
 
     @Column(name = "registrationDate")
     private LocalDate registrationDate;
@@ -42,20 +42,24 @@ public class EconomicIncome {
     @JoinColumn(name = "idActivityType", referencedColumnName = "idActivityType")
     private ActivityType activityType;
 
+    @Column(name = "delayDays")
+    private Long delayDays;
+
     @Column(name = "isDeleted")
     private Long isDeleted;
 
     public EconomicIncome() {}
 
-    public EconomicIncome(Long idEconomicIncome, User user, LocalDate registrationDate, String voucherNumber, String detail, MeanOfPayment meanOfPayment, Float amount, ActivityType activityType, Long isDeleted) {
+    public EconomicIncome(Long idEconomicIncome, Client client, LocalDate registrationDate, String voucherNumber, String detail, MeanOfPayment meanOfPayment, Float amount, ActivityType activityType, Long delayDays, Long isDeleted) {
         this.idEconomicIncome = idEconomicIncome;
-        this.user = user;
+        this.client = client;
         this.registrationDate = registrationDate;
         this.voucherNumber = voucherNumber;
         this.detail = detail;
         this.meanOfPayment = meanOfPayment;
         this.amount = amount;
         this.activityType = activityType;
+        this.delayDays = delayDays;
         this.isDeleted = isDeleted;
     }
 
@@ -67,12 +71,12 @@ public class EconomicIncome {
         this.idEconomicIncome = idEconomicIncome;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public LocalDate getRegistrationDate() {
@@ -121,6 +125,14 @@ public class EconomicIncome {
 
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
+    }
+
+    public Long getDelayDays() {
+        return delayDays;
+    }
+
+    public void setDelayDays(Long delayDays) {
+        this.delayDays = delayDays;
     }
 
     public Long getIsDeleted() {

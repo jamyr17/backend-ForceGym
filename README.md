@@ -39,6 +39,14 @@ spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=none 
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 ```
+## Investigacion de exportacion de pdf y excel
+https://docs.google.com/document/d/1eLLt7UZ-00EwolufuKOCpixriPweJqx-uikcLUY4csY/edit?usp=sharing
+
+## Investigacion de Envio de mensajes por medio de WhatsApp
+https://docs.google.com/document/d/1uGlbx2ngYZCLtCFDKm8-X5hSmE865SlT4oE6yntnFW4/edit?tab=t.0
+
+## Investigacion de Librerias
+https://docs.google.com/document/d/1O431puKikcdhIpT0nF06f5LjFT9cXnDZaIZ6n65UCKM/edit?usp=sharing
 
 ## Ejecución del proyecto
 
@@ -72,6 +80,10 @@ Authorization: Bearer <TOKEN>
 - [JWT](https://jwt.io/)
 - [JPA (Hibernate)](https://spring.io/projects/spring-data-jpa)
 - [MySQL](https://www.mysql.com/)
+
+## Documentación
+
+Se encuentra una carpeta llamada Scrum con documentación del proceso de desarrollo, como lo son las **minutas**.
 
 ---
 
