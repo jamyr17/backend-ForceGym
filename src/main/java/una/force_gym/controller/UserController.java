@@ -133,6 +133,9 @@ public class UserController {
             // username duplicado
             case -4 -> throw new AppException("No se pudo actualizar el usuario debido a que el nombre de usuario ya existe.", HttpStatus.INTERNAL_SERVER_ERROR);
 
+            // se encontró un idPerson previo y que no correspondía
+            case -5 -> throw new AppException("No se pudo actualizar el usuario debido a que ya existe un usuario registrado con la misma cédula", HttpStatus.INTERNAL_SERVER_ERROR);
+            
             default -> throw new AppException("Usuario no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

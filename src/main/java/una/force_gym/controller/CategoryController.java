@@ -83,6 +83,10 @@ public class CategoryController {
             case -1 ->
                 throw new AppException("No se pudo agregar la nueva categoria debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
 
+            // no se encuentra el idUser
+            case -2 ->
+                throw new AppException("No se pudo actualizar la categoría debido a que el nombre ya fue asignado a otro registro", HttpStatus.INTERNAL_SERVER_ERROR);
+
             default ->
                 throw new AppException("Categoria no agregada debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -111,9 +115,9 @@ public class CategoryController {
             case -1 ->
                 throw new AppException("No se pudo actualizar la categoría debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            // no se encuentra el idUser
+            // name duplicado
             case -2 ->
-                throw new AppException("No se pudo actualizar la categoría debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar la categoría debido a que el nuevo nombre ya fue asignado a otro registro", HttpStatus.INTERNAL_SERVER_ERROR);
 
             default ->
                 throw new AppException("Categoría no actualizada debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
