@@ -165,6 +165,11 @@ public class ClientController {
             }
             case 0 ->
                 throw new AppException("Ocurrió un error al agregar el nuevo cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
+            // se encontró un idPerson previo
+            case -1 -> 
+                throw new AppException("No se pudo agregar el nuevo cliente debido a que ya existe un cliente registrado con la misma cédula", HttpStatus.INTERNAL_SERVER_ERROR);
+            
             default ->
                 throw new AppException("Cliente no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -213,6 +218,8 @@ public class ClientController {
                 throw new AppException("Ocurrió un error al actualizar el cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -1 ->
                 throw new AppException("No se pudo actualizar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -4 -> // se encontró un idPerson previo y que no correspondía
+                throw new AppException("No se pudo actualizar el cliente debido a que ya existe un cliente registrado con la misma cédula", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("Cliente no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

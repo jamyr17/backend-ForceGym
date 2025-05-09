@@ -103,8 +103,8 @@ public class EconomicIncomeController {
             // error de MySQL
             case 0 -> throw new AppException("Ocurrió un error al agregar el nuevo ingreso económico.", HttpStatus.INTERNAL_SERVER_ERROR);
             
-            // no se encuentra el idUser
-            case -1 -> throw new AppException("No se pudo agregar el nuevo ingreso económico debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
+            // voucher duplicado
+            case -1 -> throw new AppException("No se pudo agregar el nuevo ingreso económico debido a que el voucher ingresado ya está asociado a otro registro", HttpStatus.INTERNAL_SERVER_ERROR);
             
             default -> throw new AppException("Ingreso económico no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -140,9 +140,9 @@ public class EconomicIncomeController {
             // no se encuentra el idEconomicIncome
             case -1 -> throw new AppException("No se pudo actualizar el ingreso económico debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            // no se encuentra el idUser
-            case -2 -> throw new AppException("No se pudo actualizar el ingreso económico debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
-            
+            // se encontró un voucher previo y que no correspondía
+            case -2 -> throw new AppException("No se pudo actualizar el ingreso económico debido a que ya existe un ingreso registrado con el mismo voucher", HttpStatus.INTERNAL_SERVER_ERROR);
+
             default -> throw new AppException("Ingreso económico no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
