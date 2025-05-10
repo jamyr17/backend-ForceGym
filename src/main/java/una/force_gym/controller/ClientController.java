@@ -87,29 +87,29 @@ public class ClientController {
 
     }
 
-   @GetMapping("/listAll")
+    @GetMapping("/listAll")
     public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getAllClients() {
         try {
             List<Client> clients = clientService.getAllClients();
             List<Map<String, Object>> responseData = new ArrayList<>();
-            
+
             for (Client client : clients) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("value", client.getIdClient());
-                map.put("label", client.getPerson().getName() + " " + 
-                        client.getPerson().getFirstLastName() + " " + 
-                        client.getPerson().getSecondLastName());
+                map.put("label", client.getPerson().getName() + " "
+                        + client.getPerson().getFirstLastName() + " "
+                        + client.getPerson().getSecondLastName());
                 map.put("idClientType", client.getTypeClient().getIdTypeClient());
                 responseData.add(map);
             }
 
-            ApiResponse<List<Map<String, Object>>> response = 
-                    new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
+            ApiResponse<List<Map<String, Object>>> response
+                    = new ApiResponse<>("Clientes obtenidos correctamente.", responseData);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (RuntimeException e) {
-            ApiResponse<List<Map<String, Object>>> response = 
-                    new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes.", null);
+            ApiResponse<List<Map<String, Object>>> response
+                    = new ApiResponse<>("Ocurrió un error al solicitar los datos de los clientes.", null);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -165,6 +165,8 @@ public class ClientController {
             }
             case 0 ->
                 throw new AppException("Ocurrió un error al agregar el nuevo cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -2 ->
+                throw new AppException("No se pudo actualizar el cliente el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("Cliente no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -213,6 +215,8 @@ public class ClientController {
                 throw new AppException("Ocurrió un error al actualizar el cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -1 ->
                 throw new AppException("No se pudo actualizar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -4 ->
+                throw new AppException("No se pudo actualizar el cliente el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("Cliente no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
