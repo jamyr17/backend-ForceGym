@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import una.force_gym.dto.ParamLoggedIdUserDTO;
 import una.force_gym.dto.Asset;
+import una.force_gym.dto.ParamLoggedIdUserDTO;
 import una.force_gym.exception.AppException;
 import una.force_gym.service.AssetService;
 import una.force_gym.util.ApiResponse;
@@ -81,11 +81,14 @@ public class AssetController {
             // no se encuentra el idUser
             case -1 -> throw new AppException("No se pudo agregar el nuevo activo debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
             
+            // activo menor a 115000
+            case -2 -> throw new AppException("No se pudo agregar el nuevo activo debido a que su costo unitario es menor a 115000.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
             // code ya existe
-            case -2 -> throw new AppException("No se pudo agregar el nuevo activo debido a que el código ya fue asignado a otro activo", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -3 -> throw new AppException("No se pudo agregar el nuevo activo debido a que el código ya fue asignado a otro activo", HttpStatus.INTERNAL_SERVER_ERROR);
             
             // name ya existe
-            case -3 -> throw new AppException("No se pudo agregar el nuevo activo debido a que el nombre ya está registrado", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -4 -> throw new AppException("No se pudo agregar el nuevo activo debido a que el nombre ya está registrado", HttpStatus.INTERNAL_SERVER_ERROR);
             
             default -> throw new AppException("Activo no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -123,11 +126,14 @@ public class AssetController {
             // no se encuentra el idUser
             case -2 -> throw new AppException("No se pudo actualizar el activo debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
             
+            // activo menor a 115000
+            case -3 -> throw new AppException("No se pudo actualizar el activo debido a que su costo unitario es menor a 115000.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
             // code ya existe
-            case -3 -> throw new AppException("No se pudo actualizar el activo debido a que el nuevo código ya fue asignado a otro activo", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -4 -> throw new AppException("No se pudo actualizar el activo debido a que el nuevo código ya fue asignado a otro activo", HttpStatus.INTERNAL_SERVER_ERROR);
             
             // name ya existe
-            case -4 -> throw new AppException("No se pudo actualizar el activo debido a que el nuevo nombre ya está registrado", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -5 -> throw new AppException("No se pudo actualizar el activo debido a que el nuevo nombre ya está registrado", HttpStatus.INTERNAL_SERVER_ERROR);
               
             default -> throw new AppException("Activo no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

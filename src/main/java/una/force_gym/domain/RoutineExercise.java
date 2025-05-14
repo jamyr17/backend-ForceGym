@@ -32,15 +32,19 @@ public class RoutineExercise {
     @Column(name = "repetitions")
     private Integer repetitions;
 
+    @Column(name = "note")
+    private String note;
+
     public RoutineExercise() {
     }
 
-    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer repetitions, Routine routine, Integer series) {
+    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer repetitions, Routine routine, Integer series, String note) {
         this.exercise = exercise;
         this.idRoutineExercise = idRoutineExercise;
         this.repetitions = repetitions;
         this.routine = routine;
         this.series = series;
+        this.note = note;
     }
 
     public Long getIdRoutineExercise() {
@@ -83,4 +87,11 @@ public class RoutineExercise {
         this.repetitions = repetitions;
     }
 
+    public String getNote() {
+        return note;
+    }
+    
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
