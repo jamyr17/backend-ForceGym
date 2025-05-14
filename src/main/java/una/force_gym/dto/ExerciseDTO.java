@@ -5,23 +5,23 @@ public class ExerciseDTO {
     private Long idExercise;
     private String name;
     private String description;
-    private String difficulty;
+    private Long idExerciseDifficulty;
     private Long idExerciseCategory;
     private Long idUser;
     private Long isDeleted;
     private Long paramLoggedIdUser;
 
-    public ExerciseDTO() {}
+    public ExerciseDTO() {
+    }
 
-    public ExerciseDTO(Long idExercise, String name, String description, String difficulty, Long idExerciseCategory,
-            Long idUser, Long isDeleted, Long paramLoggedIdUser) {
-        this.idExercise = idExercise;
-        this.name = name;
+    public ExerciseDTO(String description, Long idExercise, Long idExerciseCategory, Long idExerciseDifficulty, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
         this.description = description;
-        this.difficulty = difficulty;
+        this.idExercise = idExercise;
         this.idExerciseCategory = idExerciseCategory;
+        this.idExerciseDifficulty = idExerciseDifficulty;
         this.idUser = idUser;
         this.isDeleted = isDeleted;
+        this.name = name;
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
 
@@ -49,12 +49,12 @@ public class ExerciseDTO {
         this.description = description;
     }
 
-    public String getDifficulty() {
-        return difficulty;
+    public Long getIdExerciseDifficulty() {
+        return idExerciseDifficulty;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    public void setIdExerciseDifficulty(Long idExerciseDifficulty) {
+        this.idExerciseDifficulty = idExerciseDifficulty;
     }
 
     public Long getIdExerciseCategory() {
@@ -88,4 +88,5 @@ public class ExerciseDTO {
     public void setParamLoggedIdUser(Long paramLoggedIdUser) {
         this.paramLoggedIdUser = paramLoggedIdUser;
     }
+
 }
