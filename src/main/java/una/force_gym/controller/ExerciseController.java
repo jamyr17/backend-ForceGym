@@ -72,7 +72,7 @@ public class ExerciseController {
         int result = exerciseService.addExercise(
                 exerciseDTO.getName(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.getDifficulty(),
+                exerciseDTO.getIdExerciseDifficulty(),
                 exerciseDTO.getIdExerciseCategory(),
                 exerciseDTO.getParamLoggedIdUser()
         );
@@ -95,7 +95,7 @@ public class ExerciseController {
                 id,
                 exerciseDTO.getName(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.getDifficulty(),
+                exerciseDTO.getIdExerciseDifficulty(),
                 exerciseDTO.getIdExerciseCategory(),
                 exerciseDTO.getIsDeleted(),
                 exerciseDTO.getParamLoggedIdUser()

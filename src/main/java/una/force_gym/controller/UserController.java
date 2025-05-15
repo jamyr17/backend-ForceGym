@@ -50,6 +50,26 @@ public class UserController {
 
     }
 
+    @GetMapping("/{idUser}")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getUserById(@PathVariable("idUser") Long idUser) {
+        try {
+            Map<String, Object> responseData = userService.getUserById(idUser);
+            
+            if(responseData == null || responseData.isEmpty()) {
+                throw new AppException("No se encontró el usuario solicitado.", HttpStatus.NOT_FOUND);
+            }
+            
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Usuario obtenido correctamente.", responseData);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (AppException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ocurrió un error al solicitar los datos del usuario", null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addUser(@RequestBody UserFormDTO userForm) {
         int result = userService.addUser(
