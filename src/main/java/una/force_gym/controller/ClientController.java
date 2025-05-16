@@ -158,15 +158,17 @@ public class ClientController {
                 clientDTO.getParamLoggedIdUser()
         );
 
-        switch (result) {
+                switch (result) {
             case 1 -> {
                 ApiResponse<String> response = new ApiResponse<>("Cliente agregado correctamente.", null);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
+            case -1 ->
+                throw new AppException("No se pudo agregar el cliente: la cédula ya está registrada.", HttpStatus.CONFLICT); // 409 Conflict
+            case -2 ->
+                throw new AppException("No se pudo agregar el cliente: el número de teléfono ya está en uso.", HttpStatus.CONFLICT);
             case 0 ->
                 throw new AppException("Ocurrió un error al agregar el nuevo cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
-            case -2 ->
-                throw new AppException("No se pudo actualizar el cliente el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("Cliente no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
