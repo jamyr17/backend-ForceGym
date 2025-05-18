@@ -160,13 +160,19 @@ public class UserController {
             case -3 ->
                 throw new AppException("No se pudo actualizar el usuario debido a que el rol asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            // username duplicado
+            // cedula
             case -4 ->
-                throw new AppException("No se pudo actualizar el usuario debido a que el nombre de usuario ya existe.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar el usuario debido a que la cedula ya existe.", HttpStatus.INTERNAL_SERVER_ERROR);
 
             case -5 ->
-                throw new AppException("No se pudo actualizar el usuario el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
-
+                throw new AppException("No se pudo actualizar el usuario, el nombre de usuario ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
+            case -6 ->
+                throw new AppException("No se pudo actualizar el usuario, el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
+            case -7 ->
+                throw new AppException("No se pudo actualizar el usuario, el correo electrónico ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
             default ->
                 throw new AppException("Usuario no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
