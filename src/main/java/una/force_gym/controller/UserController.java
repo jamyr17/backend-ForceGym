@@ -50,6 +50,26 @@ public class UserController {
 
     }
 
+    @GetMapping("/{idUser}")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getUserById(@PathVariable("idUser") Long idUser) {
+        try {
+            Map<String, Object> responseData = userService.getUserById(idUser);
+            
+            if(responseData == null || responseData.isEmpty()) {
+                throw new AppException("No se encontró el usuario solicitado.", HttpStatus.NOT_FOUND);
+            }
+            
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Usuario obtenido correctamente.", responseData);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (AppException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>("Ocurrió un error al solicitar los datos del usuario", null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<String>> addUser(@RequestBody UserFormDTO userForm) {
         int result = userService.addUser(
@@ -144,16 +164,18 @@ public class UserController {
             case -3 ->
                 throw new AppException("No se pudo actualizar el usuario debido a que el rol asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            // username duplicado
+            // cedula
             case -4 ->
-                throw new AppException("No se pudo actualizar el usuario debido a que el nombre de usuario ya existe.", HttpStatus.INTERNAL_SERVER_ERROR);
-
-            // se encontró un idPerson previo y que no correspondía
-            case -5 -> 
-                throw new AppException("No se pudo actualizar el usuario debido a que ya existe un usuario registrado con la misma cédula", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar el usuario debido a que la cédula ya existe.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
+            case -5 ->
+                throw new AppException("No se pudo actualizar el usuario debido a que el nombre de usuario ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             
             case -6 ->
-                throw new AppException("No se pudo actualizar el usuario el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar el usuario debido a que el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+            
+            case -7 ->
+                throw new AppException("No se pudo actualizar el usuario debido a que el correo electrónico ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             
             default ->
                 throw new AppException("Usuario no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
