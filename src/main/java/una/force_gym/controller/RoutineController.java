@@ -92,16 +92,17 @@ public class RoutineController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteRoutineWithDependencies(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<List<RoutineWithExercisesDTO>>> deleteRoutineWithDependencies(@PathVariable Long id) {
         try {
-            routineService.deleteRoutineWithDependencies(id);
-            ApiResponse<Void> response = new ApiResponse<>(
+            routineService.deleteRoutineWithDependencies(id); // Elimina la rutina
+            List<RoutineWithExercisesDTO> updatedRoutines = routineService.getAllRoutinesWithDetails(); // Obtiene la lista actualizada
+            ApiResponse<List<RoutineWithExercisesDTO>> response = new ApiResponse<>(
                     "Rutina eliminada correctamente con todas sus dependencias.",
-                    null
+                    updatedRoutines // Devuelve la lista actualizada
             );
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
-            ApiResponse<Void> response = new ApiResponse<>(
+            ApiResponse<List<RoutineWithExercisesDTO>> response = new ApiResponse<>(
                     "Error al eliminar la rutina: " + e.getMessage(),
                     null
             );
