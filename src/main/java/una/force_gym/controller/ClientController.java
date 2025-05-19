@@ -166,13 +166,12 @@ public class ClientController {
             case 0 ->
                 throw new AppException("Ocurrió un error al agregar el nuevo cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -1 ->
-                throw new AppException("No se pudo agregar el cliente, el número de cedula ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo agregar el nuevo cliente debido a que el número de cedula ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -2 ->
-                throw new AppException("No se pudo agregar el cliente, el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo agregar el nuevo cliente debido a que el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -3 ->
-                throw new AppException("No se pudo agregar el cliente, el correo electronico ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
-            
-                default ->
+                throw new AppException("No se pudo agregar el nuevo cliente debido a que el correo electronico ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+            default ->
                 throw new AppException("Cliente no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -221,11 +220,11 @@ public class ClientController {
             case -1 ->
                 throw new AppException("No se pudo actualizar el cliente porque no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -4 ->
-                throw new AppException("No se pudo actualizar el cliente, la cedula ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar el cliente porque la cédula ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -5 ->
-                throw new AppException("No se pudo actualizar el cliente, el numero de telefono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar el cliente porque el número de teléfono ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -6 ->
-                throw new AppException("No se pudo actualizar el cliente, el correo electrónico ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("No se pudo actualizar el cliente porque el correo electrónico ya está en uso.", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("Cliente no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
