@@ -33,7 +33,7 @@ public class ActivityTypeService {
     public ActivityType saveWithFees(ActivityTypeWithFeesDTO dto) {
         final ActivityType activityType = new ActivityType();
         activityType.setName(dto.getName());
-        activityType.setIsDeleted(Long.valueOf(0));
+        activityType.setIsDeleted(0L);
         ActivityType savedActivityType = activityTypeRepository.save(activityType);
         
         List<Fee> fees = dto.getFees().stream()
@@ -91,22 +91,21 @@ public class ActivityTypeService {
 
     @Transactional
     public List<ActivityType> getActivityTypes(){
-        return activityTypeRepository.getActivityTypes();
+        return activityTypeRepository.findActiveActivityTypes();
     }
 
     @Transactional(readOnly = true)
     public List<ActivityTypeWithFeesDTO> getActivityTypesWithFees() {
-        List<ActivityType> activityTypes = activityTypeRepository.findAll();
+        List<ActivityType> activityTypes = activityTypeRepository.findActiveActivityTypes();
         
         return activityTypes.stream().map(activity -> {
             ActivityTypeWithFeesDTO dto = new ActivityTypeWithFeesDTO();
             dto.setIdActivityType(activity.getIdActivityType());
             dto.setName(activity.getName());
-            dto.setIsDeleted(Long.valueOf(0));
+            dto.setIsDeleted(activity.getIsDeleted());
             
             List<Fee> fees = feeRepository.findByActivityType_IdActivityType(activity.getIdActivityType());
             
-            // Agrupar fees por amount
             Map<Double, List<Long>> feesGrouped = fees.stream()
                 .collect(Collectors.groupingBy(
                     Fee::getAmount,
@@ -119,7 +118,7 @@ public class ActivityTypeService {
             List<FeeDTO> feeDtos = feesGrouped.entrySet().stream()
                 .map(entry -> {
                     FeeDTO feeDto = new FeeDTO();
-                    feeDto.setIdClientType(entry.getValue()); // Usar setIdClientType
+                    feeDto.setIdClientType(entry.getValue());
                     feeDto.setAmount(entry.getKey());
                     return feeDto;
                 })
@@ -132,16 +131,13 @@ public class ActivityTypeService {
 
     @Transactional
     public void deleteWithFees(Long id) {
-        // Verificar que el ActivityType existe primero
-        if(!activityTypeRepository.existsById(id)) {
-            throw new RuntimeException("ActivityType no encontrado con ID: " + id);
-        }
+        ActivityType activityType = activityTypeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("ActivityType no encontrado con ID: " + id));
         
-        // Eliminar tarifas primero
-        feeRepository.deleteByActivityTypeId(id);
+        // Borrado lógico
+        activityTypeRepository.softDelete(id);
         
-        // Luego eliminar el activityType
-        activityTypeRepository.deleteById(id);
+        // Opcional: borrado lógico de las tarifas asociadas
+        // feeRepository.softDeleteByActivityTypeId(id);
     }
-    
 }

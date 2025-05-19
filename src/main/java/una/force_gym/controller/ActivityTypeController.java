@@ -41,7 +41,6 @@ public class ActivityTypeController {
     @GetMapping("/listFees")
     public ResponseEntity<ApiResponse<List<ActivityTypeWithFeesDTO>>> getActivityTypesWithFees() {
         try {
-            // Necesitarás implementar este método en el servicio
             List<ActivityTypeWithFeesDTO> activityTypes = activityTypeService.getActivityTypesWithFees();
             ApiResponse<List<ActivityTypeWithFeesDTO>> response = new ApiResponse<>(
                 "Tipos de actividad con tarifas obtenidos correctamente.", 
@@ -101,22 +100,21 @@ public class ActivityTypeController {
     }
 
     @DeleteMapping("/delete/{idActivityType}")
-    public ResponseEntity<ApiResponse<Void>> deleteActivityTypeWithFees(@PathVariable Long idActivityType) {
+    public ResponseEntity<ApiResponse<List<ActivityType>>> deleteActivityTypeWithFees(@PathVariable Long idActivityType) {
         try {
             activityTypeService.deleteWithFees(idActivityType);
-            ApiResponse<Void> response = new ApiResponse<>(
-                "Tipo de actividad eliminado correctamente.", 
-                null
+            List<ActivityType> updatedActivityTypes = activityTypeService.getActivityTypes();
+            ApiResponse<List<ActivityType>> response = new ApiResponse<>(
+                "Tipo de actividad marcado como eliminado correctamente.", 
+                updatedActivityTypes
             );
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
-            ApiResponse<Void> response = new ApiResponse<>(
+            ApiResponse<List<ActivityType>> response = new ApiResponse<>(
                 "Error al eliminar el tipo de actividad: " + e.getMessage(), 
                 null
             );
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
 }
