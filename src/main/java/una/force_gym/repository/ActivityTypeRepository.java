@@ -15,13 +15,13 @@ public interface ActivityTypeRepository extends JpaRepository<ActivityType, Long
     @Procedure(procedureName = "prGetActivityType")
     List<ActivityType> getActivityTypes();
     
-    @Query("SELECT a FROM tbActivityType a WHERE a.isDeleted = 0")
+    @Query("SELECT a FROM ActivityType a WHERE a.isDeleted = 0")
     List<ActivityType> findActiveActivityTypes();
     
-    @Query("SELECT a FROM tbActivityType a")
+    @Query("SELECT a FROM ActivityType a")
     List<ActivityType> findAllIncludingDeleted();
     
     @Modifying
-    @Query("UPDATE tbActivityType a SET a.isDeleted = 1 WHERE a.idActivityType = :id")
+    @Query("UPDATE ActivityType a SET a.isDeleted = 1 WHERE a.idActivityType = :id")
     void softDelete(@Param("id") Long id);
 }

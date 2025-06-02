@@ -15,7 +15,7 @@ public interface FeeRepository extends JpaRepository<Fee, Long> {
     // Método para eliminar por idActivityType
     @Transactional
     @Modifying
-    @Query("DELETE FROM tbFee f WHERE f.activityType.idActivityType = :idActivityType")
+    @Query("DELETE FROM Fee f WHERE f.activityType.idActivityType = :idActivityType")
     void deleteByActivityTypeId(Long idActivityType);
     
 }
