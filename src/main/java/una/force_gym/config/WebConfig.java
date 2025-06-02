@@ -23,10 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("http://26.66.98.89:3000");
-        config.addAllowedOrigin("http://26.89.10.194:5173");
+        config.addAllowedOrigin("https://frontend-force-gym.vercel.app:5173");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
