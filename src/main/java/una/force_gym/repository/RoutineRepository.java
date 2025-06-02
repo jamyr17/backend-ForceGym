@@ -18,6 +18,6 @@ public interface RoutineRepository extends JpaRepository<Routine, Long> {
     boolean existsByNameAndUser_IdUserAndIsDeletedAndIdRoutineNot(String name, Long userId, Long isDeleted, Long routineId);
 
     // Nuevo método para buscar rutinas asignadas a un cliente
-    @Query("SELECT r FROM tbRoutine r JOIN r.assignments a WHERE a.client.idClient = :clientId AND r.isDeleted = 0")
+    @Query("SELECT r FROM Routine r JOIN r.assignments a WHERE a.client.idClient = :clientId AND r.isDeleted = 0")
     List<Routine> findAssignedToClient(Long clientId);
 }
