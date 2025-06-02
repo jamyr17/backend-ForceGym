@@ -14,6 +14,6 @@ public interface RoutineExerciseRepository extends JpaRepository<RoutineExercise
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM RoutineExercise re WHERE re.routine.idRoutine = :routineId")
+    @Query("DELETE FROM tbRoutineExercise re WHERE re.routine.idRoutine = :routineId")
     void deleteByRoutineId(Long routineId);
 }

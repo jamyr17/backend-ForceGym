@@ -14,7 +14,7 @@ public interface RoutineAssignmentRepository extends JpaRepository<RoutineAssign
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM RoutineAssignment ra WHERE ra.routine.idRoutine = :routineId")
+    @Query("DELETE FROM tbRoutineAssignment ra WHERE ra.routine.idRoutine = :routineId")
     void deleteByRoutineId(Long routineId);
 
     // Para verificar si un cliente ya tiene asignada una rutina activa
