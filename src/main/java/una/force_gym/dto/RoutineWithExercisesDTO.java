@@ -14,6 +14,7 @@ public class RoutineWithExercisesDTO {
     private DifficultyRoutine difficultyRoutine;
     private List<RoutineExerciseDTO> exercises;
     private List<RoutineAssignmentDTO> assignments;
+    private Integer categoryOrder;
     private Long isDeleted;
     private Long paramLoggedIdUser;
 
@@ -22,6 +23,19 @@ public class RoutineWithExercisesDTO {
 
     public RoutineWithExercisesDTO(List<RoutineAssignmentDTO> assignments, Date date, DifficultyRoutine difficultyRoutine, List<RoutineExerciseDTO> exercises, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
         this.assignments = assignments;
+        this.date = date;
+        this.difficultyRoutine = difficultyRoutine;
+        this.exercises = exercises;
+        this.idRoutine = idRoutine;
+        this.idUser = idUser;
+        this.isDeleted = isDeleted;
+        this.name = name;
+        this.paramLoggedIdUser = paramLoggedIdUser;
+    }
+
+    public RoutineWithExercisesDTO(List<RoutineAssignmentDTO> assignments, Integer categoryOrder, Date date, DifficultyRoutine difficultyRoutine, List<RoutineExerciseDTO> exercises, Long idRoutine, Long idUser, Long isDeleted, String name, Long paramLoggedIdUser) {
+        this.assignments = assignments;
+        this.categoryOrder = categoryOrder;
         this.date = date;
         this.difficultyRoutine = difficultyRoutine;
         this.exercises = exercises;
@@ -102,6 +116,14 @@ public class RoutineWithExercisesDTO {
 
     public void setParamLoggedIdUser(Long paramLoggedIdUser) {
         this.paramLoggedIdUser = paramLoggedIdUser;
+    }
+
+    public Integer getCategoryOrder() {
+        return categoryOrder;
+    }
+
+    public void setCategoryOrder(Integer categoryOrder) {
+        this.categoryOrder = categoryOrder;
     }
 
 }

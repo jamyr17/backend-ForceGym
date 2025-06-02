@@ -101,6 +101,9 @@ public class EconomicExpenseController {
 
             case -1 -> throw new AppException("No se pudo agregar el nuevo gasto económico debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
 
+            // voucher duplicado
+            case -2 -> throw new AppException("No se pudo agregar el nuevo gasto económico debido a que el voucher ingresado ya está asociado a otro registro", HttpStatus.INTERNAL_SERVER_ERROR);
+            
             default -> throw new AppException("Gasto económico no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -132,6 +135,9 @@ public class EconomicExpenseController {
             case -1 -> throw new AppException("No se pudo actualizar el gasto económico debido a que no se encuentra el registro.", HttpStatus.INTERNAL_SERVER_ERROR);
 
             case -2 -> throw new AppException("No se pudo actualizar el gasto económico debido a que el usuario asociado no está registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            // se encontró un voucher previo y que no correspondía
+            case -3 -> throw new AppException("No se pudo actualizar el gasto económico debido a que ya existe un gasto registrado con el mismo voucher", HttpStatus.INTERNAL_SERVER_ERROR);
 
             default -> throw new AppException("Gasto económico no actualizado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -32,12 +32,29 @@ public class RoutineExercise {
     @Column(name = "repetitions")
     private Integer repetitions;
 
+    @Column(name = "note")
+    private String note;
+
+    @Column(name = "categoryOrder")
+    private Integer categoryOrder;
+
     public RoutineExercise() {
     }
 
-    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer repetitions, Routine routine, Integer series) {
+    public RoutineExercise(Exercise exercise, Long idRoutineExercise, Integer repetitions, Routine routine, Integer series, String note) {
         this.exercise = exercise;
         this.idRoutineExercise = idRoutineExercise;
+        this.repetitions = repetitions;
+        this.routine = routine;
+        this.series = series;
+        this.note = note;
+    }
+
+    public RoutineExercise(Integer categoryOrder, Exercise exercise, Long idRoutineExercise, String note, Integer repetitions, Routine routine, Integer series) {
+        this.categoryOrder = categoryOrder;
+        this.exercise = exercise;
+        this.idRoutineExercise = idRoutineExercise;
+        this.note = note;
         this.repetitions = repetitions;
         this.routine = routine;
         this.series = series;
@@ -83,4 +100,19 @@ public class RoutineExercise {
         this.repetitions = repetitions;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Integer getCategoryOrder() {
+        return categoryOrder;
+    }
+
+    public void setCategoryOrder(Integer categoryOrder) {
+        this.categoryOrder = categoryOrder;
+    }
 }

@@ -216,7 +216,8 @@ public class RoutineService {
 
                     routineExercise.setSeries(exDto.getSeries());
                     routineExercise.setRepetitions(exDto.getRepetitions());
-
+                    routineExercise.setNote(exDto.getNote());
+                    routineExercise.setCategoryOrder(exDto.getCategoryOrder());
                     return routineExercise;
                 })
                 .collect(Collectors.toList());
@@ -278,6 +279,8 @@ public class RoutineService {
                     exDto.setIdExercise(ex.getExercise().getIdExercise());
                     exDto.setSeries(ex.getSeries());
                     exDto.setRepetitions(ex.getRepetitions());
+                    exDto.setNote(ex.getNote());
+                    exDto.setCategoryOrder(ex.getCategoryOrder());
                     return exDto;
                 })
                 .collect(Collectors.toList());

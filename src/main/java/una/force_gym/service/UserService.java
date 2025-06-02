@@ -94,6 +94,46 @@ public class UserService {
         return responseData;
     }
 
+        @Transactional
+    public Map<String, Object> getUserById(Long idUser) {
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prGetUserById", UserDTO.class);
+        
+        // Parámetros de entrada
+        query.registerStoredProcedureParameter("p_idUser", Long.class, ParameterMode.IN);
+        
+        // Parámetro de salida (para consistencia con prGetUser)
+        query.registerStoredProcedureParameter("p_totalRecords", Integer.class, ParameterMode.OUT);
+
+        // Setear valores
+        query.setParameter("p_idUser", idUser);
+
+        // Ejecutar procedimiento
+        query.execute();
+
+        // Obtener los resultados
+        List<?> rawResults = query.getResultList();
+        List<UserDTO> users = rawResults.stream()
+            .filter(UserDTO.class::isInstance) 
+            .map(UserDTO.class::cast)         
+            .collect(Collectors.toList());
+        
+        // Obtener el parámetro de salida (siempre será 1 cuando se encuentra el usuario)
+        Integer totalRecords = (Integer) query.getOutputParameterValue("p_totalRecords");
+
+        // Mapear respuesta
+        Map<String, Object> responseData = new HashMap<>();
+        
+        if(!users.isEmpty()) {
+            responseData.put("user", users.get(0)); // Devolvemos el primer y único usuario
+            responseData.put("totalRecords", totalRecords != null ? totalRecords : 1);
+        } else {
+            responseData.put("user", null);
+            responseData.put("totalRecords", 0);
+        }
+        
+        return responseData;
+    }
+    
     @Transactional
     public int addUser(Long pIdRole, String pName, String pFirstLastName, String pSecondLastName, LocalDate pBirthday, String pIdentificationNumber, String pPhoneNumber, String pEmail, Long pIdGender, String pUsername, String pPassword, Long pLoggedIdUser){
         String encodedPassword = (pPassword != null) ? passwordEncoder.encode(pPassword) : null;

@@ -72,7 +72,7 @@ public class ExerciseController {
         int result = exerciseService.addExercise(
                 exerciseDTO.getName(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.getDifficulty(),
+                exerciseDTO.getIdExerciseDifficulty(),
                 exerciseDTO.getIdExerciseCategory(),
                 exerciseDTO.getParamLoggedIdUser()
         );
@@ -84,6 +84,8 @@ public class ExerciseController {
             }
             case 0 ->
                 throw new AppException("Ocurrió un error al agregar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -2 -> // name ya existe
+                throw new AppException("No se pudo agregar el ejercicio debido a que el nombre ya fue asignado a otro ejercicio", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("Ejercicio no agregado debido a problemas en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -95,7 +97,7 @@ public class ExerciseController {
                 id,
                 exerciseDTO.getName(),
                 exerciseDTO.getDescription(),
-                exerciseDTO.getDifficulty(),
+                exerciseDTO.getIdExerciseDifficulty(),
                 exerciseDTO.getIdExerciseCategory(),
                 exerciseDTO.getIsDeleted(),
                 exerciseDTO.getParamLoggedIdUser()
@@ -110,6 +112,8 @@ public class ExerciseController {
                 throw new AppException("Ocurrió un error al actualizar el ejercicio.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -1 ->
                 throw new AppException("El ejercicio a actualizar no existe.", HttpStatus.NOT_FOUND);
+            case -2 -> // name ya existe
+                throw new AppException("No se pudo actualizar el ejercicio debido a que el nuevo nombre ya fue asignado a otro ejercicio", HttpStatus.INTERNAL_SERVER_ERROR);
             default ->
                 throw new AppException("No se pudo actualizar el ejercicio debido a un error en la consulta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

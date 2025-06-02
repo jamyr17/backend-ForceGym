@@ -1,6 +1,12 @@
 package una.force_gym.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tbExercise")
@@ -24,8 +30,9 @@ public class Exercise {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "difficulty")
-    private String difficulty;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idExerciseDifficulty", referencedColumnName = "idExerciseDifficulty")
+    private ExerciseDifficulty exerciseDifficulty;
 
     @Column(name = "isDeleted")
     private Long isDeleted;
@@ -33,14 +40,14 @@ public class Exercise {
     public Exercise() {
     }
 
-    public Exercise(Long idExercise, String name, String description, String difficulty, Long isDeleted, User user, ExerciseCategory exerciseCategory) {
-        this.idExercise = idExercise;
-        this.name = name;
+    public Exercise(String description, ExerciseCategory exerciseCategory, ExerciseDifficulty exerciseDifficulty, Long idExercise, Long isDeleted, String name, User user) {
         this.description = description;
-        this.difficulty = difficulty;
-        this.isDeleted = isDeleted;
-        this.user = user;
         this.exerciseCategory = exerciseCategory;
+        this.exerciseDifficulty = exerciseDifficulty;
+        this.idExercise = idExercise;
+        this.isDeleted = isDeleted;
+        this.name = name;
+        this.user = user;
     }
 
     public Long getIdExercise() {
@@ -49,6 +56,22 @@ public class Exercise {
 
     public void setIdExercise(Long idExercise) {
         this.idExercise = idExercise;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ExerciseCategory getExerciseCategory() {
+        return exerciseCategory;
+    }
+
+    public void setExerciseCategory(ExerciseCategory exerciseCategory) {
+        this.exerciseCategory = exerciseCategory;
     }
 
     public String getName() {
@@ -67,12 +90,12 @@ public class Exercise {
         this.description = description;
     }
 
-    public String getDifficulty() {
-        return difficulty;
+    public ExerciseDifficulty getExerciseDifficulty() {
+        return exerciseDifficulty;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    public void setExerciseDifficulty(ExerciseDifficulty exerciseDifficulty) {
+        this.exerciseDifficulty = exerciseDifficulty;
     }
 
     public Long getIsDeleted() {
@@ -83,19 +106,4 @@ public class Exercise {
         this.isDeleted = isDeleted;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public ExerciseCategory getExerciseCategory() {
-        return exerciseCategory;
-    }
-
-    public void setExerciseCategory(ExerciseCategory exerciseCategory) {
-        this.exerciseCategory = exerciseCategory;
-    }
 }
