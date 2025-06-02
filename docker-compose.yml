@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db_force-gym:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: dbforcegym
+      MYSQL_ROOT_PASSWORD: "" 
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend_force-gym:
+    build: .
+    restart: on-failure
+    ports:
+      - "7000:7000"
+    depends_on:
+      - db_force-gym
+    environment:
+      DB_URL: jdbc:mysql://db_force-gym:3306/dbforcegym
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+      RECAPTCHA_SECRET: 6Ldi_gArAAAAAJhYsWmBcT9WmM1tbuu8esshylZc
+      EMAIL_SENDER: josuegonza1702@gmail.com
+      EMAIL_PASSWORD: epzt tihh yldp lkoi
+
+volumes:
+  mysql_data:
