@@ -151,7 +151,7 @@ public class UserService {
         return userRepo.deleteUser(pIdUser, pLoggedIdUser);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public LoginDTO login(CredentialsDTO credentialsDTO) {
         User user = userRepo.findByUsernameAndIsDeleted(credentialsDTO.getUsername(), Long.valueOf(0))
                 .orElseThrow(() -> new AppException("Usuario inválido", HttpStatus.NOT_FOUND));
