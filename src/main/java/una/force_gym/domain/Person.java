@@ -18,7 +18,7 @@ public class Person {
     @Column(name = "idPerson")
     private Long idPerson;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idGender", referencedColumnName = "idGender")
     private Gender gender;
 

@@ -17,11 +17,11 @@ public class Notification {
     @Column(name = "idNotification")
     private Long idNotification;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClient", referencedColumnName = "idClient")
     private Client client;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idNotificationType", referencedColumnName = "idNotificationType")
     private NotificationType notificationType;
 

@@ -18,7 +18,7 @@ public class EconomicIncome {
     @Column(name = "idEconomicIncome")
     private Long idEconomicIncome;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClient", referencedColumnName = "idClient")
     private Client client;
 
@@ -31,14 +31,14 @@ public class EconomicIncome {
     @Column(name = "detail")
     private String detail;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idMeanOfPayment", referencedColumnName = "idMeanOfPayment")
     private MeanOfPayment meanOfPayment;
 
     @Column(name = "amount")
     private Float amount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idActivityType", referencedColumnName = "idActivityType")
     private ActivityType activityType;
 

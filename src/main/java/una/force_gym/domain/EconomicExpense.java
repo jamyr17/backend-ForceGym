@@ -18,7 +18,7 @@ public class EconomicExpense {
     @Column(name = "idEconomicExpense")
     private Long idEconomicExpense;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 
@@ -31,11 +31,11 @@ public class EconomicExpense {
     @Column(name = "detail")
     private String detail;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idMeanOfPayment", referencedColumnName = "idMeanOfPayment")
     private MeanOfPayment meanOfPayment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCategory", referencedColumnName = "idCategory")
     private Category category;
 

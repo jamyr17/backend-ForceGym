@@ -21,7 +21,7 @@ public class PasswordResetToken {
     @Column(name = "idPasswordRecovery")
     private Long idPasswordRecovery;
     
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "idUser")
     private User user;
     

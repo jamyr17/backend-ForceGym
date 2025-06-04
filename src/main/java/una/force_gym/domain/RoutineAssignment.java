@@ -21,11 +21,11 @@ public class RoutineAssignment {
     @Column(name = "idRoutineAssignment")
     private Long idRoutineAssignment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idRoutine", referencedColumnName = "idRoutine")
     private Routine routine;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClient", referencedColumnName = "idClient")
     private Client client;
 

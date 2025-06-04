@@ -16,11 +16,11 @@ public class User {
     @Column(name = "idUser")
     private Long idUser;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
     private Person person;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idRole", referencedColumnName = "idRole")
     private Role role;
 

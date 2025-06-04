@@ -18,11 +18,11 @@ public class Fee {
     @Column(name = "idFee")
     private Long idFee;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idActivityType", referencedColumnName = "idActivityType")
     private ActivityType activityType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClientType", referencedColumnName = "idClientType")
     private ClientType clientType;
 

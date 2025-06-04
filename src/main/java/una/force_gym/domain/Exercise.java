@@ -16,11 +16,11 @@ public class Exercise {
     @Column(name = "idExercise")
     private Long idExercise;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idExerciseCategory", referencedColumnName = "idExerciseCategory")
     private ExerciseCategory exerciseCategory;
 
@@ -30,7 +30,7 @@ public class Exercise {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idExerciseDifficulty", referencedColumnName = "idExerciseDifficulty")
     private ExerciseDifficulty exerciseDifficulty;
 

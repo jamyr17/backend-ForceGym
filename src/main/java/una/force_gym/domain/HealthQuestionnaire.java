@@ -19,7 +19,7 @@ public class HealthQuestionnaire {
     private Long idHealthQuestionnaire;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClient", referencedColumnName = "idClient")
     private Client client;
 

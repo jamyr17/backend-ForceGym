@@ -19,19 +19,19 @@ public class Client {
     @Column(name = "idClient")
     private Long idClient;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
     private Person person;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idTypeClient", referencedColumnName = "idTypeClient")
     private TypeClient typeClient;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idHealthQuestionnaire", referencedColumnName = "idHealthQuestionnaire")
     private HealthQuestionnaire healthQuestionnaire;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 

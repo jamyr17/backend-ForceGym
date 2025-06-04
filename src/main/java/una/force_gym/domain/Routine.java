@@ -31,11 +31,11 @@ public class Routine {
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idDifficultyRoutine", referencedColumnName = "idDifficultyRoutine")
     private DifficultyRoutine difficultyRoutine;
     @Column(name = "createdByUser", nullable = false)

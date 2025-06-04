@@ -17,7 +17,7 @@ public class Measurement {
     @Column(name = "idMeasurement")
     private Long idMeasurement;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClient", referencedColumnName = "idClient")
     private Client client;
 

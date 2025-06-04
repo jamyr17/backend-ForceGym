@@ -18,7 +18,7 @@ public class Asset {
     @Column(name = "idAsset")
     private Long idAsset;
 
-    @ManyToOne(fetch = FetchType.EAGER) 
+    @ManyToOne(fetch = FetchType.LAZY) 
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     private User user;
 
