@@ -3,14 +3,12 @@ package una.force_gym.dto;
 public class CredentialsDTO {
     
     private String username;
-    private String recaptchaToken;
     private char[] password;
 
     public CredentialsDTO(){}
 
-    public CredentialsDTO(String username, String recaptchaToken, char[] password) {
+    public CredentialsDTO(String username, char[] password) {
         this.username = username;
-        this.recaptchaToken = recaptchaToken;
         this.password = password;
     }
 
@@ -20,14 +18,6 @@ public class CredentialsDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getRecaptchaToken() {
-        return recaptchaToken;
-    }
-
-    public void setRecaptchaToken(String recaptchaToken) {
-        this.recaptchaToken = recaptchaToken;
     }
 
     public char[] getPassword() {
