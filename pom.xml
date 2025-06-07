@@ -94,5 +94,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+		<finalName>ForceGym-Backend</finalName>
     </build>
 </project>
