@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend_force-gym:
+    build: .
+    restart: on-failure
+    ports:
+      - "7000:7000"
+    depends_on:
+      - db_force-gym
+    environment:
+      DB_URL: mysql://root:WlSufOQSXOUPwJZoYAhOovkoJGwvNgJS@shinkansen.proxy.rlwy.net:56440/railway
+      DB_USERNAME: root
+      DB_PASSWORD: WlSufOQSXOUPwJZoYAhOovkoJGwvNgJS
+      RECAPTCHA_SECRET: 6Ldi_gArAAAAAJhYsWmBcT9WmM1tbuu8esshylZc
+      EMAIL_SENDER: josuegonza1702@gmail.com
+      EMAIL_PASSWORD: epzt tihh yldp lkoi
+
+volumes:
+  mysql_data:
