@@ -1,4 +1,4 @@
-package main.java.una.force_gym.config;
+package una.force_gym.config;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
