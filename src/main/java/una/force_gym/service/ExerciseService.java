@@ -19,8 +19,7 @@ import una.force_gym.repository.ExerciseRepository;
 @Service
 public class ExerciseService {
 
-    @Autowired
-    private ExerciseRepository exerciseRepo;
+    @Autowired ExerciseRepository exerciseRepo;
 
     @PersistenceContext
     private EntityManager entityManager;
