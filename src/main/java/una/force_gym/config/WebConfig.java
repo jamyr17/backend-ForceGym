@@ -25,6 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("https://frontend-force-gym.vercel.app");
         config.addAllowedOrigin("https://frontend-force-gym-git-develop-jamyr-gonzalezs-projects.vercel.app");
+        config.addAllowedOrigin("http://localhost:5173");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,

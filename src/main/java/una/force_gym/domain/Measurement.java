@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -22,7 +24,7 @@ public class Measurement {
     private Client client;
 
     @Column(name = "measurementDate")
-    private Date measurementDate;
+    private LocalDate measurementDate;
 
     @Column(name = "weight")
     private Float weight;
@@ -80,7 +82,7 @@ public class Measurement {
 
     public Measurement() {}
 
-    public Measurement(Long idMeasurement, Client client, Date measurementDate, Float weight, Float height,
+    public Measurement(Long idMeasurement, Client client, LocalDate measurementDate, Float weight, Float height,
                        Float muscleMass, Float bodyFatPercentage, Float visceralFatPercentage,
                        Float chestSize, Float backSize, Float hipSize, Float waistSize, Float leftLegSize, Float rightLegSize,
                        Float leftCalfSize, Float rightCalfSize, Float leftForeArmSize, Float rightForeArmSize,
@@ -124,11 +126,11 @@ public class Measurement {
         this.client = client;
     }
 
-    public Date getMeasurementDate() {
+    public LocalDate getMeasurementDate() {
         return measurementDate;
     }
 
-    public void setMeasurementDate(Date measurementDate) {
+    public void setMeasurementDate(LocalDate measurementDate) {
         this.measurementDate = measurementDate;
     }
 
